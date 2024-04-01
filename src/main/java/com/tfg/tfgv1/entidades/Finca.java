@@ -5,15 +5,25 @@
 
 package com.tfg.tfgv1.entidades;
 
+import javax.validation.constraints.*;
+
 public class Finca
 {
+    @Min(0)
     private Double area; //Area en m2 de la finca
+    @NotNull
     private Integer poligono; //Poligono del código SIGPAC
+    @NotNull
     private Integer parcela; //Parcela del código SIGPAC
+    @NotNull
     private Integer recinto; //Recinto del código SIGPAC
+    @Min(0)
     private Integer anioSigpac; //Año de inscripción del código SIGPAC
+    @NotBlank
     private String zonaUbicacion; //Ubicación de la zona
+    @NotNull
     private Integer municipioCodigo; //Código del municipio
+    @NotNull
     private Integer codigoProvincia; //Código de la provincia
 
     /**
@@ -22,13 +32,13 @@ public class Finca
     public Finca()
     {
         area=0.0;
-        poligono=-1;
-        parcela=-1;
-        recinto=-1;
+        poligono=0;
+        parcela=0;
+        recinto=0;
         anioSigpac=0;
-        zonaUbicacion="";
-        municipioCodigo=-1;
-        codigoProvincia=-1;
+        zonaUbicacion="defecto";
+        municipioCodigo=0;
+        codigoProvincia=0;
     }
 
     /**

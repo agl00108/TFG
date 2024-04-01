@@ -5,22 +5,40 @@
 package com.tfg.tfgv1.entidades;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 public class Historico_finca
 {
+    @NotNull
     private LocalDate fecha; //Fecha de la toma de datos
+    @NotNull
+    @Min(0)
     private Integer municipioCodigo; //Código del municipio
+    @NotNull
+    @Min(0)
     private Integer provinciaCodigo; //Código de la provincia
+    @NotNull
+    @Min(0)
     private Integer poligono; //Poligono del código SIGPAC
+    @NotNull
+    @Min(0)
     private Integer parcela; //Parcela del código SIGPAC
+    @NotNull
+    @Min(0)
     private Integer recinto; //Recinto del código SIGPAC
     @JsonProperty("Reflectancia")
+    @NotBlank
     private String reflectancia; //Índices de vegetación en ese momento
     @JsonProperty("Temperatura")
+    @NotBlank
     private String temperatura; //Temperatura en ese momento
+    @NotNull
+    @Min(0)
     private Double lluvia; //Suma de la lluvia en la fecha de toma de datos
+    @NotBlank
     private String nombreFuente; //Nombre de la fuente de procedencia
+    @NotBlank
     private String tipoFuente; //Tipo de la fuente de procedencia
 
     /**
@@ -28,17 +46,17 @@ public class Historico_finca
      */
     public Historico_finca()
     {
-        fecha=null;
-        municipioCodigo=-1;
-        provinciaCodigo=-1;
-        poligono=-1;
-        parcela=-1;
-        recinto=-1;
-        reflectancia=null;
-        temperatura=null;
+        fecha=LocalDate.now();
+        municipioCodigo=0;
+        provinciaCodigo=0;
+        poligono=0;
+        parcela=0;
+        recinto=0;
+        reflectancia="defecto";
+        temperatura="defecto";
         lluvia=0.0;
-        nombreFuente="";
-        tipoFuente="";
+        nombreFuente="defecto";
+        tipoFuente="defecto";
     }
 
     /**

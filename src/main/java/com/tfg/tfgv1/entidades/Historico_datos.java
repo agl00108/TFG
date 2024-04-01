@@ -3,17 +3,25 @@
  * @brief Clase para representar los históricos de datos de los olivos
  */
 package com.tfg.tfgv1.entidades;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 public class Historico_datos
 {
+    @NotNull
     private LocalDate fecha; //Fecha de la toma de datos
+    @Min(0)
     private Double volumen; //Volumen del objeto en ese momento
     @JsonProperty("Reflectancia")
+    @NotBlank
     private String reflectancia; //Índices de vegetación en ese momento
+    @NotNull
     private Integer idObjeto; //ID del objeto al que hace referencia
+    @NotBlank
     private String nombreFuente; //Nombre de la fuente de procedencia
+    @NotBlank
     private String tipoFuente; //Tipo de la fuente de procedencia
 
     /**
@@ -21,12 +29,12 @@ public class Historico_datos
      */
     public Historico_datos()
     {
-        fecha=null;
+        fecha=LocalDate.now();
         volumen=0.0;
-        reflectancia=null;
-        idObjeto=null;
-        nombreFuente="";
-        tipoFuente="";
+        reflectancia="defecto";
+        idObjeto=-1;
+        nombreFuente="defecto";
+        tipoFuente="defecto";
     }
 
     /**

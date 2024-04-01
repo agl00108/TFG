@@ -5,9 +5,14 @@
 
 package com.tfg.tfgv1.entidades;
 
+import javax.validation.constraints.*;
+
 public class Provincia
 {
+    @NotNull
+    @Min(-1)
     private Integer codigoProvincia; //Codigo de la provincia
+    @NotBlank
     private String nombreProvincia; //Nombre de la provincia
 
     /**
@@ -16,7 +21,7 @@ public class Provincia
     public Provincia()
     {
         this.codigoProvincia=-1;
-        this.nombreProvincia="";
+        this.nombreProvincia="defecto";
     }
 
     /**

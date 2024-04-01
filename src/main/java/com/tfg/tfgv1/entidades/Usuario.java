@@ -4,20 +4,32 @@
  */
 package com.tfg.tfgv1.entidades;
 
+import javax.validation.constraints.*;
+enum Rol
+{
+    ADMIN,
+    USER
+}
 public class Usuario
 {
+    @NotBlank
+    @Email
     private String email; //Email corporativo del usuario
-    private String rol; //Rol del usuario
+    @NotBlank
+    private Rol rol; //Rol del usuario
+    @NotBlank
     private String contrasenia; //Contraseña del usuario
+    @NotBlank
     private String nombre; //Nombre del usuario
+
 
     /**
      * @brief constructor por defecto
      */
     public Usuario()
     {
-        email="";
-        rol="";
+        email="defecto";
+        rol=Rol.USER;
         contrasenia="";
         nombre="";
     }
@@ -29,7 +41,7 @@ public class Usuario
      * @param contrasenia Contraseña del usuario
      * @param nombre Nombre del usuario
      */
-    public Usuario(String email, String rol, String contrasenia, String nombre)
+    public Usuario(String email, Rol rol, String contrasenia, String nombre)
     {
         this.email = email;
         this.rol = rol;
@@ -44,7 +56,7 @@ public class Usuario
         return email;
     }
 
-    public String getRol()
+    public Rol getRol()
     {
         return rol;
     }
@@ -66,7 +78,7 @@ public class Usuario
         this.email = email;
     }
 
-    public void setRol(String rol)
+    public void setRol(Rol rol)
     {
         this.rol = rol;
     }

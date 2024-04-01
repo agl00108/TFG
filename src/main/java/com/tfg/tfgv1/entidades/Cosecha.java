@@ -4,16 +4,27 @@
  */
 package com.tfg.tfgv1.entidades;
 
+import javax.validation.constraints.*;
+
 public class Cosecha
 {
+    @Min(0)
     private Integer idCosecha; //ID de la cosecha
+    @NotBlank
     private String campania; //Año de la campaña (en el que empezó)
+    @NotNull
     private Integer municipioCodigo; //Código del municipio
+    @NotNull
     private Integer provinciaCodigo; //Código de la provincia
+    @Min(0)
     private Double aceitunas; //KG de aceitunas recogidos
+    @Min(0)
     private Double aceite; //KG de aceite recogidos
+    @NotNull
     private Integer fincaPoligono; //Polígono de la finca
+    @NotNull
     private Integer fincaParcela; //Parcela de la finca
+    @NotNull
     private Integer fincaRecinto; //Recinto de la finca
 
     /**
@@ -21,15 +32,15 @@ public class Cosecha
      */
     public Cosecha()
     {
-        idCosecha=-1;
-        campania="";
-        municipioCodigo=-1;
-        provinciaCodigo=-1;
+        idCosecha=0;
+        campania="2000";
+        municipioCodigo=0;
+        provinciaCodigo=0;
         aceite=0.0;
         aceitunas=0.0;
-        fincaPoligono=-1;
-        fincaParcela=-1;
-        fincaRecinto=-1;
+        fincaPoligono=0;
+        fincaParcela=0;
+        fincaRecinto=0;
     }
 
     /**

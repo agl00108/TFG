@@ -4,14 +4,28 @@
  */
 package com.tfg.tfgv1.entidades;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class Zona
 {
+    @NotBlank
     private String ubicacion; //Ubicacion de la zona
+    @NotNull
     private Float longitud; //Longitud de la zona
+    @NotNull
     private Float latitud; //Latitud de la zona
+    @NotBlank
     private String descripcion; //Descripción de la zona
+    @NotNull
+    @Min(-1)
     private Integer municipioCodigo; //Código del municipio donde se ubica
+    @NotNull
+    @Min(-1)
     private Integer provinciaCodigo; //Código de la provincia donde se ubica
+    @NotNull
+    @Min(-1)
     private Float radio; //Radio de extensión de la zona
 
     /**

@@ -4,13 +4,22 @@
  */
 package com.tfg.tfgv1.entidades;
 
-import java.sql.SQLException;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class Objeto
 {
+    @NotNull
+    @Min(-1)
     private Integer idObjeto; //ID del objeto
+    @NotBlank
     private String zonaUbicacion; //Nombre de la zona donde se ubica
+    @NotNull
+    @Min(-1)
     private Integer zonaMunicipioCodigo; //Código del municipio donde se ubica
+    @NotNull
+    @Min(-1)
     private Integer zonaProvinciaCodigo; //Código de la provincia donde se ubica la zona
 
     //private JGeometry prueba; Falta el SDO_GEOMETRY

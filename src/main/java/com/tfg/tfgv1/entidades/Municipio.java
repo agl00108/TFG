@@ -4,11 +4,19 @@
  */
 package com.tfg.tfgv1.entidades;
 
+import javax.validation.constraints.*;
+
 public class Municipio
 {
+    @NotNull
+    @Min(-1)
     private Integer codigoMunicipio; //Código del municipio
+    @NotBlank
     private String nombre; //Nombre del municipio
+    @NotNull
+    @Min(-1)
     private Integer provinciaCodigo; //Codigo de la provincia
+
 
     /**
      * @brief constructor por defecto
@@ -16,7 +24,7 @@ public class Municipio
     public Municipio()
     {
         codigoMunicipio=-1;
-        nombre="";
+        nombre="defecto";
         provinciaCodigo=-1;
     }
 
