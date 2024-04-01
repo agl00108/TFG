@@ -4,8 +4,12 @@
  */
 package com.tfg.tfgv1.entidades;
 
-import javax.validation.constraints.*;
+import jakarta.persistence.Entity;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+@Entity
 public class Municipio
 {
     @NotNull

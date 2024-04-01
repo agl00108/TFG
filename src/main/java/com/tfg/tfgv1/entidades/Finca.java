@@ -5,8 +5,11 @@
 
 package com.tfg.tfgv1.entidades;
 
+import jakarta.persistence.Entity;
+
 import javax.validation.constraints.*;
 
+@Entity
 public class Finca
 {
     @Min(0)

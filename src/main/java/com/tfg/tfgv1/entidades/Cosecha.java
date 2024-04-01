@@ -4,28 +4,38 @@
  */
 package com.tfg.tfgv1.entidades;
 
+import jakarta.persistence.*;
 import javax.validation.constraints.*;
 
+@Entity
+@Table(name = "COSECHA", schema="ALBAGOMEZ")
 public class Cosecha
 {
-    @Min(0)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_COSECHA")
     private Integer idCosecha; //ID de la cosecha
     @NotBlank
+    @Column(name = "CAMPAÑA")
     private String campania; //Año de la campaña (en el que empezó)
+    @ManyToOne
+    @JoinColumn(name = "MUNICIPIO_CODIGO", referencedColumnName = "CODIGO")
+    private Municipio municipioCodigo; //Código del municipio
     @NotNull
-    private Integer municipioCodigo; //Código del municipio
-    @NotNull
+    @Column(name = "PROVINCIA_CODIGO")
     private Integer provinciaCodigo; //Código de la provincia
     @Min(0)
+    @Column(name = "ACEITUNAS")
     private Double aceitunas; //KG de aceitunas recogidos
     @Min(0)
     private Double aceite; //KG de aceite recogidos
-    @NotNull
-    private Integer fincaPoligono; //Polígono de la finca
-    @NotNull
-    private Integer fincaParcela; //Parcela de la finca
-    @NotNull
-    private Integer fincaRecinto; //Recinto de la finca
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "FINCA_POLIGONO", referencedColumnName = "POLIGONO"),
+            @JoinColumn(name = "FINCA_PARCELA", referencedColumnName = "PARCELA"),
+            @JoinColumn(name = "FINCA_RECINTO", referencedColumnName = "RECINTO")
+    })
+    private Finca finca; //Finca
 
     /**
      * @brief constructor por defecto
@@ -34,13 +44,11 @@ public class Cosecha
     {
         idCosecha=0;
         campania="2000";
-        municipioCodigo=0;
+        municipioCodigo=null;
         provinciaCodigo=0;
         aceite=0.0;
         aceitunas=0.0;
-        fincaPoligono=0;
-        fincaParcela=0;
-        fincaRecinto=0;
+        finca=null;
     }
 
     /**
@@ -51,13 +59,9 @@ public class Cosecha
      * @param provinciaCodigo Código de la provincia
      * @param aceitunas KG de aceitunas recogidos
      * @param aceite KG de aceite recogidos
-     * @param fincaPoligono Polígono de la finca
-     * @param fincaParcela Parcela de la finca
-     * @param fincaRecinto Recinto de la finca
      */
-    public Cosecha(Integer idCosecha, String campania, Integer municipioCodigo,
-                   Integer provinciaCodigo, Double aceitunas, Double aceite, Integer fincaPoligono,
-                   Integer fincaParcela, Integer fincaRecinto)
+    public Cosecha(Integer idCosecha, String campania, Municipio municipioCodigo,
+                   Integer provinciaCodigo, Double aceitunas, Double aceite, Finca finca)
     {
         this.idCosecha = idCosecha;
         this.campania = campania;
@@ -65,9 +69,7 @@ public class Cosecha
         this.provinciaCodigo = provinciaCodigo;
         this.aceitunas = aceitunas;
         this.aceite = aceite;
-        this.fincaPoligono = fincaPoligono;
-        this.fincaParcela = fincaParcela;
-        this.fincaRecinto = fincaRecinto;
+        this.finca = finca;
     }
 
     //GETTERS DE LA CLASE
@@ -84,7 +86,7 @@ public class Cosecha
 
     public Integer getMunicipioCodigo()
     {
-        return municipioCodigo;
+        return municipioCodigo.getCodigoMunicipio();
     }
 
     public Integer getProvinciaCodigo()
@@ -102,20 +104,6 @@ public class Cosecha
         return aceite;
     }
 
-    public Integer getFincaPoligono()
-    {
-        return fincaPoligono;
-    }
-
-    public Integer getFincaParcela()
-    {
-        return fincaParcela;
-    }
-
-    public Integer getFincaRecinto()
-    {
-        return fincaRecinto;
-    }
 
     //SETTERS DE LA CLASE
     public void setIdCosecha(Integer idCosecha)
@@ -128,7 +116,7 @@ public class Cosecha
         this.campania = campania;
     }
 
-    public void setMunicipioCodigo(Integer municipioCodigo)
+    public void setMunicipioCodigo(Municipio municipioCodigo)
     {
         this.municipioCodigo = municipioCodigo;
     }
@@ -148,20 +136,6 @@ public class Cosecha
         this.aceite = aceite;
     }
 
-    public void setFincaPoligono(Integer fincaPoligono)
-    {
-        this.fincaPoligono = fincaPoligono;
-    }
-
-    public void setFincaParcela(Integer fincaParcela)
-    {
-        this.fincaParcela = fincaParcela;
-    }
-
-    public void setFincaRecinto(Integer fincaRecinto)
-    {
-        this.fincaRecinto = fincaRecinto;
-    }
 
     /**
      * @brief método toString para imprimir la información de la Cosecha
@@ -177,9 +151,6 @@ public class Cosecha
                 ", provinciaCodigo=" + provinciaCodigo +
                 ", aceitunas=" + aceitunas +
                 ", aceite=" + aceite +
-                ", fincaPoligono=" + fincaPoligono +
-                ", fincaParcela=" + fincaParcela +
-                ", fincaRecinto=" + fincaRecinto +
-                '}';
+                ", finca=" + finca + '}';
     }
 }
