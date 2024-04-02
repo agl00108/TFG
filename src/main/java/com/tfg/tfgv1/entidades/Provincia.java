@@ -5,14 +5,24 @@
 
 package com.tfg.tfgv1.entidades;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import javax.validation.constraints.*;
 
+@Entity
+@Table(name = "PROVINCIA", schema="ALBAGOMEZ")
 public class Provincia
 {
+    @Id
     @NotNull
     @Min(-1)
+    @Column(name = "CODIGO_PROVINCIA")
     private Integer codigoProvincia; //Codigo de la provincia
     @NotBlank
+    @Column(name = "NOMBRE_PROVINCIA")
     private String nombreProvincia; //Nombre de la provincia
 
     /**

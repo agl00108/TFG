@@ -1,4 +1,4 @@
-package com.tfg.tfgv1.app;
+package com.tfg.tfgv1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

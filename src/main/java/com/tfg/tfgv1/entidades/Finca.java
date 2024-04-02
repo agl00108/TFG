@@ -5,29 +5,27 @@
 
 package com.tfg.tfgv1.entidades;
 
+import com.tfg.tfgv1.Ids.FincaId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
+/**
+ * @brief Clase para representar las Fincas del sistema
+ */
 @Entity
 public class Finca
 {
+    @Id
+    FincaId id;
     @Min(0)
     private Double area; //Area en m2 de la finca
-    @NotNull
-    private Integer poligono; //Poligono del código SIGPAC
-    @NotNull
-    private Integer parcela; //Parcela del código SIGPAC
-    @NotNull
-    private Integer recinto; //Recinto del código SIGPAC
     @Min(0)
     private Integer anioSigpac; //Año de inscripción del código SIGPAC
     @NotBlank
     private String zonaUbicacion; //Ubicación de la zona
-    @NotNull
-    private Integer municipioCodigo; //Código del municipio
-    @NotNull
-    private Integer codigoProvincia; //Código de la provincia
 
     /**
      * @brief constructor por defecto
@@ -35,13 +33,8 @@ public class Finca
     public Finca()
     {
         area=0.0;
-        poligono=0;
-        parcela=0;
-        recinto=0;
         anioSigpac=0;
         zonaUbicacion="defecto";
-        municipioCodigo=0;
-        codigoProvincia=0;
     }
 
     /**
@@ -59,13 +52,9 @@ public class Finca
                  String zonaUbicacion, Integer municipioCodigo, Integer codigoProvincia)
     {
         this.area = area;
-        this.poligono = poligono;
-        this.parcela = parcela;
-        this.recinto = recinto;
+        this.id = new FincaId(poligono, parcela, recinto, municipioCodigo, codigoProvincia);
         this.anioSigpac = anioSigpac;
         this.zonaUbicacion = zonaUbicacion;
-        this.municipioCodigo = municipioCodigo;
-        this.codigoProvincia = codigoProvincia;
     }
 
     //GETTERS DE LA CLASE
@@ -77,17 +66,17 @@ public class Finca
 
     public Integer getPoligono()
     {
-        return poligono;
+        return id.getPoligono();
     }
 
     public Integer getParcela()
     {
-        return parcela;
+        return id.getParcela();
     }
 
     public Integer getRecinto()
     {
-        return recinto;
+        return id.getRecinto();
     }
 
     public Integer getAnioSigpac()
@@ -102,12 +91,12 @@ public class Finca
 
     public Integer getMunicipioCodigo()
     {
-        return municipioCodigo;
+        return id.getMunicipio();
     }
 
     public Integer getCodigoProvincia()
     {
-        return codigoProvincia;
+        return id.getCodigoProvincia();
     }
 
     /**
@@ -115,7 +104,7 @@ public class Finca
      */
     public String getSIGPAC()
     {
-        String sigpac=codigoProvincia+":"+municipioCodigo+":"+0+":"+0+":"+poligono+":"+parcela+":"+recinto;
+        String sigpac=id.getCodigoProvincia()+":"+id.getMunicipio()+":"+0+":"+0+":"+id.getPoligono()+":"+id.getParcela()+":"+id.getRecinto();
         return sigpac;
     }
 
@@ -128,17 +117,17 @@ public class Finca
 
     public void setPoligono(Integer poligono)
     {
-        this.poligono = poligono;
+        this.id.setPoligono(poligono);
     }
 
     public void setParcela(Integer parcela)
     {
-        this.parcela = parcela;
+        this.id.setParcela(parcela);
     }
 
     public void setRecinto(Integer recinto)
     {
-        this.recinto = recinto;
+        this.id.setRecinto(recinto);
     }
 
     public void setAnioSigpac(Integer anioSigpac)
@@ -153,12 +142,12 @@ public class Finca
 
     public void setMunicipioCodigo(Integer municipioCodigo)
     {
-        this.municipioCodigo = municipioCodigo;
+        this.id.setMunicipio(municipioCodigo);
     }
 
     public void setCodigoProvincia(Integer codigoProvincia)
     {
-        this.codigoProvincia = codigoProvincia;
+        this.id.setCodigoProvincia(codigoProvincia);
     }
 
     /**
@@ -183,12 +172,11 @@ public class Finca
                 {
                     throw new IllegalArgumentException("Los campos numéricos deben ser mayores o iguales a 0");
                 }
-
-                this.codigoProvincia = provincia;
-                this.municipioCodigo = municipio;
-                this.poligono = poligono;
-                this.parcela = parcela;
-                this.recinto = recinto;
+                this.id.setCodigoProvincia(provincia);
+                this.id.setMunicipio(municipio);
+                this.id.setPoligono(poligono);
+                this.id.setParcela(parcela);
+                this.id.setRecinto(recinto);
             } catch (NumberFormatException e)
             {
                 throw new IllegalArgumentException("Los campos numéricos deben ser números enteros válidos");
@@ -208,13 +196,13 @@ public class Finca
     {
         return "Finca{" +
                 "area=" + area +
-                ", poligono=" + poligono +
-                ", parcela=" + parcela +
-                ", recinto=" + recinto +
+                ", poligono=" + id.getPoligono() +
+                ", parcela=" + id.getParcela() +
+                ", recinto=" + id.getRecinto() +
                 ", anioSigpac=" + anioSigpac +
                 ", zonaUbicacion='" + zonaUbicacion + '\'' +
-                ", municipioCodigo=" + municipioCodigo +
-                ", codigoProvincia=" + codigoProvincia +
+                ", municipioCodigo=" + id.getMunicipio() +
+                ", codigoProvincia=" + id.getCodigoProvincia() +
                 '}';
     }
 }

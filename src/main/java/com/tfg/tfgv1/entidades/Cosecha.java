@@ -19,11 +19,12 @@ public class Cosecha
     @Column(name = "CAMPAÑA")
     private String campania; //Año de la campaña (en el que empezó)
     @ManyToOne
-    @JoinColumn(name = "MUNICIPIO_CODIGO", referencedColumnName = "CODIGO")
-    private Municipio municipioCodigo; //Código del municipio
-    @NotNull
-    @Column(name = "PROVINCIA_CODIGO")
-    private Integer provinciaCodigo; //Código de la provincia
+    @JoinColumns({
+            @JoinColumn(name = "MUNICIPIO_CODIGO", referencedColumnName = "CODIGO_MUNICIPIO"),
+            @JoinColumn(name = "PROVINCIA_CODIGO", referencedColumnName = "PROVINCIA_CODIGO_PROVINCIA")
+    })
+    private Municipio municipioCodigo;
+
     @Min(0)
     @Column(name = "ACEITUNAS")
     private Double aceitunas; //KG de aceitunas recogidos
@@ -45,7 +46,6 @@ public class Cosecha
         idCosecha=0;
         campania="2000";
         municipioCodigo=null;
-        provinciaCodigo=0;
         aceite=0.0;
         aceitunas=0.0;
         finca=null;
@@ -66,7 +66,6 @@ public class Cosecha
         this.idCosecha = idCosecha;
         this.campania = campania;
         this.municipioCodigo = municipioCodigo;
-        this.provinciaCodigo = provinciaCodigo;
         this.aceitunas = aceitunas;
         this.aceite = aceite;
         this.finca = finca;
@@ -86,12 +85,7 @@ public class Cosecha
 
     public Integer getMunicipioCodigo()
     {
-        return municipioCodigo.getCodigoMunicipio();
-    }
-
-    public Integer getProvinciaCodigo()
-    {
-        return provinciaCodigo;
+        return municipioCodigo.getId().getCodigoMunicipio();
     }
 
     public Double getAceitunas()
@@ -121,11 +115,6 @@ public class Cosecha
         this.municipioCodigo = municipioCodigo;
     }
 
-    public void setProvinciaCodigo(Integer provinciaCodigo)
-    {
-        this.provinciaCodigo = provinciaCodigo;
-    }
-
     public void setAceitunas(Double aceitunas)
     {
         this.aceitunas = aceitunas;
@@ -148,7 +137,6 @@ public class Cosecha
                 "idCosecha=" + idCosecha +
                 ", campania='" + campania + '\'' +
                 ", municipioCodigo=" + municipioCodigo +
-                ", provinciaCodigo=" + provinciaCodigo +
                 ", aceitunas=" + aceitunas +
                 ", aceite=" + aceite +
                 ", finca=" + finca + '}';

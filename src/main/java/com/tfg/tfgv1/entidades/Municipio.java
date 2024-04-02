@@ -4,51 +4,46 @@
  */
 package com.tfg.tfgv1.entidades;
 
-import jakarta.persistence.Entity;
+import com.tfg.tfgv1.Ids.MunicipioId;
+import jakarta.persistence.*;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+
 @Entity
+@Table(name = "MUNICIPIO", schema="ALBAGOMEZ")
 public class Municipio
 {
-    @NotNull
-    @Min(-1)
-    private Integer codigoMunicipio; //Código del municipio
-    @NotBlank
-    private String nombre; //Nombre del municipio
-    @NotNull
-    @Min(-1)
-    private Integer provinciaCodigo; //Codigo de la provincia
+    @EmbeddedId
+    private MunicipioId id;
 
+    @NotBlank
+    @Column(name = "NOMBRE")
+    private String nombre; //Nombre del municipio
 
     /**
      * @brief constructor por defecto
      */
     public Municipio()
     {
-        codigoMunicipio=-1;
-        nombre="defecto";
-        provinciaCodigo=-1;
+        this.id = new MunicipioId();
+        this.nombre = "";
     }
 
     /**
      * @brief constructor parametrizado
-     * @param codigoMunicipio Código del municipio
+     * @param id Código del municipio y provincia
      * @param nombre Nombre del municipio
-     * @param provinciaCodigo Codigo de la provincia
      */
-    public Municipio(Integer codigoMunicipio, String nombre, Integer provinciaCodigo)
+    public Municipio(MunicipioId id, String nombre, Provincia provincia)
     {
-        this.codigoMunicipio = codigoMunicipio;
+        this.id = id;
         this.nombre = nombre;
-        this.provinciaCodigo = provinciaCodigo;
     }
 
     //GETTERS DE LA CLASE
-    public Integer getCodigoMunicipio()
+    public MunicipioId getId()
     {
-        return codigoMunicipio;
+        return id;
     }
 
     public String getNombre()
@@ -56,25 +51,16 @@ public class Municipio
         return nombre;
     }
 
-    public Integer getProvinciaCodigo()
-    {
-        return provinciaCodigo;
-    }
 
     //SETTERS DE LA CLASE
-    public void setCodigoMunicipio(Integer codigoMunicipio)
+    public void setId(MunicipioId id)
     {
-        this.codigoMunicipio = codigoMunicipio;
+        this.id = id;
     }
 
     public void setNombre(String nombre)
     {
         this.nombre = nombre;
-    }
-
-    public void setProvinciaCodigo(Integer provinciaCodigo)
-    {
-        this.provinciaCodigo = provinciaCodigo;
     }
 
     /**
@@ -85,9 +71,9 @@ public class Municipio
     public String toString()
     {
         return "Municipio{" +
-                "codigoMunicipio=" + codigoMunicipio +
+                "codigoMunicipio=" + id.getCodigoMunicipio() +
                 ", nombre='" + nombre + '\'' +
-                ", provinciaCodigo=" + provinciaCodigo +
+                ", provinciaCodigo=" + id.getProvinciaCodigo() +
                 '}';
     }
 }
