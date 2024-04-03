@@ -18,13 +18,6 @@ public class Cosecha
     @NotBlank
     @Column(name = "CAMPAÑA")
     private String campania; //Año de la campaña (en el que empezó)
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "MUNICIPIO_CODIGO", referencedColumnName = "CODIGO_MUNICIPIO"),
-            @JoinColumn(name = "PROVINCIA_CODIGO", referencedColumnName = "PROVINCIA_CODIGO_PROVINCIA")
-    })
-    private Municipio municipioCodigo;
-
     @Min(0)
     @Column(name = "ACEITUNAS")
     private Double aceitunas; //KG de aceitunas recogidos
@@ -32,9 +25,12 @@ public class Cosecha
     private Double aceite; //KG de aceite recogidos
     @ManyToOne
     @JoinColumns({
+            @JoinColumn(name = "MUNICIPIO_CODIGO", referencedColumnName = "MUNICIPIO_CODIGO"),
+            @JoinColumn(name = "PROVINCIA_CODIGO", referencedColumnName = "PROVINCIA_CODIGO"),
             @JoinColumn(name = "FINCA_POLIGONO", referencedColumnName = "POLIGONO"),
             @JoinColumn(name = "FINCA_PARCELA", referencedColumnName = "PARCELA"),
-            @JoinColumn(name = "FINCA_RECINTO", referencedColumnName = "RECINTO")
+            @JoinColumn(name = "FINCA_RECINTO", referencedColumnName = "RECINTO"),
+            @JoinColumn(name = "ZONA_UBICACION", referencedColumnName = "ZONA_UBICACION")
     })
     private Finca finca; //Finca
 
@@ -45,7 +41,6 @@ public class Cosecha
     {
         idCosecha=0;
         campania="2000";
-        municipioCodigo=null;
         aceite=0.0;
         aceitunas=0.0;
         finca=null;
@@ -65,7 +60,6 @@ public class Cosecha
     {
         this.idCosecha = idCosecha;
         this.campania = campania;
-        this.municipioCodigo = municipioCodigo;
         this.aceitunas = aceitunas;
         this.aceite = aceite;
         this.finca = finca;
@@ -81,11 +75,6 @@ public class Cosecha
     public String getCampania()
     {
         return campania;
-    }
-
-    public Integer getMunicipioCodigo()
-    {
-        return municipioCodigo.getId().getCodigoMunicipio();
     }
 
     public Double getAceitunas()
@@ -110,11 +99,6 @@ public class Cosecha
         this.campania = campania;
     }
 
-    public void setMunicipioCodigo(Municipio municipioCodigo)
-    {
-        this.municipioCodigo = municipioCodigo;
-    }
-
     public void setAceitunas(Double aceitunas)
     {
         this.aceitunas = aceitunas;
@@ -136,7 +120,7 @@ public class Cosecha
         return "Cosecha{" +
                 "idCosecha=" + idCosecha +
                 ", campania='" + campania + '\'' +
-                ", municipioCodigo=" + municipioCodigo +
+                ", municipioCodigo=" + finca.getMunicipioCodigo() +
                 ", aceitunas=" + aceitunas +
                 ", aceite=" + aceite +
                 ", finca=" + finca + '}';

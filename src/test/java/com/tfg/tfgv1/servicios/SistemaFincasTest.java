@@ -2,15 +2,20 @@ package com.tfg.tfgv1.servicios;
 
 import com.tfg.tfgv1.TfgV1Application;
 import com.tfg.tfgv1.entidades.Provincia;
+import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
 
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TfgV1Application.class)
+@Transactional
 public class SistemaFincasTest
 {
     @Autowired
@@ -60,5 +65,16 @@ public class SistemaFincasTest
         Assertions.assertThat(optional.isPresent()).isTrue();
         Assertions.assertThat(optional.get().getCodigoProvincia()).isEqualTo(provincia.getCodigoProvincia());
         Assertions.assertThat(optional.get().getNombreProvincia()).isEqualTo("Huelva");
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testEliminarProvincia()
+    {
+        Provincia provincia = new Provincia(18,"Granada");
+        sistemaFincas.agregarProvincia(provincia);
+        sistemaFincas.eliminarProvincia(provincia);
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(21);
+        Assertions.assertThat(optional.isPresent()).isFalse();
     }
 }

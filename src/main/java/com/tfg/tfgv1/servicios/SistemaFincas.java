@@ -39,9 +39,9 @@ public class SistemaFincas
         provinciaRepositorio.actualizar(provincia);
     }
 
-  /*@Cacheable("provincias")
-    public void eliminarProvincia(Integer codigo)
+    @Cacheable("provincias")
+    public void eliminarProvincia(Provincia provincia)
     {
-        provinciaRepositorio.eliminar(codigo);
-    }*/
+        provinciaRepositorio.borrar(provincia);
+    }
 }

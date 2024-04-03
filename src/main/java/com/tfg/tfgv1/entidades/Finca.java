@@ -6,10 +6,11 @@
 package com.tfg.tfgv1.entidades;
 
 import com.tfg.tfgv1.Ids.FincaId;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 
 /**
  * @brief Clase para representar las Fincas del sistema
@@ -25,10 +26,6 @@ public class Finca
     @Min(0)
     @Column(name = "ANIO_SIGPAC")
     private Integer anioSigpac; //Año de inscripción del código SIGPAC
-    @NotBlank
-    @ManyToOne
-    @JoinColumn(name = "ZONA_UBICACION", referencedColumnName = "UBICACION")
-    private Zona zonaUbicacion; //Ubicación de la zona
 
     /**
      * @brief constructor por defecto
@@ -38,7 +35,6 @@ public class Finca
         id = new FincaId();
         area=0.0;
         anioSigpac=0;
-        zonaUbicacion=null;
     }
 
     /**
@@ -55,7 +51,6 @@ public class Finca
         this.area = area;
         this.id = new FincaId(poligono, parcela, recinto, zona);
         this.anioSigpac = anioSigpac;
-        this.zonaUbicacion = zona;
     }
 
     //GETTERS DE LA CLASE
@@ -87,7 +82,7 @@ public class Finca
 
     public String getZonaUbicacion()
     {
-        return zonaUbicacion.getUbicacion();
+        return id.getZonaUbicacion();
     }
 
     public Integer getMunicipioCodigo()
@@ -138,7 +133,6 @@ public class Finca
 
     public void setZona(Zona zona)
     {
-        this.zonaUbicacion = zona;
         this.id.setZona(zona);
     }
 
@@ -155,7 +149,7 @@ public class Finca
                 ", parcela=" + id.getParcela() +
                 ", recinto=" + id.getRecinto() +
                 ", anioSigpac=" + anioSigpac +
-                ", zonaUbicacion='" + zonaUbicacion + '\'' +
+                ", zonaUbicacion='" + id.getZonaUbicacion() + '\'' +
                 ", municipioCodigo=" + id.getMunicipio() +
                 ", codigoProvincia=" + id.getCodigoProvincia() +
                 '}';

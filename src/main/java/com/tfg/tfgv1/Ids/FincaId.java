@@ -9,6 +9,13 @@ import java.io.Serializable;
 @Embeddable
 public class FincaId implements Serializable
 {
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "MUNICIPIO_CODIGO", referencedColumnName = "MUNICIPIO_CODIGO"),
+            @JoinColumn(name = "PROVINCIA_CODIGO", referencedColumnName = "PROVINCIA_CODIGO"),
+            @JoinColumn(name = "ZONA_UBICACION", referencedColumnName = "UBICACION")
+    })
+    private Zona zona;
     @NotNull
     @Column(name = "POLIGONO")
     private Integer poligono; //Poligono del código SIGPAC
@@ -19,12 +26,6 @@ public class FincaId implements Serializable
     @Column(name = "RECINTO")
     private Integer recinto; //Recinto del código SIGPAC
 
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "MUNICIPIO_CODIGO", referencedColumnName = "MUNICIPIO_CODIGO"),
-            @JoinColumn(name = "CODIGO_PROVINCIA", referencedColumnName = "PROVINCIA_CODIGO")
-    })
-    private Zona zona;
 
     public FincaId(Integer poligono, Integer parcela, Integer recinto, Zona zona)
     {
@@ -67,6 +68,10 @@ public class FincaId implements Serializable
         return zona.getProvinciaCodigo();
     }
 
+    public String getZonaUbicacion()
+    {
+        return zona.getUbicacion();
+    }
     public void setPoligono(Integer poligono)
     {
         this.poligono = poligono;
@@ -86,5 +91,4 @@ public class FincaId implements Serializable
     {
         this.zona=zona;
     }
-
 }
