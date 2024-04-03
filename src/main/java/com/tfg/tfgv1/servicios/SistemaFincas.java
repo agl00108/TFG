@@ -1,7 +1,8 @@
 package com.tfg.tfgv1.servicios;
 
-import com.tfg.tfgv1.entidades.Provincia;
-import com.tfg.tfgv1.repositorios.ProvinciaRepositorio;
+import com.tfg.tfgv1.Ids.*;
+import com.tfg.tfgv1.entidades.*;
+import com.tfg.tfgv1.repositorios.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -17,6 +18,15 @@ public class SistemaFincas
 {
     @Autowired
     ProvinciaRepositorio provinciaRepositorio;
+
+    @Autowired
+    MunicipioRepositorio municipioRepositorio;
+
+    @Autowired
+    FincaRepositorio fincaRepositorio;
+
+    @Autowired
+    ZonaRepositorio zonaRepositorio;
 
     public SistemaFincas()
     {}
@@ -43,5 +53,77 @@ public class SistemaFincas
     public void eliminarProvincia(Provincia provincia)
     {
         provinciaRepositorio.borrar(provincia);
+    }
+
+    @Cacheable("municipios")
+    public Optional<Municipio> buscarMunicipio(MunicipioId codigo)
+    {
+        return municipioRepositorio.buscar(codigo);
+    }
+
+    @CacheEvict(value = "municipios", key = "#codigo")
+    public void agregarMunicipio(Municipio municipio)
+    {
+        municipioRepositorio.guardar(municipio);
+    }
+
+    @Transactional
+    public void actualizarMunicipio(Municipio municipio)
+    {
+        municipioRepositorio.actualizar(municipio);
+    }
+
+    @CacheEvict(value = "municipios", key = "#municipio.codigo")
+    public void eliminarMunicipio(Municipio municipio)
+    {
+        municipioRepositorio.borrar(municipio);
+    }
+
+    @Cacheable("fincas")
+    public Optional<Finca> buscarFinca(FincaId id)
+    {
+        return fincaRepositorio.buscar(id);
+    }
+
+    @CacheEvict(value = "fincas", key = "#finca.fincaId")
+    public void agregarFinca(Finca finca)
+    {
+        fincaRepositorio.guardar(finca);
+    }
+
+    @Transactional
+    public void actualizarFinca(Finca finca)
+    {
+        fincaRepositorio.actualizar(finca);
+    }
+
+    @CacheEvict(value = "fincas", key = "#finca.fincaId")
+    public void eliminarFinca(Finca finca)
+    {
+        fincaRepositorio.borrar(finca);
+    }
+
+    @Cacheable("zonas")
+    public Optional<Zona> buscarZona(ZonaId id)
+    {
+        return zonaRepositorio.buscar(id);
+    }
+
+    @CacheEvict(value = "zonas", key = "#zona.zonaId")
+    public void agregarZona(Zona zona)
+    {
+        zonaRepositorio.guardar(zona);
+    }
+
+    @Transactional
+    public void actualizarZona(Zona zona)
+    {
+        zonaRepositorio.actualizar(zona);
+    }
+
+    @CacheEvict(value = "zonas", key = "#zona.zonaId")
+    public void eliminarZona(Zona zona)
+    {
+        zonaRepositorio.borrar(zona);
     }
 }
