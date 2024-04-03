@@ -6,8 +6,7 @@
 package com.tfg.tfgv1.entidades;
 
 import com.tfg.tfgv1.Ids.FincaId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -18,23 +17,28 @@ import javax.validation.constraints.NotBlank;
 @Entity
 public class Finca
 {
-    @Id
+    @EmbeddedId
     FincaId id;
     @Min(0)
+    @Column(name = "AREA")
     private Double area; //Area en m2 de la finca
     @Min(0)
+    @Column(name = "ANIO_SIGPAC")
     private Integer anioSigpac; //Año de inscripción del código SIGPAC
     @NotBlank
-    private String zonaUbicacion; //Ubicación de la zona
+    @ManyToOne
+    @JoinColumn(name = "ZONA_UBICACION", referencedColumnName = "UBICACION")
+    private Zona zonaUbicacion; //Ubicación de la zona
 
     /**
      * @brief constructor por defecto
      */
     public Finca()
     {
+        id = new FincaId();
         area=0.0;
         anioSigpac=0;
-        zonaUbicacion="defecto";
+        zonaUbicacion=null;
     }
 
     /**
@@ -44,17 +48,14 @@ public class Finca
      * @param parcela Parcela del código SIGPAC
      * @param recinto Recinto del código SIGPAC
      * @param anioSigpac Año de inscripción del código SIGPAC
-     * @param zonaUbicacion Ubicación de la zona
-     * @param municipioCodigo Código del municipio
-     * @param codigoProvincia Código de la provincia
+     * @param zona Código del municipio
      */
-    public Finca(Double area, Integer poligono, Integer parcela, Integer recinto, Integer anioSigpac,
-                 String zonaUbicacion, Integer municipioCodigo, Integer codigoProvincia)
+    public Finca(Double area, Integer poligono, Integer parcela, Integer recinto, Integer anioSigpac, Zona zona)
     {
         this.area = area;
-        this.id = new FincaId(poligono, parcela, recinto, municipioCodigo, codigoProvincia);
+        this.id = new FincaId(poligono, parcela, recinto, zona);
         this.anioSigpac = anioSigpac;
-        this.zonaUbicacion = zonaUbicacion;
+        this.zonaUbicacion = zona;
     }
 
     //GETTERS DE LA CLASE
@@ -86,7 +87,7 @@ public class Finca
 
     public String getZonaUbicacion()
     {
-        return zonaUbicacion;
+        return zonaUbicacion.getUbicacion();
     }
 
     public Integer getMunicipioCodigo()
@@ -135,56 +136,10 @@ public class Finca
         this.anioSigpac = anioSigpac;
     }
 
-    public void setZonaUbicacion(String zonaUbicacion)
+    public void setZona(Zona zona)
     {
-        this.zonaUbicacion = zonaUbicacion;
-    }
-
-    public void setMunicipioCodigo(Integer municipioCodigo)
-    {
-        this.id.setMunicipio(municipioCodigo);
-    }
-
-    public void setCodigoProvincia(Integer codigoProvincia)
-    {
-        this.id.setCodigoProvincia(codigoProvincia);
-    }
-
-    /**
-     * @brief setter de los campos de la finca de acuerdo con el código sigpac
-     * @param sigpac código sigpac
-     * @pre el formato del string debe ser codigoProvincia:municipioCodigo:0:0:poligono:parcela:recinto
-     */
-    public void setSIGPAC(String sigpac) throws IllegalArgumentException
-    {
-        String[] campos = sigpac.split(":");
-        if (campos.length == 7)
-        {
-            try
-            {
-                int provincia = Integer.parseInt(campos[0]);
-                int municipio = Integer.parseInt(campos[1]);
-                int poligono = Integer.parseInt(campos[4]);
-                int parcela = Integer.parseInt(campos[5]);
-                int recinto = Integer.parseInt(campos[6]);
-
-                if (provincia < 0 || municipio < 0 || poligono < 0 || parcela < 0 || recinto < 0)
-                {
-                    throw new IllegalArgumentException("Los campos numéricos deben ser mayores o iguales a 0");
-                }
-                this.id.setCodigoProvincia(provincia);
-                this.id.setMunicipio(municipio);
-                this.id.setPoligono(poligono);
-                this.id.setParcela(parcela);
-                this.id.setRecinto(recinto);
-            } catch (NumberFormatException e)
-            {
-                throw new IllegalArgumentException("Los campos numéricos deben ser números enteros válidos");
-            }
-        } else
-        {
-            throw new IllegalArgumentException("El formato del String SIGPAC no es válido");
-        }
+        this.zonaUbicacion = zona;
+        this.id.setZona(zona);
     }
 
     /**

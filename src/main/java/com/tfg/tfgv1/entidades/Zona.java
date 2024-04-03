@@ -4,28 +4,32 @@
  */
 package com.tfg.tfgv1.entidades;
 
+import com.tfg.tfgv1.Ids.ZonaId;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+@Entity
 public class Zona
 {
-    @NotBlank
-    private String ubicacion; //Ubicacion de la zona
+    @EmbeddedId
+    private ZonaId id;
     @NotNull
+    @Column(name="LONGITUD")
     private Float longitud; //Longitud de la zona
     @NotNull
+    @Column(name="LATITUD")
     private Float latitud; //Latitud de la zona
     @NotBlank
+    @Column(name="DESCRIPCION")
     private String descripcion; //Descripción de la zona
     @NotNull
-    @Min(-1)
-    private Integer municipioCodigo; //Código del municipio donde se ubica
-    @NotNull
-    @Min(-1)
-    private Integer provinciaCodigo; //Código de la provincia donde se ubica
-    @NotNull
-    @Min(-1)
+    @Min(0)
+    @Column(name="RADIO")
     private Float radio; //Radio de extensión de la zona
 
     /**
@@ -33,12 +37,10 @@ public class Zona
      */
     public Zona()
     {
-        ubicacion="";
+        this.id= new ZonaId();
         longitud= 0.0F;
         latitud= 0.0F;
         descripcion="";
-        municipioCodigo=-1;
-        provinciaCodigo=-1;
         radio=0.0F;
     }
 
@@ -48,19 +50,16 @@ public class Zona
      * @param longitud Longitud de la zona
      * @param latitud Latitud de la zona
      * @param descripcion Descripción de la zona
-     * @param municipioCodigo Código del municipio donde se ubica
-     * @param provinciaCodigo Código de la provincia donde se ubica
+     * @param municipio  Municipio donde se ubica
      * @param radio Radio de extensión de la zona
      */
     public Zona(String ubicacion, Float longitud, Float latitud, String descripcion,
-                Integer municipioCodigo, Integer provinciaCodigo, Float radio)
+                Municipio municipio, Float radio)
     {
-        this.ubicacion = ubicacion;
         this.longitud = longitud;
         this.latitud = latitud;
         this.descripcion = descripcion;
-        this.municipioCodigo = municipioCodigo;
-        this.provinciaCodigo = provinciaCodigo;
+        this.id= new ZonaId(ubicacion, municipio);
         this.radio = radio;
     }
 
@@ -68,7 +67,7 @@ public class Zona
 
     public String getUbicacion()
     {
-        return ubicacion;
+        return id.getUbicacion();
     }
 
     public Float getLongitud()
@@ -88,12 +87,12 @@ public class Zona
 
     public Integer getMunicipioCodigo()
     {
-        return municipioCodigo;
+        return id.getMunicipioCodigo();
     }
 
     public Integer getProvinciaCodigo()
     {
-        return provinciaCodigo;
+        return id.getProvinciaCodigo();
     }
 
     public Float getRadio()
@@ -104,7 +103,7 @@ public class Zona
     //SETTERS DE LA CLASE
     public void setUbicacion(String ubicacion)
     {
-        this.ubicacion = ubicacion;
+        this.id.setUbicacion(ubicacion);
     }
 
     public void setLongitud(Float longitud)
@@ -122,14 +121,9 @@ public class Zona
         this.descripcion = descripcion;
     }
 
-    public void setMunicipioCodigo(Integer municipioCodigo)
+    public void setMunicipio(Municipio municipio)
     {
-        this.municipioCodigo = municipioCodigo;
-    }
-
-    public void setProvinciaCodigo(Integer provinciaCodigo)
-    {
-        this.provinciaCodigo = provinciaCodigo;
+        this.id.setMunicipio(municipio);
     }
 
     public void setRadio(Float radio)
@@ -145,12 +139,12 @@ public class Zona
     public String toString()
     {
         return "Zona{" +
-                "ubicacion='" + ubicacion + '\'' +
+                "ubicacion='" + id.getUbicacion() + '\'' +
                 ", longitud=" + longitud +
                 ", latitud=" + latitud +
                 ", descripcion='" + descripcion + '\'' +
-                ", municipioCodigo=" + municipioCodigo +
-                ", provinciaCodigo=" + provinciaCodigo +
+                ", municipioCodigo=" + id.getMunicipioCodigo() +
+                ", provinciaCodigo=" + id.getProvinciaCodigo() +
                 ", radio=" + radio +
                 '}';
     }

@@ -5,7 +5,10 @@
 package com.tfg.tfgv1.entidades;
 
 import com.tfg.tfgv1.Ids.MunicipioId;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 import javax.validation.constraints.NotBlank;
 
@@ -34,7 +37,7 @@ public class Municipio
      * @param id Código del municipio y provincia
      * @param nombre Nombre del municipio
      */
-    public Municipio(MunicipioId id, String nombre, Provincia provincia)
+    public Municipio(MunicipioId id, String nombre)
     {
         this.id = id;
         this.nombre = nombre;
@@ -56,6 +59,25 @@ public class Municipio
     public void setId(MunicipioId id)
     {
         this.id = id;
+    }
+
+    public void setCodigoMunicipio(Integer codigoMunicipio)
+    {
+        this.id.setCodigoMunicipio(codigoMunicipio);
+    }
+
+    public Integer getCodigoMunicipio()
+    {
+        return this.id.getCodigoMunicipio();
+    }
+
+    public Integer getProvinciaCodigo()
+    {
+        return this.id.getProvinciaCodigo();
+    }
+    public void setProvinciaCodigo(Integer provinciaCodigo)
+    {
+        this.id.setProvinciaCodigo(provinciaCodigo);
     }
 
     public void setNombre(String nombre)

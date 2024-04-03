@@ -1,6 +1,6 @@
 package com.tfg.tfgv1.Ids;
 
-import com.tfg.tfgv1.entidades.Municipio;
+import com.tfg.tfgv1.entidades.Zona;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.NotNull;
@@ -18,18 +18,20 @@ public class FincaId implements Serializable
     @NotNull
     @Column(name = "RECINTO")
     private Integer recinto; //Recinto del código SIGPAC
+
     @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "MUNICIPIO_CODIGO", referencedColumnName = "CODIGO_MUNICIPIO"),
-            @JoinColumn(name = "PROVINCIA_CODIGO", referencedColumnName = "PROVINCIA_CODIGO_PROVINCIA")
+            @JoinColumn(name = "MUNICIPIO_CODIGO", referencedColumnName = "MUNICIPIO_CODIGO"),
+            @JoinColumn(name = "CODIGO_PROVINCIA", referencedColumnName = "PROVINCIA_CODIGO")
     })
-    private Municipio municipio;
-    public FincaId(Integer poligono, Integer parcela, Integer recinto, Municipio municipioCodigo)
+    private Zona zona;
+
+    public FincaId(Integer poligono, Integer parcela, Integer recinto, Zona zona)
     {
         this.poligono = poligono;
         this.parcela = parcela;
         this.recinto = recinto;
-        this.municipio = municipioCodigo;
+        this.zona = zona;
     }
 
     public FincaId()
@@ -37,7 +39,7 @@ public class FincaId implements Serializable
         this.poligono = -1;
         this.parcela = -1;
         this.recinto = -1;
-        this.municipio = null;
+        this.zona = null;
     }
 
     public Integer getPoligono()
@@ -57,12 +59,12 @@ public class FincaId implements Serializable
 
     public Integer getMunicipio()
     {
-        return municipio.getId().getCodigoMunicipio();
+        return zona.getMunicipioCodigo();
     }
 
     public Integer getCodigoProvincia()
     {
-        return municipio.getId().getProvinciaCodigo();
+        return zona.getProvinciaCodigo();
     }
 
     public void setPoligono(Integer poligono)
@@ -80,14 +82,9 @@ public class FincaId implements Serializable
         this.recinto = recinto;
     }
 
-    public void setMunicipio(Integer municipioCodigo)
+    public void setZona(Zona zona)
     {
-        this.municipio = municipioCodigo;
-    }
-
-    public void setCodigoProvincia(Integer codigoProvincia)
-    {
-        this.codigoProvincia = codigoProvincia;
+        this.zona=zona;
     }
 
 }
