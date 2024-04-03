@@ -31,4 +31,9 @@ public class ProvinciaRepositorio
     {
         em.merge(provincia);
     }
+
+    public void borrar(Provincia provincia)
+    {
+        em.remove(em.merge(provincia));
+    }
 }

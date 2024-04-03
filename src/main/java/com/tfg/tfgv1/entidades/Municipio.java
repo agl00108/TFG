@@ -75,9 +75,9 @@ public class Municipio
     {
         return this.id.getProvinciaCodigo();
     }
-    public void setProvinciaCodigo(Integer provinciaCodigo)
+    public void setProvincia(Provincia provincia)
     {
-        this.id.setProvinciaCodigo(provinciaCodigo);
+        this.id.setProvincia(provincia);
     }
 
     public void setNombre(String nombre)
