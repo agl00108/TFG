@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
 public class Cosecha
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_COSECHA")
     private Integer idCosecha; //ID de la cosecha
     @NotBlank
@@ -22,6 +21,7 @@ public class Cosecha
     @Column(name = "ACEITUNAS")
     private Double aceitunas; //KG de aceitunas recogidos
     @Min(0)
+    @Column(name = "ACEITE")
     private Double aceite; //KG de aceite recogidos
     @ManyToOne
     @JoinColumns({
@@ -50,13 +50,10 @@ public class Cosecha
      * @brief Constructor de la clase
      * @param idCosecha ID de la cosecha
      * @param campania Año de la campaña (en el que empezó)
-     * @param municipioCodigo Código del municipio
-     * @param provinciaCodigo Código de la provincia
      * @param aceitunas KG de aceitunas recogidos
      * @param aceite KG de aceite recogidos
      */
-    public Cosecha(Integer idCosecha, String campania, Municipio municipioCodigo,
-                   Integer provinciaCodigo, Double aceitunas, Double aceite, Finca finca)
+    public Cosecha(Integer idCosecha, String campania, Double aceitunas, Double aceite, Finca finca)
     {
         this.idCosecha = idCosecha;
         this.campania = campania;

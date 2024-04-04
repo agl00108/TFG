@@ -28,6 +28,9 @@ public class SistemaFincas
     @Autowired
     ZonaRepositorio zonaRepositorio;
 
+    @Autowired
+    CosechaRepositorio cosechaRepositorio;
+
     public SistemaFincas()
     {}
 
@@ -125,5 +128,29 @@ public class SistemaFincas
     public void eliminarZona(Zona zona)
     {
         zonaRepositorio.borrar(zona);
+    }
+
+    @Cacheable("cosechas")
+    public Optional<Cosecha> buscarCosecha(Integer id)
+    {
+        return cosechaRepositorio.buscar(id);
+    }
+
+    @CacheEvict(value = "cosechas", key = "#zona.idCosecha")
+    public void agregarCosecha(Cosecha cosecha)
+    {
+        cosechaRepositorio.guardar(cosecha);
+    }
+
+    @Transactional
+    public void actualizarCosecha(Cosecha cosecha)
+    {
+        cosechaRepositorio.actualizar(cosecha);
+    }
+
+    @CacheEvict(value = "cosechas", key = "#cosecha.idCosecha")
+    public void eliminarCosecha(Cosecha cosecha)
+    {
+        cosechaRepositorio.borrar(cosecha);
     }
 }

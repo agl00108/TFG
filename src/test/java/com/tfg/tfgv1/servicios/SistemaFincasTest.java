@@ -1,7 +1,10 @@
 package com.tfg.tfgv1.servicios;
 
+import com.tfg.tfgv1.Ids.FincaId;
+import com.tfg.tfgv1.Ids.MunicipioId;
+import com.tfg.tfgv1.Ids.ZonaId;
 import com.tfg.tfgv1.TfgV1Application;
-import com.tfg.tfgv1.entidades.Provincia;
+import com.tfg.tfgv1.entidades.*;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -77,4 +80,318 @@ public class SistemaFincasTest
         Optional<Provincia> optional=sistemaFincas.buscarProvincia(21);
         Assertions.assertThat(optional.isPresent()).isFalse();
     }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarMunicipio()
+    {
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        Assertions.assertThat(optional.isPresent()).isTrue();
+        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        Assertions.assertThat(optionalMunicipio.isPresent()).isTrue();
+        Assertions.assertThat(optionalMunicipio.get().getCodigoMunicipio()).isEqualTo(87);
+        Assertions.assertThat(optionalMunicipio.get().getNombre()).isEqualTo("Torredonjimeno");
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testInsertarMunicipio()
+    {
+        Optional<Provincia> optionalProvincia=sistemaFincas.buscarProvincia(23);
+        Assertions.assertThat(optionalProvincia.isPresent()).isTrue();
+        MunicipioId municipioId = new MunicipioId(51, optionalProvincia.get());
+        Municipio municipio = new Municipio(municipioId, "Jamilena");
+        sistemaFincas.agregarMunicipio(municipio);
+        Optional<Municipio> optional = sistemaFincas.buscarMunicipio(municipioId);
+        Assertions.assertThat(optional.isPresent()).isTrue();
+        Assertions.assertThat(optional.get().getNombre()).isEqualTo("Jamilena");
+        Assertions.assertThat(optional.get().getCodigoMunicipio()).isEqualTo(51);
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testModificarMunicipio()
+    {
+        Optional<Provincia> optionalProvincia=sistemaFincas.buscarProvincia(23);
+        Assertions.assertThat(optionalProvincia.isPresent()).isTrue();
+        MunicipioId municipioId = new MunicipioId(39, optionalProvincia.get());
+        Municipio municipio = new Municipio(municipioId, "Torres");
+        sistemaFincas.agregarMunicipio(municipio);
+        String nombreMunicipio = "Guarromán";
+        municipio.setNombre("Guarromán");
+        sistemaFincas.actualizarMunicipio(municipio);
+        Optional<Municipio> optional = sistemaFincas.buscarMunicipio(municipioId);
+        Assertions.assertThat(optional.isPresent()).isTrue();
+        Assertions.assertThat(optional.get().getCodigoMunicipio()).isEqualTo(municipioId.getCodigoMunicipio());
+        Assertions.assertThat(optional.get().getNombre()).isEqualTo("Guarromán");
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testEliminarMunicipio()
+    {
+        Optional<Provincia> optionalProvincia=sistemaFincas.buscarProvincia(23);
+        Assertions.assertThat(optionalProvincia.isPresent()).isTrue();
+        MunicipioId municipioId = new MunicipioId(51, optionalProvincia.get());
+        Municipio municipio = new Municipio(municipioId, "Jamilena");
+        sistemaFincas.agregarMunicipio(municipio);
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        Assertions.assertThat(optionalMunicipio.isPresent()).isTrue();
+        sistemaFincas.eliminarMunicipio(optionalMunicipio.get());
+        Optional<Municipio> optional = sistemaFincas.buscarMunicipio(municipioId);
+        Assertions.assertThat(optional.isPresent()).isFalse();
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarZona()
+    {
+        //Primero buscamos el municipio donde se ubica
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        Assertions.assertThat(optional.isPresent()).isTrue();
+        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+
+        ZonaId zonaId = new ZonaId("T10", optionalMunicipio.get());
+        Zona zona = new Zona("T10", -3.9714766f,37.777341f,"CAMINO ANCHO", optionalMunicipio.get(), null);
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        Assertions.assertThat(optionalZona.isPresent()).isTrue();
+        Assertions.assertThat(optionalZona.get().getUbicacion()).isEqualTo(zona.getUbicacion());
+        Assertions.assertThat(optionalZona.get().getMunicipioCodigo()).isEqualTo(zona.getMunicipioCodigo());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testInsertarZona()
+    {
+        //Primero buscamos el municipio donde se ubica
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        Assertions.assertThat(optional.isPresent()).isTrue();
+        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+
+        ZonaId zonaId = new ZonaId("T31", optionalMunicipio.get());
+        Zona zona = new Zona("T31", -3.9714766f,37.777341f,"PRUEBA INSERCION", optionalMunicipio.get(), null);
+        sistemaFincas.agregarZona(zona);
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        Assertions.assertThat(optionalZona.isPresent()).isTrue();
+        Assertions.assertThat(optionalZona.get().getUbicacion()).isEqualTo(zona.getUbicacion());
+        Assertions.assertThat(optionalZona.get().getMunicipioCodigo()).isEqualTo(zona.getMunicipioCodigo());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testModificarZona()
+    {
+        //Primero buscamos el municipio donde se ubica
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        Assertions.assertThat(optional.isPresent()).isTrue();
+        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+
+        ZonaId zonaId = new ZonaId("T31", optionalMunicipio.get());
+        Zona zona = new Zona("T31", -3.9714766f,37.777341f,"PRUEBA INSERCION", optionalMunicipio.get(), null);
+        sistemaFincas.agregarZona(zona);
+        zona.setDescripcion("INSERCION CONFIRMADA");
+        sistemaFincas.actualizarZona(zona);
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        Assertions.assertThat(optionalZona.isPresent()).isTrue();
+        Assertions.assertThat(optionalZona.get().getDescripcion()).isEqualTo(zona.getDescripcion());
+        Assertions.assertThat(optionalZona.get().getUbicacion()).isEqualTo(zona.getUbicacion());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testEliminarZona()
+    {
+        //Primero buscamos el municipio donde se ubica
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        Assertions.assertThat(optional.isPresent()).isTrue();
+        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+
+        ZonaId zonaId = new ZonaId("T31", optionalMunicipio.get());
+        Zona zona = new Zona("T31", -3.9714766f,37.777341f,"PRUEBA INSERCION", optionalMunicipio.get(), null);
+        sistemaFincas.agregarZona(zona);
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        sistemaFincas.eliminarZona(optionalZona.get());
+        Optional<Zona> optionalZona1 = sistemaFincas.buscarZona(zonaId);
+        Assertions.assertThat(optionalZona1.isPresent()).isFalse();
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarFinca()
+    {
+        //Primero buscamos la zona donde se ubica
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        Assertions.assertThat(optional.isPresent()).isTrue();
+        MunicipioId municipioId = new MunicipioId(41, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId("H1", optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+
+        FincaId fincaId = new FincaId(2,8,1,optionalZona.get());
+        Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
+        Assertions.assertThat(optionalFinca.isPresent()).isTrue();
+        Assertions.assertThat(optionalFinca.get().getZonaUbicacion()).isEqualTo(zonaId.getUbicacion());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testInsertarFinca()
+    {   //Primero buscamos la zona
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        Assertions.assertThat(optional.isPresent()).isTrue();
+        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        Zona zona = new Zona("T31", -3.9714766f,37.777341f,"PRUEBA INSERCION", optionalMunicipio.get(), null);
+        sistemaFincas.agregarZona(zona);
+
+        FincaId fincaId = new FincaId(2,9,1,zona);
+        Finca finca = new Finca(0.9639,2,9,1,2024,zona);
+        sistemaFincas.agregarFinca(finca);
+        Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
+        Assertions.assertThat(optionalFinca.isPresent()).isTrue();
+        Assertions.assertThat(optionalFinca.get()).isEqualTo(finca);
+        Assertions.assertThat(optionalFinca.get()).isEqualTo(finca);
+        Assertions.assertThat(optionalFinca.get()).isEqualTo(finca);
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testModificarFinca()
+    {
+        //Primero buscamos la zona
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        Assertions.assertThat(optional.isPresent()).isTrue();
+        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        Zona zona = new Zona("T31", -3.9714766f,37.777341f,"PRUEBA INSERCION", optionalMunicipio.get(), null);
+        sistemaFincas.agregarZona(zona);
+
+        FincaId fincaId = new FincaId(2,9,1,zona);
+        Finca finca = new Finca(0.9639,2,9,1,2024,zona);
+        sistemaFincas.agregarFinca(finca);
+        finca.setArea(1.150);
+        sistemaFincas.actualizarFinca(finca);
+        Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
+        Assertions.assertThat(optionalFinca.isPresent()).isTrue();
+        Assertions.assertThat(optionalFinca.get().getArea()).isEqualTo(finca.getArea());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testEliminarFinca()
+    {
+       //Primero buscamos la zona
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        Assertions.assertThat(optional.isPresent()).isTrue();
+        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        Zona zona = new Zona("T31", -3.9714766f,37.777341f,"PRUEBA INSERCION", optionalMunicipio.get(), null);
+        sistemaFincas.agregarZona(zona);
+
+        FincaId fincaId = new FincaId(2,9,1,zona);
+        Finca finca = new Finca(0.9639,2,9,1,2024,zona);
+        sistemaFincas.agregarFinca(finca);
+        sistemaFincas.eliminarFinca(finca);
+        Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
+        Assertions.assertThat(optionalFinca.isPresent()).isFalse();
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarCosecha()
+    {
+        //Buscamos la finca donde se ubica
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        MunicipioId municipioId = new MunicipioId(41, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId("H1", optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        FincaId fincaId = new FincaId(2,8,1,optionalZona.get());
+        Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
+        Finca fincaElegida=optionalFinca.get();
+
+        //Ahora buscamos la cosecha
+        Integer idCosecha = 23;
+        Cosecha cosecha = new Cosecha(idCosecha, "2023", 8859.127483949862, 1506.051672271476, fincaElegida );
+        Optional<Cosecha> optionalC = sistemaFincas.buscarCosecha(idCosecha);
+        Assertions.assertThat(optionalC.isPresent()).isTrue();
+        Assertions.assertThat(optionalC.get().getIdCosecha()).isEqualTo(cosecha.getIdCosecha());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testInsertarCosecha()
+    {
+        //Buscamos la finca donde se ubica
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        MunicipioId municipioId = new MunicipioId(41, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId("H1", optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        FincaId fincaId = new FincaId(2,8,1,optionalZona.get());
+        Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
+        Finca fincaElegida=optionalFinca.get();
+
+        //Ahora insertamos la cosecha
+        Integer idCosecha = 1237;
+        Cosecha cosecha = new Cosecha(idCosecha, "2024", 8759.127483949862, 1507.051672271476, fincaElegida );
+        sistemaFincas.agregarCosecha(cosecha);
+        Optional<Cosecha> optionalC = sistemaFincas.buscarCosecha(idCosecha);
+        Assertions.assertThat(optionalC.isPresent()).isTrue();
+        Assertions.assertThat(optionalC.get().getIdCosecha()).isEqualTo(cosecha.getIdCosecha());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testModificarCosecha()
+    {
+        //Buscamos la finca donde se ubica
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        MunicipioId municipioId = new MunicipioId(41, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId("H1", optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        FincaId fincaId = new FincaId(2,8,1,optionalZona.get());
+        Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
+        Finca fincaElegida=optionalFinca.get();
+
+        //Ahora insertamos y modificamos la cosecha
+        Integer idCosecha = 1237;
+        Cosecha cosecha = new Cosecha(idCosecha, "2024", 8759.127483949862, 1507.051672271476, fincaElegida );
+        sistemaFincas.agregarCosecha(cosecha);
+        cosecha.setCampania("2025");
+        sistemaFincas.actualizarCosecha(cosecha);
+        Optional<Cosecha> optionalC = sistemaFincas.buscarCosecha(idCosecha);
+        Assertions.assertThat(optionalC.isPresent()).isTrue();
+        Assertions.assertThat(optionalC.get().getCampania()).isEqualTo(cosecha.getCampania());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testEliminarCosecha()
+    {
+        //Buscamos la finca donde se ubica
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        MunicipioId municipioId = new MunicipioId(41, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId("H1", optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        FincaId fincaId = new FincaId(2,8,1,optionalZona.get());
+        Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
+        Finca fincaElegida=optionalFinca.get();
+
+        //Ahora insertamos y eliminamos la cosecha
+        Integer idCosecha = 1237;
+        Cosecha cosecha = new Cosecha(idCosecha, "2024", 8759.127483949862, 1507.051672271476, fincaElegida );
+        sistemaFincas.agregarCosecha(cosecha);
+        sistemaFincas.eliminarCosecha(cosecha);
+        Optional<Cosecha> optionalC = sistemaFincas.buscarCosecha(idCosecha);
+        Assertions.assertThat(optionalC.isPresent()).isFalse();
+    }
+
 }
