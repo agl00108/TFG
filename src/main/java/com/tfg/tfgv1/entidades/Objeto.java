@@ -4,16 +4,25 @@
  */
 package com.tfg.tfgv1.entidades;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import org.springframework.data.geo.Polygon;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+@Entity
 public class Objeto
 {
     @NotNull
     @Min(-1)
+    @Id
+    @Column(name = "ID_OBJETO")
     private Integer idObjeto; //ID del objeto
     @NotBlank
+    @Column(name = "ZONA_UBICACION")
     private String zonaUbicacion; //Nombre de la zona donde se ubica
     @NotNull
     @Min(-1)
@@ -22,7 +31,8 @@ public class Objeto
     @Min(-1)
     private Integer zonaProvinciaCodigo; //Código de la provincia donde se ubica la zona
 
-    //private JGeometry prueba; Falta el SDO_GEOMETRY
+    @Column(name="POLIGONO_ENVOLVENTE",columnDefinition = "MDSYS.SDO_GEOMETRY")
+    private Polygon poligonoEnvolvente;
 
     /**
      * @brief constructor por defecto
@@ -33,6 +43,7 @@ public class Objeto
         zonaUbicacion="";
         zonaMunicipioCodigo=-1;
         zonaProvinciaCodigo=-1;
+        poligonoEnvolvente=null;
     }
 
     /**

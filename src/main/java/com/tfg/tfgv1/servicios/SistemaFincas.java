@@ -31,6 +31,9 @@ public class SistemaFincas
     @Autowired
     CosechaRepositorio cosechaRepositorio;
 
+    @Autowired
+    ObjetoRepositorio objetoRepositorio;
+
     public SistemaFincas()
     {}
 
@@ -152,5 +155,29 @@ public class SistemaFincas
     public void eliminarCosecha(Cosecha cosecha)
     {
         cosechaRepositorio.borrar(cosecha);
+    }
+
+    @Cacheable("objetos")
+    public Optional<Objeto> buscarObjeto(Integer id)
+    {
+        return objetoRepositorio.buscar(id);
+    }
+
+    @CacheEvict(value = "objetos", key = "#objeto.idObjeto")
+    public void agregarObjeto(Objeto objeto)
+    {
+        objetoRepositorio.guardar(objeto);
+    }
+
+    @Transactional
+    public void actualizarObjeto(Objeto objeto)
+    {
+        objetoRepositorio.actualizar(objeto);
+    }
+
+    @CacheEvict(value = "objetos", key = "#objeto.idObjeto")
+    public void eliminarObjeto(Objeto objeto)
+    {
+        objetoRepositorio.borrar(objeto);
     }
 }
