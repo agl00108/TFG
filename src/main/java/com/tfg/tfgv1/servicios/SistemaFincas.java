@@ -1,6 +1,8 @@
 package com.tfg.tfgv1.servicios;
 
-import com.tfg.tfgv1.Ids.*;
+import com.tfg.tfgv1.Ids.FincaId;
+import com.tfg.tfgv1.Ids.MunicipioId;
+import com.tfg.tfgv1.Ids.ZonaId;
 import com.tfg.tfgv1.entidades.*;
 import com.tfg.tfgv1.repositorios.*;
 import jakarta.transaction.Transactional;

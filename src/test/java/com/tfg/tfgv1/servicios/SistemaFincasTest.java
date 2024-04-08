@@ -394,4 +394,63 @@ public class SistemaFincasTest
         Assertions.assertThat(optionalC.isPresent()).isFalse();
     }
 
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarObjeto()
+    {
+        //Primero buscamos la zona
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        MunicipioId municipioId = new MunicipioId(5, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId("J2", optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        Assertions.assertThat(optionalZona.isPresent()).isTrue();
+
+        Integer idObjeto = 2;
+        Optional<Objeto> olivo = sistemaFincas.buscarObjeto(idObjeto);
+        Assertions.assertThat(olivo.isPresent()).isTrue();
+        Assertions.assertThat(olivo.get().getIdObjeto()).isEqualTo(2);
+        Assertions.assertThat(olivo.get().getZonaUbicacion()).isEqualTo("J2");
+    }
+/*
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testInsertarObjeto()
+    {
+        Integer idObjeto = 18;
+        Objeto objeto = new Objeto(idObjeto, "Zona de prueba", 1, 1);
+        sistemaFincas.agregarObjeto(objeto);
+        Optional<Objeto> optional = sistemaFincas.buscarObjeto(idObjeto);
+        Assertions.assertThat(optional.isPresent()).isTrue();
+        Assertions.assertThat(optional.get().getIdObjeto()).isEqualTo(objeto.getIdObjeto());
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testModificarObjeto()
+    {
+        Integer idObjeto = 21;
+        Objeto objeto = new Objeto(idObjeto, "Zona de prueba", 1, 1);
+        sistemaFincas.agregarObjeto(objeto);
+        String nombreZona = "Zona modificada";
+        objeto.setZonaUbicacion(nombreZona);
+        sistemaFincas.actualizarObjeto(objeto);
+        Optional<Objeto> optional = sistemaFincas.buscarObjeto(idObjeto);
+        Assertions.assertThat(optional.isPresent()).isTrue();
+        Assertions.assertThat(optional.get().getIdObjeto()).isEqualTo(objeto.getIdObjeto());
+        Assertions.assertThat(optional.get().getZonaUbicacion()).isEqualTo("Zona modificada");
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testEliminarObjeto()
+    {
+        Integer idObjeto = 18;
+        Objeto objeto = new Objeto(idObjeto, "Zona de prueba", 1, 1);
+        sistemaFincas.agregarObjeto(objeto);
+        sistemaFincas.eliminarObjeto(objeto);
+        Optional<Objeto> optional = sistemaFincas.buscarObjeto(idObjeto);
+        Assertions.assertThat(optional.isPresent()).isFalse();
+    }
+*/
 }

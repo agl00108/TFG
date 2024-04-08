@@ -4,16 +4,16 @@
  */
 package com.tfg.tfgv1.entidades;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import org.springframework.data.geo.Polygon;
+import jakarta.persistence.*;
+import lombok.Getter;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "OBJETO", schema="ALBAGOMEZ")
 public class Objeto
 {
     @NotNull
@@ -21,18 +21,23 @@ public class Objeto
     @Id
     @Column(name = "ID_OBJETO")
     private Integer idObjeto; //ID del objeto
-    @NotBlank
-    @Column(name = "ZONA_UBICACION")
-    private String zonaUbicacion; //Nombre de la zona donde se ubica
-    @NotNull
-    @Min(-1)
-    private Integer zonaMunicipioCodigo; //Código del municipio donde se ubica
-    @NotNull
-    @Min(-1)
-    private Integer zonaProvinciaCodigo; //Código de la provincia donde se ubica la zona
 
+    @Getter
+    @Column(name="TIPO_OBJETO")
+    private String tipoObjeto; //Tipo de objeto
+
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name = "ZONA_MUNICIPIO_CODIGO", referencedColumnName = "MUNICIPIO_CODIGO"),
+            @JoinColumn(name = "ZONA_PROVINCIA_CODIGO", referencedColumnName = "PROVINCIA_CODIGO"),
+            @JoinColumn(name = "ZONA_UBICACION", referencedColumnName = "UBICACION")
+    })
+    private Zona zona;
     @Column(name="POLIGONO_ENVOLVENTE",columnDefinition = "MDSYS.SDO_GEOMETRY")
     private Polygon poligonoEnvolvente;
+
+    @Column(name="PUNTO_MEDIO",columnDefinition = "MDSYS.SDO_GEOMETRY")
+    private Point puntoMedio;
 
     /**
      * @brief constructor por defecto
@@ -40,29 +45,28 @@ public class Objeto
     public Objeto()
     {
         idObjeto=-1;
-        zonaUbicacion="";
-        zonaMunicipioCodigo=-1;
-        zonaProvinciaCodigo=-1;
+        zona=null;
         poligonoEnvolvente=null;
+        puntoMedio=null;
     }
 
     /**
      * @brief Constructor por defecto
      * @param idObjeto ID del objeto
-     * @param zonaUbicacion Nombre de la zona donde se ubica
-     * @param zonaMunicipioCodigo Código del municipio donde se ubica
-     * @param zonaProvinciaCodigo Código de la provincia donde se ubica la zona
+     * @param zona Zona donde se ubica
+     * @param poligonoEnvolvente Poligono envolvente del objeto
+     * @param puntoMedio Punto medio del objeto
      */
-    public Objeto(Integer idObjeto, String zonaUbicacion, Integer zonaMunicipioCodigo, Integer zonaProvinciaCodigo)
+    public Objeto(Integer idObjeto, String tipoObjeto, Zona zona, Polygon poligonoEnvolvente, Point puntoMedio)
     {
         this.idObjeto = idObjeto;
-        this.zonaUbicacion = zonaUbicacion;
-        this.zonaMunicipioCodigo = zonaMunicipioCodigo;
-        this.zonaProvinciaCodigo = zonaProvinciaCodigo;
+        this.tipoObjeto = tipoObjeto;
+        this.zona = zona;
+        this.poligonoEnvolvente = poligonoEnvolvente;
+        this.puntoMedio = puntoMedio;
     }
 
     //GETTERS DE LA CLASE
-
     public Integer getIdObjeto()
     {
         return idObjeto;
@@ -70,39 +74,40 @@ public class Objeto
 
     public String getZonaUbicacion()
     {
-        return zonaUbicacion;
+        return zona.getUbicacion();
     }
 
     public Integer getZonaMunicipioCodigo()
     {
-        return zonaMunicipioCodigo;
+        return zona.getMunicipioCodigo();
     }
 
     public Integer getZonaProvinciaCodigo()
     {
-        return zonaProvinciaCodigo;
+        return zona.getProvinciaCodigo();
+    }
+
+    public String getTipoObjeto() {
+        return tipoObjeto;
+    }
+
+    public Zona getZona() {
+        return zona;
+    }
+
+    public Polygon getPoligonoEnvolvente() {
+        return poligonoEnvolvente;
+    }
+
+    public Point getPuntoMedio() {
+        return puntoMedio;
     }
 
     //SETTERS DE LA CLASE
 
-    public void setIdObjeto(Integer idObjeto)
-    {
-        this.idObjeto = idObjeto;
-    }
-
     public void setZonaUbicacion(String zonaUbicacion)
     {
-        this.zonaUbicacion = zonaUbicacion;
-    }
-
-    public void setZonaMunicipioCodigo(Integer zonaMunicipioCodigo)
-    {
-        this.zonaMunicipioCodigo = zonaMunicipioCodigo;
-    }
-
-    public void setZonaProvinciaCodigo(Integer zonaProvinciaCodigo)
-    {
-        this.zonaProvinciaCodigo = zonaProvinciaCodigo;
+        this.zona.setUbicacion(zonaUbicacion);
     }
 
     /**
@@ -114,9 +119,9 @@ public class Objeto
     {
         return "Objeto{" +
                 "idObjeto=" + idObjeto +
-                ", zonaUbicacion='" + zonaUbicacion + '\'' +
-                ", zonaMunicipioCodigo=" + zonaMunicipioCodigo +
-                ", zonaProvinciaCodigo=" + zonaProvinciaCodigo +
+                ", zonaUbicacion='" + zona.getUbicacion() + '\'' +
+                ", zonaMunicipioCodigo=" + zona.getMunicipioCodigo() +
+                ", zonaProvinciaCodigo=" + zona.getMunicipioCodigo() +
                 '}';
     }
 }

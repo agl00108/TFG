@@ -5,7 +5,10 @@
 package com.tfg.tfgv1.entidades;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class Historico_datos

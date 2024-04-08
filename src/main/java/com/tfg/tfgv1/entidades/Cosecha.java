@@ -5,7 +5,9 @@
 package com.tfg.tfgv1.entidades;
 
 import jakarta.persistence.*;
-import javax.validation.constraints.*;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "COSECHA", schema="ALBAGOMEZ")

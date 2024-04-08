@@ -4,7 +4,8 @@
  */
 package com.tfg.tfgv1.entidades;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 enum Rol
 {
     ADMIN,
