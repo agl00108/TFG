@@ -1,8 +1,6 @@
 package com.tfg.tfgv1.servicios;
 
-import com.tfg.tfgv1.Ids.FincaId;
-import com.tfg.tfgv1.Ids.MunicipioId;
-import com.tfg.tfgv1.Ids.ZonaId;
+import com.tfg.tfgv1.Ids.*;
 import com.tfg.tfgv1.entidades.*;
 import com.tfg.tfgv1.repositorios.*;
 import jakarta.transaction.Transactional;
@@ -35,6 +33,12 @@ public class SistemaFincas
 
     @Autowired
     ObjetoRepositorio objetoRepositorio;
+
+    @Autowired
+    HistoricoFincaRepositorio historicoFincaRepositorio;
+
+    @Autowired
+    HistoricoDatosRepositorio historicoDatosRepositorio;
 
     public SistemaFincas()
     {}
@@ -181,5 +185,53 @@ public class SistemaFincas
     public void eliminarObjeto(Objeto objeto)
     {
         objetoRepositorio.borrar(objeto);
+    }
+
+    @Cacheable("historicoFincas")
+    public Optional<HistoricoFinca> buscarHistoricoFinca(HistoricoFincaId id)
+    {
+        return historicoFincaRepositorio.buscar(id);
+    }
+
+    @CacheEvict(value = "historicoFincas", key = "#historicoFinca.id")
+    public void agregarHistoricoFinca(HistoricoFinca historicoFinca)
+    {
+        historicoFincaRepositorio.guardar(historicoFinca);
+    }
+
+    @Transactional
+    public void actualizarHistoricoFinca(HistoricoFinca historicoFinca)
+    {
+        historicoFincaRepositorio.actualizar(historicoFinca);
+    }
+
+    @CacheEvict(value = "historicoFincas", key = "#historicoFinca.id")
+    public void eliminarHistoricoFinca(HistoricoFinca historicoFinca)
+    {
+        historicoFincaRepositorio.borrar(historicoFinca);
+    }
+
+    @Cacheable("historicoDatos")
+    public Optional<HistoricoDatos> buscarHistoricoDatos(HistoricoDatosId id)
+    {
+        return historicoDatosRepositorio.buscar(id);
+    }
+
+    @CacheEvict(value = "historicoDatos", key = "#historicoDatosId.id")
+    public void agregarHistoricoDatos(HistoricoDatosId historicoDatosId)
+    {
+        historicoDatosRepositorio.guardar(historicoDatosId);
+    }
+
+    @Transactional
+    public void actualizarHistoricoDatos(HistoricoDatosId historicoDatosId)
+    {
+        historicoDatosRepositorio.actualizar(historicoDatosId);
+    }
+
+    @CacheEvict(value = "historicoDatos", key = "#historicoDatosId.id")
+    public void eliminarHistoricoDatos(HistoricoDatosId historicoDatosId)
+    {
+        historicoDatosRepositorio.borrar(historicoDatosId);
     }
 }

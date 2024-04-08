@@ -1,6 +1,7 @@
 package com.tfg.tfgv1.repositorios;
 
 import com.tfg.tfgv1.Ids.HistoricoDatosId;
+import com.tfg.tfgv1.entidades.HistoricoDatos;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -17,9 +18,9 @@ public class HistoricoDatosRepositorio
     EntityManager em;
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public Optional<HistoricoDatosId> buscar(Integer codigo)
+    public Optional<HistoricoDatos> buscar(HistoricoDatosId id)
     {
-        return Optional.ofNullable(em.find(HistoricoDatosId.class, codigo));
+        return Optional.ofNullable(em.find(HistoricoDatos.class, id));
     }
 
     public void guardar(HistoricoDatosId historicoDatosId)

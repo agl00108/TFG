@@ -1,6 +1,8 @@
 package com.tfg.tfgv1.servicios;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tfg.tfgv1.Ids.FincaId;
+import com.tfg.tfgv1.Ids.HistoricoFincaId;
 import com.tfg.tfgv1.Ids.MunicipioId;
 import com.tfg.tfgv1.Ids.ZonaId;
 import com.tfg.tfgv1.TfgV1Application;
@@ -18,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
@@ -479,7 +482,6 @@ public class SistemaFincasTest
         Optional<Objeto> olivo = sistemaFincas.buscarObjeto(objeto.getIdObjeto());
         Assertions.assertThat(olivo.isPresent()).isTrue();
         Assertions.assertThat(olivo.get().getTipoObjeto()).isEqualTo("Olivo");
-
     }
 
     @Test
@@ -511,6 +513,24 @@ public class SistemaFincasTest
         sistemaFincas.eliminarObjeto(objeto);
         Optional<Objeto> existe = sistemaFincas.buscarObjeto(objeto.getIdObjeto());
         Assertions.assertThat(existe.isPresent()).isFalse();
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarHistoricoFinca() throws JsonProcessingException {
+        //Primero buscamos la finca de donde son los datos
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId("H1", optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        FincaId fincaId = new FincaId(2,8,1,optionalZona.get());
+        Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
+
+        //Ahora buscamos el historico de la finca
+        HistoricoFincaId historicoFincaId = new HistoricoFincaId(LocalDate.of(2022, 4, 1), optionalFinca.get());
+
+
     }
 
 }
