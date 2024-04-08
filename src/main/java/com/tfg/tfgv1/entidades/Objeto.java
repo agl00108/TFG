@@ -14,12 +14,14 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "OBJETO", schema="ALBAGOMEZ")
+@SequenceGenerator(name="ID_GENERATOR", sequenceName="MY_SEQUENCE", initialValue=2663)
 public class Objeto
 {
     @NotNull
     @Min(-1)
     @Id
     @Column(name = "ID_OBJETO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ID_GENERATOR")
     private Integer idObjeto; //ID del objeto
 
     @Getter
@@ -52,14 +54,12 @@ public class Objeto
 
     /**
      * @brief Constructor por defecto
-     * @param idObjeto ID del objeto
      * @param zona Zona donde se ubica
      * @param poligonoEnvolvente Poligono envolvente del objeto
      * @param puntoMedio Punto medio del objeto
      */
-    public Objeto(Integer idObjeto, String tipoObjeto, Zona zona, Polygon poligonoEnvolvente, Point puntoMedio)
+    public Objeto(String tipoObjeto, Zona zona, Polygon poligonoEnvolvente, Point puntoMedio)
     {
-        this.idObjeto = idObjeto;
         this.tipoObjeto = tipoObjeto;
         this.zona = zona;
         this.poligonoEnvolvente = poligonoEnvolvente;
@@ -103,11 +103,17 @@ public class Objeto
         return puntoMedio;
     }
 
+
     //SETTERS DE LA CLASE
 
     public void setZonaUbicacion(String zonaUbicacion)
     {
         this.zona.setUbicacion(zonaUbicacion);
+    }
+
+    public void setTipoObjeto(String tipoObjeto)
+    {
+        this.tipoObjeto = tipoObjeto;
     }
 
     /**

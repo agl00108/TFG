@@ -9,6 +9,10 @@ import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
@@ -412,45 +416,101 @@ public class SistemaFincasTest
         Assertions.assertThat(olivo.get().getIdObjeto()).isEqualTo(2);
         Assertions.assertThat(olivo.get().getZonaUbicacion()).isEqualTo("J2");
     }
-/*
+
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void testInsertarObjeto()
     {
-        Integer idObjeto = 18;
-        Objeto objeto = new Objeto(idObjeto, "Zona de prueba", 1, 1);
+        //Primero buscamos la zona
+        Optional<Provincia> optional = sistemaFincas.buscarProvincia(23);
+        MunicipioId municipioId = new MunicipioId(5, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId("J2", optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Coordinate[] polygonCoordinates = new Coordinate[] {
+                new Coordinate(410329.59375, 4207587.5),
+                new Coordinate(410329.59375, 4207587.5),
+                new Coordinate(410329.59375, 4207589),
+                new Coordinate(410329.59375, 4207589),
+                new Coordinate(410329.59375, 4207587.5)
+        };
+        Polygon polygon = geometryFactory.createPolygon(polygonCoordinates);
+
+        Coordinate pointCoordinate = new Coordinate(410330.875, 4207588.25);
+        Point point = geometryFactory.createPoint(pointCoordinate);
+
+        Objeto objeto = new Objeto("Olivo", optionalZona.get(), polygon, point);
         sistemaFincas.agregarObjeto(objeto);
-        Optional<Objeto> optional = sistemaFincas.buscarObjeto(idObjeto);
-        Assertions.assertThat(optional.isPresent()).isTrue();
-        Assertions.assertThat(optional.get().getIdObjeto()).isEqualTo(objeto.getIdObjeto());
+        Optional<Objeto> olivo = sistemaFincas.buscarObjeto(objeto.getIdObjeto());
+        Assertions.assertThat(olivo.isPresent()).isTrue();
+        Assertions.assertThat(olivo.get().getIdObjeto()).isEqualTo(objeto.getIdObjeto());
     }
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void testModificarObjeto()
     {
-        Integer idObjeto = 21;
-        Objeto objeto = new Objeto(idObjeto, "Zona de prueba", 1, 1);
+        //Primero buscamos la zona
+        Optional<Provincia> optional = sistemaFincas.buscarProvincia(23);
+        MunicipioId municipioId = new MunicipioId(5, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId("J2", optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Coordinate[] polygonCoordinates = new Coordinate[] {
+                new Coordinate(410329.59375, 4207587.5),
+                new Coordinate(410329.59375, 4207587.5),
+                new Coordinate(410329.59375, 4207589),
+                new Coordinate(410329.59375, 4207589),
+                new Coordinate(410329.59375, 4207587.5)
+        };
+        Polygon polygon = geometryFactory.createPolygon(polygonCoordinates);
+
+        Coordinate pointCoordinate = new Coordinate(410330.875, 4207588.25);
+        Point point = geometryFactory.createPoint(pointCoordinate);
+
+        Objeto objeto = new Objeto("Arbusto", optionalZona.get(), polygon, point);
         sistemaFincas.agregarObjeto(objeto);
-        String nombreZona = "Zona modificada";
-        objeto.setZonaUbicacion(nombreZona);
+        objeto.setTipoObjeto("Olivo");
         sistemaFincas.actualizarObjeto(objeto);
-        Optional<Objeto> optional = sistemaFincas.buscarObjeto(idObjeto);
-        Assertions.assertThat(optional.isPresent()).isTrue();
-        Assertions.assertThat(optional.get().getIdObjeto()).isEqualTo(objeto.getIdObjeto());
-        Assertions.assertThat(optional.get().getZonaUbicacion()).isEqualTo("Zona modificada");
+        Optional<Objeto> olivo = sistemaFincas.buscarObjeto(objeto.getIdObjeto());
+        Assertions.assertThat(olivo.isPresent()).isTrue();
+        Assertions.assertThat(olivo.get().getTipoObjeto()).isEqualTo("Olivo");
+
     }
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void testEliminarObjeto()
     {
-        Integer idObjeto = 18;
-        Objeto objeto = new Objeto(idObjeto, "Zona de prueba", 1, 1);
+        //Primero buscamos la zona
+        Optional<Provincia> optional = sistemaFincas.buscarProvincia(23);
+        MunicipioId municipioId = new MunicipioId(5, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId("J2", optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Coordinate[] polygonCoordinates = new Coordinate[] {
+                new Coordinate(410329.59375, 4207587.5),
+                new Coordinate(410329.59375, 4207587.5),
+                new Coordinate(410329.59375, 4207589),
+                new Coordinate(410329.59375, 4207589),
+                new Coordinate(410329.59375, 4207587.5)
+        };
+        Polygon polygon = geometryFactory.createPolygon(polygonCoordinates);
+
+        Coordinate pointCoordinate = new Coordinate(410330.875, 4207588.25);
+        Point point = geometryFactory.createPoint(pointCoordinate);
+
+        Objeto objeto = new Objeto("Arbusto", optionalZona.get(), polygon, point);
         sistemaFincas.agregarObjeto(objeto);
         sistemaFincas.eliminarObjeto(objeto);
-        Optional<Objeto> optional = sistemaFincas.buscarObjeto(idObjeto);
-        Assertions.assertThat(optional.isPresent()).isFalse();
+        Optional<Objeto> existe = sistemaFincas.buscarObjeto(objeto.getIdObjeto());
+        Assertions.assertThat(existe.isPresent()).isFalse();
     }
-*/
+
 }
