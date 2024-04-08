@@ -517,7 +517,8 @@ public class SistemaFincasTest
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testBuscarHistoricoFinca() throws JsonProcessingException {
+    public void testBuscarHistoricoFinca() throws JsonProcessingException
+    {
         //Primero buscamos la finca de donde son los datos
         Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
         MunicipioId municipioId = new MunicipioId(87, optional.get());
@@ -529,8 +530,76 @@ public class SistemaFincasTest
 
         //Ahora buscamos el historico de la finca
         HistoricoFincaId historicoFincaId = new HistoricoFincaId(LocalDate.of(2022, 4, 1), optionalFinca.get());
-
-
+        Optional<HistoricoFinca> optionalH = sistemaFincas.buscarHistoricoFinca(historicoFincaId);
+        Assertions.assertThat(optionalH.isPresent()).isTrue();
     }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testAgregarHistoricoFinca() throws JsonProcessingException
+    {
+        //Primero buscamos la finca de donde son los datos
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId("H1", optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        FincaId fincaId = new FincaId(2,8,1,optionalZona.get());
+        Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
+
+        //Ahora buscamos el historico de la finca
+        HistoricoFincaId historicoFincaId = new HistoricoFincaId(LocalDate.now(), optionalFinca.get());
+        HistoricoFinca historicoFinca = new HistoricoFinca(LocalDate.now(), optionalFinca.get(), "", "", 1.23, "prueba", "satélite");
+        sistemaFincas.agregarHistoricoFinca(historicoFinca);
+        Optional<HistoricoFinca> optionalH = sistemaFincas.buscarHistoricoFinca(historicoFincaId);
+        Assertions.assertThat(optionalH.isPresent()).isTrue();
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testModificarHistoricoFinca() throws JsonProcessingException
+    {
+        //Primero buscamos la finca de donde son los datos
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId("H1", optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        FincaId fincaId = new FincaId(2,8,1,optionalZona.get());
+        Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
+
+        //Ahora buscamos el historico de la finca
+        HistoricoFincaId historicoFincaId = new HistoricoFincaId(LocalDate.now(), optionalFinca.get());
+        HistoricoFinca historicoFinca = new HistoricoFinca(LocalDate.now(), optionalFinca.get(), "", "", 1.23, "prueba", "satélite");
+        sistemaFincas.agregarHistoricoFinca(historicoFinca);
+        historicoFinca.setLluvia(2.23);
+        sistemaFincas.actualizarHistoricoFinca(historicoFinca);
+        Optional<HistoricoFinca> optionalH = sistemaFincas.buscarHistoricoFinca(historicoFincaId);
+        Assertions.assertThat(optionalH.isPresent()).isTrue();
+        Assertions.assertThat(optionalH.get().getLluvia()).isEqualTo(2.23);
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testEliminarHistoricoFinca() throws JsonProcessingException
+    {
+        //Primero buscamos la finca de donde son los datos
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
+        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId("H1", optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        FincaId fincaId = new FincaId(2,8,1,optionalZona.get());
+        Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
+
+        //Ahora buscamos el historico de la finca
+        HistoricoFincaId historicoFincaId = new HistoricoFincaId(LocalDate.now(), optionalFinca.get());
+        HistoricoFinca historicoFinca = new HistoricoFinca(LocalDate.now(), optionalFinca.get(), "", "", 1.23, "prueba", "satélite");
+        sistemaFincas.agregarHistoricoFinca(historicoFinca);
+        sistemaFincas.eliminarHistoricoFinca(historicoFinca);
+        Optional<HistoricoFinca> optionalH = sistemaFincas.buscarHistoricoFinca(historicoFincaId);
+        Assertions.assertThat(optionalH.isPresent()).isFalse();
+    }
+
 
 }
