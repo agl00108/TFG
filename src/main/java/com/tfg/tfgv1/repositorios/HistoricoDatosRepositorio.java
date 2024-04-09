@@ -23,18 +23,18 @@ public class HistoricoDatosRepositorio
         return Optional.ofNullable(em.find(HistoricoDatos.class, id));
     }
 
-    public void guardar(HistoricoDatosId historicoDatosId)
+    public void guardar(HistoricoDatos historicoDatos)
     {
-        em.persist(historicoDatosId);
+        em.persist(historicoDatos);
     }
 
-    public void actualizar(HistoricoDatosId historicoDatosId)
+    public void actualizar(HistoricoDatos historicoDatos)
     {
-        em.merge(historicoDatosId);
+        em.merge(historicoDatos);
     }
 
-    public void borrar(HistoricoDatosId historicoDatosId)
+    public void borrar(HistoricoDatos historicoDatos)
     {
-        em.remove(em.merge(historicoDatosId));
+        em.remove(em.merge(historicoDatos));
     }
 }

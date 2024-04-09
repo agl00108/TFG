@@ -1,10 +1,7 @@
 package com.tfg.tfgv1.servicios;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.tfg.tfgv1.Ids.FincaId;
-import com.tfg.tfgv1.Ids.HistoricoFincaId;
-import com.tfg.tfgv1.Ids.MunicipioId;
-import com.tfg.tfgv1.Ids.ZonaId;
+import com.tfg.tfgv1.Ids.*;
 import com.tfg.tfgv1.TfgV1Application;
 import com.tfg.tfgv1.entidades.*;
 import jakarta.transaction.Transactional;
@@ -517,19 +514,20 @@ public class SistemaFincasTest
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
-    public void testBuscarHistoricoFinca() throws JsonProcessingException
+    public void testBuscarHistoricoFinca()
     {
         //Primero buscamos la finca de donde son los datos
+        //Buscamos la finca donde se ubica
         Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
         MunicipioId municipioId = new MunicipioId(87, optional.get());
         Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
-        ZonaId zonaId = new ZonaId("H1", optionalMunicipio.get());
+        ZonaId zonaId = new ZonaId("T20", optionalMunicipio.get());
         Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
-        FincaId fincaId = new FincaId(2,8,1,optionalZona.get());
+        FincaId fincaId = new FincaId(43,1,1,optionalZona.get());
         Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
 
         //Ahora buscamos el historico de la finca
-        HistoricoFincaId historicoFincaId = new HistoricoFincaId(LocalDate.of(2022, 4, 1), optionalFinca.get());
+        HistoricoFincaId historicoFincaId = new HistoricoFincaId(LocalDate.of(2018, 4, 1), optionalFinca.get());
         Optional<HistoricoFinca> optionalH = sistemaFincas.buscarHistoricoFinca(historicoFincaId);
         Assertions.assertThat(optionalH.isPresent()).isTrue();
     }
@@ -598,6 +596,71 @@ public class SistemaFincasTest
         sistemaFincas.agregarHistoricoFinca(historicoFinca);
         sistemaFincas.eliminarHistoricoFinca(historicoFinca);
         Optional<HistoricoFinca> optionalH = sistemaFincas.buscarHistoricoFinca(historicoFincaId);
+        Assertions.assertThat(optionalH.isPresent()).isFalse();
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarHistoricoDatos()
+    {
+        Integer idObjeto = 34;
+        Optional<Objeto> olivo = sistemaFincas.buscarObjeto(idObjeto);
+
+        //Ahora buscamos el historico del olivo
+        HistoricoDatosId historicoDatosId = new HistoricoDatosId(LocalDate.of(2018, 4, 1), olivo.get());
+        Optional<HistoricoDatos> optionalH = sistemaFincas.buscarHistoricoDatos(historicoDatosId);
+        Assertions.assertThat(optionalH.isPresent()).isTrue();
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testAgregarHistoricoDatos()
+    {
+        Integer idObjeto = 34;
+        Optional<Objeto> olivo = sistemaFincas.buscarObjeto(idObjeto);
+
+        //Ahora buscamos el historico del olivo
+        HistoricoDatosId historicoDatosId = new HistoricoDatosId(LocalDate.now(), olivo.get());
+        String reflectancia="{\"data\":[{\"ID\":\"34\"},{\"Año\":\"2018\"},{\"Mes\":\"Febrero\"},{\"NDMI\":\"-0,03854723647236824\"},{\"NDVI\":\"0,1690598726272583\"},{\"SAVI\":\"0,2535554766654968\"}]}";
+        HistoricoDatos historicoDatos=new HistoricoDatos(LocalDate.now(),null,reflectancia,olivo.get(),"defecto", "satelite");
+        sistemaFincas.agregarHistoricoDatos(historicoDatos);
+        Optional<HistoricoDatos> optionalH = sistemaFincas.buscarHistoricoDatos(historicoDatosId);
+        Assertions.assertThat(optionalH.isPresent()).isTrue();
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testModificarHistoricoDatos()
+    {
+        Integer idObjeto = 34;
+        Optional<Objeto> olivo = sistemaFincas.buscarObjeto(idObjeto);
+
+        //Ahora buscamos el historico del olivo
+        HistoricoDatosId historicoDatosId = new HistoricoDatosId(LocalDate.now(), olivo.get());
+        String reflectancia="{\"data\":[{\"ID\":\"34\"},{\"Año\":\"2018\"},{\"Mes\":\"Febrero\"},{\"NDMI\":\"-0,03854723647236824\"},{\"NDVI\":\"0,1690598726272583\"},{\"SAVI\":\"0,2535554766654968\"}]}";
+        HistoricoDatos historicoDatos=new HistoricoDatos(LocalDate.now(),null,reflectancia,olivo.get(),"defecto", "satelite");
+        sistemaFincas.agregarHistoricoDatos(historicoDatos);
+        historicoDatos.setVolumen(1.23);
+        sistemaFincas.actualizarHistoricoDatos(historicoDatos);
+        Optional<HistoricoDatos> optionalH = sistemaFincas.buscarHistoricoDatos(historicoDatosId);
+        Assertions.assertThat(optionalH.isPresent()).isTrue();
+        Assertions.assertThat(optionalH.get().getVolumen()).isEqualTo(1.23);
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testEliminarHistoricoDatos()
+    {
+        Integer idObjeto = 34;
+        Optional<Objeto> olivo = sistemaFincas.buscarObjeto(idObjeto);
+
+        //Ahora buscamos el historico del olivo
+        HistoricoDatosId historicoDatosId = new HistoricoDatosId(LocalDate.now(), olivo.get());
+        String reflectancia="{\"data\":[{\"ID\":\"34\"},{\"Año\":\"2018\"},{\"Mes\":\"Febrero\"},{\"NDMI\":\"-0,03854723647236824\"},{\"NDVI\":\"0,1690598726272583\"},{\"SAVI\":\"0,2535554766654968\"}]}";
+        HistoricoDatos historicoDatos=new HistoricoDatos(LocalDate.now(),null,reflectancia,olivo.get(),"defecto", "satelite");
+        sistemaFincas.agregarHistoricoDatos(historicoDatos);
+        sistemaFincas.eliminarHistoricoDatos(historicoDatos);
+        Optional<HistoricoDatos> optionalH = sistemaFincas.buscarHistoricoDatos(historicoDatosId);
         Assertions.assertThat(optionalH.isPresent()).isFalse();
     }
 

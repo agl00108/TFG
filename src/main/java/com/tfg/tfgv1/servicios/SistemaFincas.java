@@ -217,21 +217,21 @@ public class SistemaFincas
         return historicoDatosRepositorio.buscar(id);
     }
 
-    @CacheEvict(value = "historicoDatos", key = "#historicoDatosId.id")
-    public void agregarHistoricoDatos(HistoricoDatosId historicoDatosId)
+    @CacheEvict(value = "historicoDatos", key = "#historicoDatos.id")
+    public void agregarHistoricoDatos(HistoricoDatos historicoDatos)
     {
-        historicoDatosRepositorio.guardar(historicoDatosId);
+        historicoDatosRepositorio.guardar(historicoDatos);
     }
 
     @Transactional
-    public void actualizarHistoricoDatos(HistoricoDatosId historicoDatosId)
+    public void actualizarHistoricoDatos(HistoricoDatos historicoDatos)
     {
-        historicoDatosRepositorio.actualizar(historicoDatosId);
+        historicoDatosRepositorio.actualizar(historicoDatos);
     }
 
-    @CacheEvict(value = "historicoDatos", key = "#historicoDatosId.id")
-    public void eliminarHistoricoDatos(HistoricoDatosId historicoDatosId)
+    @CacheEvict(value = "historicoDatos", key = "#historicoDatos.id")
+    public void eliminarHistoricoDatos(HistoricoDatos historicoDatos)
     {
-        historicoDatosRepositorio.borrar(historicoDatosId);
+        historicoDatosRepositorio.borrar(historicoDatos);
     }
 }
