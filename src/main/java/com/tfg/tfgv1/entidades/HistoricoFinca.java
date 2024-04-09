@@ -6,15 +6,13 @@ package com.tfg.tfgv1.entidades;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tfg.tfgv1.Ids.HistoricoFincaId;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
 @Entity
@@ -25,16 +23,16 @@ public class HistoricoFinca
     private HistoricoFincaId id;
 
     @JsonProperty("Reflectancia")
+    @Setter @Getter
     @Column(name = "REFLECTANCIA")
-    @Setter
-    @Getter
-    private String reflectancia; //Índices de vegetación en ese momento
+    @Lob @NotBlank
+    private byte[] reflectancia; //Índices de vegetación en ese momento
 
     @JsonProperty("Temperatura")
     @Column(name = "TEMPERATURA")
-    @Setter
-    @Getter
-    private String temperatura; //Temperatura en ese momento
+    @Setter @Getter
+    @Lob @NotBlank
+    private byte[] temperatura; //Temperatura en ese momento
 
     @Min(0)
     @Setter
@@ -59,8 +57,6 @@ public class HistoricoFinca
     public HistoricoFinca()
     {
         this.id = new HistoricoFincaId();
-        reflectancia="defecto";
-        temperatura="defecto";
         lluvia=0.0;
         nombreFuente="defecto";
         tipoFuente="defecto";
@@ -80,8 +76,8 @@ public class HistoricoFinca
                           String temperatura, Double lluvia, String nombreFuente, String tipoFuente)
     {
         this.id = new HistoricoFincaId(fecha, finca);
-        this.reflectancia = reflectancia;
-        this.temperatura = temperatura;
+        this.reflectancia = reflectancia.getBytes(StandardCharsets.UTF_8);
+        this.temperatura = temperatura.getBytes(StandardCharsets.UTF_8);
         this.lluvia = lluvia;
         this.nombreFuente = nombreFuente;
         this.tipoFuente = tipoFuente;
@@ -141,8 +137,8 @@ public class HistoricoFinca
                 ", poligono=" + id.getFinca().getPoligono() +
                 ", parcela=" + id.getFinca().getParcela() +
                 ", recinto=" + id.getFinca().getRecinto() +
-                ", reflectancia='" + reflectancia + '\'' +
-                ", temperatura='" + temperatura + '\'' +
+                ", reflectancia='" + reflectancia.toString() + '\'' +
+                ", temperatura='" + temperatura.toString() + '\'' +
                 ", lluvia=" + lluvia +
                 ", nombreFuente='" + nombreFuente + '\'' +
                 ", tipoFuente='" + tipoFuente + '\'' +

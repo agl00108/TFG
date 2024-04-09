@@ -17,9 +17,9 @@ public class HistoricoFincaId implements Serializable
     @JoinColumns({
             @JoinColumn(name = "MUNICIPIO_CODIGO", referencedColumnName = "MUNICIPIO_CODIGO"),
             @JoinColumn(name = "PROVINCIA_CODIGO", referencedColumnName = "PROVINCIA_CODIGO"),
-            @JoinColumn(name = "FINCA_POLIGONO", referencedColumnName = "POLIGONO"),
-            @JoinColumn(name = "FINCA_PARCELA", referencedColumnName = "PARCELA"),
-            @JoinColumn(name = "FINCA_RECINTO", referencedColumnName = "RECINTO"),
+            @JoinColumn(name = "POLIGONO", referencedColumnName = "POLIGONO"),
+            @JoinColumn(name = "PARCELA", referencedColumnName = "PARCELA"),
+            @JoinColumn(name = "RECINTO", referencedColumnName = "RECINTO"),
             @JoinColumn(name = "ZONA_UBICACION", referencedColumnName = "ZONA_UBICACION")
     })
     private Finca finca; //Finca

@@ -517,17 +517,16 @@ public class SistemaFincasTest
     public void testBuscarHistoricoFinca()
     {
         //Primero buscamos la finca de donde son los datos
-        //Buscamos la finca donde se ubica
         Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
-        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        MunicipioId municipioId = new MunicipioId(32, optional.get());
         Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
-        ZonaId zonaId = new ZonaId("T20", optionalMunicipio.get());
+        ZonaId zonaId = new ZonaId("J4", optionalMunicipio.get());
         Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
-        FincaId fincaId = new FincaId(43,1,1,optionalZona.get());
+        FincaId fincaId = new FincaId(3,101,3,optionalZona.get());
         Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
 
         //Ahora buscamos el historico de la finca
-        HistoricoFincaId historicoFincaId = new HistoricoFincaId(LocalDate.of(2018, 4, 1), optionalFinca.get());
+        HistoricoFincaId historicoFincaId = new HistoricoFincaId(LocalDate.of(2017, 11, 1), optionalFinca.get());
         Optional<HistoricoFinca> optionalH = sistemaFincas.buscarHistoricoFinca(historicoFincaId);
         Assertions.assertThat(optionalH.isPresent()).isTrue();
     }
@@ -538,16 +537,18 @@ public class SistemaFincasTest
     {
         //Primero buscamos la finca de donde son los datos
         Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
-        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        MunicipioId municipioId = new MunicipioId(32, optional.get());
         Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
-        ZonaId zonaId = new ZonaId("H1", optionalMunicipio.get());
+        ZonaId zonaId = new ZonaId("J4", optionalMunicipio.get());
         Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
-        FincaId fincaId = new FincaId(2,8,1,optionalZona.get());
+        FincaId fincaId = new FincaId(3,101,3,optionalZona.get());
         Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
 
-        //Ahora buscamos el historico de la finca
+        //Ahora agregamos el historico de la finca
         HistoricoFincaId historicoFincaId = new HistoricoFincaId(LocalDate.now(), optionalFinca.get());
-        HistoricoFinca historicoFinca = new HistoricoFinca(LocalDate.now(), optionalFinca.get(), "", "", 1.23, "prueba", "satélite");
+        String reflectancia="{\"data\":[{\"ID\":\"23:41:2:36:1\"},{\"AÃ±o\":\"2020\"},{\"Mes\":\"Octubre\"},{\"NDMI\":\"-0,07925405465393229\"},{\"NDVI\":\"0,15500474089456742\"},{\"SAVI\":\"0,23248616011998974\"}]}";
+        String temperatura="{\"data\":[{\"ID\":\"23:41:2:36:1\"},{\"AÃ±o\":\"2020\"},{\"Mes\":\"Octubre\"},{\"max_dia\":\"19,415000000000035\"},{\"mean_dia\":\"18,855410335935343\"},{\"min_dia\":\"18,750000000000043\"},{\"max_noc\":\"6,330000000000041\"},{\"mean_noc\":\"6,3155211527739175\"},{\"min_noc\":\"5,805000000000035\"}]}";
+        HistoricoFinca historicoFinca = new HistoricoFinca(historicoFincaId.getFecha(), optionalFinca.get(), reflectancia, temperatura, 1.23, "prueba", "satélite");
         sistemaFincas.agregarHistoricoFinca(historicoFinca);
         Optional<HistoricoFinca> optionalH = sistemaFincas.buscarHistoricoFinca(historicoFincaId);
         Assertions.assertThat(optionalH.isPresent()).isTrue();
@@ -559,16 +560,18 @@ public class SistemaFincasTest
     {
         //Primero buscamos la finca de donde son los datos
         Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
-        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        MunicipioId municipioId = new MunicipioId(32, optional.get());
         Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
-        ZonaId zonaId = new ZonaId("H1", optionalMunicipio.get());
+        ZonaId zonaId = new ZonaId("J4", optionalMunicipio.get());
         Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
-        FincaId fincaId = new FincaId(2,8,1,optionalZona.get());
+        FincaId fincaId = new FincaId(3,101,3,optionalZona.get());
         Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
 
-        //Ahora buscamos el historico de la finca
+        //Ahora agregamos el historico de la finca
         HistoricoFincaId historicoFincaId = new HistoricoFincaId(LocalDate.now(), optionalFinca.get());
-        HistoricoFinca historicoFinca = new HistoricoFinca(LocalDate.now(), optionalFinca.get(), "", "", 1.23, "prueba", "satélite");
+        String reflectancia="{\"data\":[{\"ID\":\"23:41:2:36:1\"},{\"AÃ±o\":\"2020\"},{\"Mes\":\"Octubre\"},{\"NDMI\":\"-0,07925405465393229\"},{\"NDVI\":\"0,15500474089456742\"},{\"SAVI\":\"0,23248616011998974\"}]}";
+        String temperatura="{\"data\":[{\"ID\":\"23:41:2:36:1\"},{\"AÃ±o\":\"2020\"},{\"Mes\":\"Octubre\"},{\"max_dia\":\"19,415000000000035\"},{\"mean_dia\":\"18,855410335935343\"},{\"min_dia\":\"18,750000000000043\"},{\"max_noc\":\"6,330000000000041\"},{\"mean_noc\":\"6,3155211527739175\"},{\"min_noc\":\"5,805000000000035\"}]}";
+        HistoricoFinca historicoFinca = new HistoricoFinca(historicoFincaId.getFecha(), optionalFinca.get(), reflectancia, temperatura, 1.23, "prueba", "satélite");
         sistemaFincas.agregarHistoricoFinca(historicoFinca);
         historicoFinca.setLluvia(2.23);
         sistemaFincas.actualizarHistoricoFinca(historicoFinca);
@@ -583,16 +586,18 @@ public class SistemaFincasTest
     {
         //Primero buscamos la finca de donde son los datos
         Optional<Provincia> optional=sistemaFincas.buscarProvincia(23);
-        MunicipioId municipioId = new MunicipioId(87, optional.get());
+        MunicipioId municipioId = new MunicipioId(32, optional.get());
         Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
-        ZonaId zonaId = new ZonaId("H1", optionalMunicipio.get());
+        ZonaId zonaId = new ZonaId("J4", optionalMunicipio.get());
         Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
-        FincaId fincaId = new FincaId(2,8,1,optionalZona.get());
+        FincaId fincaId = new FincaId(3,101,3,optionalZona.get());
         Optional<Finca> optionalFinca = sistemaFincas.buscarFinca(fincaId);
 
-        //Ahora buscamos el historico de la finca
+        //Ahora agregamos el historico de la finca
         HistoricoFincaId historicoFincaId = new HistoricoFincaId(LocalDate.now(), optionalFinca.get());
-        HistoricoFinca historicoFinca = new HistoricoFinca(LocalDate.now(), optionalFinca.get(), "", "", 1.23, "prueba", "satélite");
+        String reflectancia="{\"data\":[{\"ID\":\"23:41:2:36:1\"},{\"AÃ±o\":\"2020\"},{\"Mes\":\"Octubre\"},{\"NDMI\":\"-0,07925405465393229\"},{\"NDVI\":\"0,15500474089456742\"},{\"SAVI\":\"0,23248616011998974\"}]}";
+        String temperatura="{\"data\":[{\"ID\":\"23:41:2:36:1\"},{\"AÃ±o\":\"2020\"},{\"Mes\":\"Octubre\"},{\"max_dia\":\"19,415000000000035\"},{\"mean_dia\":\"18,855410335935343\"},{\"min_dia\":\"18,750000000000043\"},{\"max_noc\":\"6,330000000000041\"},{\"mean_noc\":\"6,3155211527739175\"},{\"min_noc\":\"5,805000000000035\"}]}";
+        HistoricoFinca historicoFinca = new HistoricoFinca(historicoFincaId.getFecha(), optionalFinca.get(), reflectancia, temperatura, 1.23, "prueba", "satélite");
         sistemaFincas.agregarHistoricoFinca(historicoFinca);
         sistemaFincas.eliminarHistoricoFinca(historicoFinca);
         Optional<HistoricoFinca> optionalH = sistemaFincas.buscarHistoricoFinca(historicoFincaId);

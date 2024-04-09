@@ -31,7 +31,7 @@ public class HistoricoDatos
     @JsonProperty("Reflectancia")
     @NotBlank
     @Column(name = "REFLECTANCIA")
-    @Lob // Esta anotación indica a Hibernate que este campo es un BLOB
+    @Lob
     private byte[] reflectancia; // Índices de vegetación en ese momento
 
     @NotBlank
