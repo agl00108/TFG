@@ -115,7 +115,10 @@ public class HistoricoFinca
         return id.getFinca().getRecinto();
     }
 
-
+    public String getZonaUbicacion()
+    {
+        return id.getFinca().getZonaUbicacion();
+    }
     //SETTERS DE LA CLASE
     public void setFecha(LocalDate fecha)
     {

@@ -86,6 +86,37 @@ public class Cosecha
         return aceite;
     }
 
+    public Integer getMunicipioCodigo()
+    {
+        return finca.getMunicipioCodigo();
+    }
+
+    public Integer getProvinciaCodigo()
+    {
+        return finca.getCodigoProvincia();
+    }
+
+    public Integer getPoligono()
+    {
+        return finca.getPoligono();
+    }
+
+    public Integer getParcela()
+    {
+        return finca.getParcela();
+    }
+
+    public Integer getRecinto()
+    {
+        return finca.getRecinto();
+    }
+
+    public String getZonaUbicacion()
+    {
+        return finca.getZonaUbicacion();
+    }
+
+
 
     //SETTERS DE LA CLASE
     public void setIdCosecha(Integer idCosecha)

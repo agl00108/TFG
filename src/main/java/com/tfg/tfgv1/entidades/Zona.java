@@ -18,10 +18,10 @@ public class Zona
 {
     @EmbeddedId
     private ZonaId id;
-    @NotNull
+
     @Column(name="LONGITUD")
     private Float longitud; //Longitud de la zona
-    @NotNull
+
     @Column(name="LATITUD")
     private Float latitud; //Latitud de la zona
     @NotBlank
