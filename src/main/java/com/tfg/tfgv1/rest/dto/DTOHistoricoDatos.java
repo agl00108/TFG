@@ -1,11 +1,9 @@
 package com.tfg.tfgv1.rest.dto;
 
 import com.tfg.tfgv1.entidades.HistoricoDatos;
-import com.tfg.tfgv1.entidades.Objeto;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.util.Arrays;
 
 public record DTOHistoricoDatos(
         LocalDate fecha,
@@ -26,7 +24,7 @@ public record DTOHistoricoDatos(
                 historicoDatos.getTipoFuente()
         );
     }
-
+/*
     public HistoricoDatos aHistoricoDatos()
     {
         return new HistoricoDatos(
@@ -37,5 +35,5 @@ public record DTOHistoricoDatos(
                 this.nombreFuente,
                 this.tipoFuente
         );
-    }
+    }*/
 }

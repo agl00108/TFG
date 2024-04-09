@@ -10,6 +10,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
 @Service
@@ -50,9 +52,16 @@ public class SistemaFincas
     }
 
     @CacheEvict(value = "provincias", key = "#codigo")
-    public void agregarProvincia(Provincia provincia)
+    public Provincia agregarProvincia(@NotNull @Valid Provincia provincia)
     {
-        provinciaRepositorio.guardar(provincia);
+        Optional<Provincia> p = provinciaRepositorio.buscar(provincia.getCodigoProvincia());
+        if (p.isPresent())
+            return p.get();
+        else
+        {
+            provinciaRepositorio.guardar(provincia);
+            return provincia;
+        }
     }
 
     @Transactional
