@@ -93,7 +93,7 @@ public class ControladorRESTTest
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void testVerZona()
     {
-        ResponseEntity<DTOProvincia> response = restTemplate.getForEntity("/provincias/23/municipios/41/zonas/1", DTOProvincia.class);
+        ResponseEntity<DTOProvincia> response = restTemplate.getForEntity("/provincias/23/municipios/59/zonas/J1", DTOProvincia.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
@@ -109,7 +109,7 @@ public class ControladorRESTTest
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void testVerFinca()
     {
-        ResponseEntity<DTOProvincia> response = restTemplate.getForEntity("/provincias/23/municipios/41/zonas/1/fincas/1", DTOProvincia.class);
+        ResponseEntity<DTOProvincia> response = restTemplate.getForEntity("/provincias/23/municipios/59/zonas/J1/fincas/6/211/2", DTOProvincia.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
@@ -117,7 +117,7 @@ public class ControladorRESTTest
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void testVerFincaNoEncontrada()
     {
-        ResponseEntity<DTOProvincia> response = restTemplate.getForEntity("/provincias/23/municipios/41/zonas/1/fincas/100", DTOProvincia.class);
+        ResponseEntity<DTOProvincia> response = restTemplate.getForEntity("/provincias/23/municipios/41/zonas/1/fincas/7/2/1", DTOProvincia.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
