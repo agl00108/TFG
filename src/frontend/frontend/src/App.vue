@@ -3,6 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
+  <div class="container">
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
@@ -29,6 +30,7 @@ import { RouterLink, RouterView } from 'vue-router'
       </div>
     </nav>
   </header>
+  </div>
 
   <main>
     <RouterView />
@@ -36,17 +38,21 @@ import { RouterLink, RouterView } from 'vue-router'
 
 </template>
 
-<style scoped>
+<style>
 header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #004d40;
+  background-color: #22472e;
 }
-
 .logo {
   max-width: 160px;
   height: auto;
+}
+body {
+  background-image: url('../src/assets/img/fondo2.png');
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 </style>
