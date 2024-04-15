@@ -1,7 +1,11 @@
 <script setup>
+
 </script>
 
 <template>
-  <main>
-  </main>
+<h3>Enfermedad</h3>
 </template>
+
+<style scoped>
+
+</style>
