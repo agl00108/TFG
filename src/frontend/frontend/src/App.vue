@@ -14,13 +14,13 @@ import Footer from '@/components/Footer.vue'
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link class="nav-link active" aria-current="page" to="/">Home</router-link>
+              <router-link class="nav-link active" aria-current="page" to="/">Inicio</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/finca">Finca</router-link>
+              <router-link class="nav-link" to="/finca">Fincas</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/enfermedad">Enfermedad</router-link>
+              <router-link class="nav-link" to="/enfermedad">Enfermedades</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/analisis">Analisis</router-link>

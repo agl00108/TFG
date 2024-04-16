@@ -29,9 +29,10 @@ export default
 </script>
 
 <style scoped>
-.finca-details {
+.finca-details
+{
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 10px;
-  padding: 20px;
+  padding: 10px;
 }
 </style>
