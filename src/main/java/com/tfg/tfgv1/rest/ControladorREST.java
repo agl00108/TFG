@@ -1,9 +1,17 @@
 package com.tfg.tfgv1.rest;
 
-import com.tfg.tfgv1.Ids.*;
-import com.tfg.tfgv1.entidades.*;
-import com.tfg.tfgv1.excepciones.*;
-import com.tfg.tfgv1.rest.dto.*;
+import com.tfg.tfgv1.Ids.FincaId;
+import com.tfg.tfgv1.Ids.MunicipioId;
+import com.tfg.tfgv1.Ids.ZonaId;
+import com.tfg.tfgv1.entidades.Finca;
+import com.tfg.tfgv1.entidades.Municipio;
+import com.tfg.tfgv1.entidades.Provincia;
+import com.tfg.tfgv1.entidades.Zona;
+import com.tfg.tfgv1.excepciones.ProvinciaYaRegistrada;
+import com.tfg.tfgv1.rest.dto.DTOFinca;
+import com.tfg.tfgv1.rest.dto.DTOMunicipio;
+import com.tfg.tfgv1.rest.dto.DTOProvincia;
+import com.tfg.tfgv1.rest.dto.DTOZona;
 import com.tfg.tfgv1.servicios.SistemaFincas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -139,6 +148,16 @@ public class ControladorREST
             return ResponseEntity.notFound().build();
     }
 
-
+    /**
+     * @brief Función para obtener las fincas con histórico
+     * @return Lista de Fincas
+     */
+    @GetMapping("/FincasConHistorico")
+    @ResponseStatus(HttpStatus.OK)
+    public List<DTOFinca> obtenerFincasConHistorico()
+    {
+        return sistemaFincas.obtenerFincasConHistorico()
+                .stream().map(DTOFinca::new).toList();
+    }
 
 }

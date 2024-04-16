@@ -18,6 +18,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
@@ -668,6 +669,15 @@ public class SistemaFincasTest
         Optional<HistoricoDatos> optionalH = sistemaFincas.buscarHistoricoDatos(historicoDatosId);
         Assertions.assertThat(optionalH.isPresent()).isFalse();
     }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testVerFincasConHistorico()
+    {
+        List<Finca> resultado = sistemaFincas.obtenerFincasConHistorico();
+        Assertions.assertThat(resultado.size()).isGreaterThan(0);
+    }
+
 
 
 }

@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -242,5 +243,11 @@ public class SistemaFincas
     public void eliminarHistoricoDatos(HistoricoDatos historicoDatos)
     {
         historicoDatosRepositorio.borrar(historicoDatos);
+    }
+
+    @Transactional
+    public List<Finca> obtenerFincasConHistorico()
+    {
+        return historicoFincaRepositorio.obtenerFincasConHistorico();
     }
 }

@@ -1,6 +1,7 @@
 package com.tfg.tfgv1.rest;
 
 import com.tfg.tfgv1.TfgV1Application;
+import com.tfg.tfgv1.rest.dto.DTOFinca;
 import com.tfg.tfgv1.rest.dto.DTOProvincia;
 import jakarta.annotation.PostConstruct;
 import org.assertj.core.api.Assertions;
@@ -121,4 +122,13 @@ public class ControladorRESTTest
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testVerFincasConHistorico()
+    {
+        ResponseEntity<DTOFinca[]> response = restTemplate.getForEntity("/FincasConHistorico", DTOFinca[].class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        DTOFinca[] fincas = response.getBody();
+        Assertions.assertThat(fincas).isNotEmpty();
+    }
 }
