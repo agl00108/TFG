@@ -1,21 +1,34 @@
 <template>
   <div>
     <h1>Página de Fincas</h1>
+    <!--
     <DatosFinca :url="urlFinca" />
+    -->
+    <div v-for="finca in fincas" :key="finca.id">
+      <Finca :finca="finca" />
+    </div>
   </div>
 </template>
 
 <script>
-import DatosFinca from '../components/Finca.vue';
+import Finca from '../components/Finca.vue';
 
 export default {
   components: {
-    DatosFinca
+    Finca
   },
   data() {
     return {
-      urlFinca: '/TFG/provincias/23/municipios/59/zonas/J1/fincas/6/211/2'
+      fincas: []
     };
+  },
+  mounted() {
+    fetch('/TFG/FincasConHistorico')
+        .then(response => response.json())
+        .then(data => {
+          this.fincas = data;
+          console.log(data);
+        });
   }
 }
 </script>

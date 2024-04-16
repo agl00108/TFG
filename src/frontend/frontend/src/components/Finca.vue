@@ -17,25 +17,13 @@
   </div>
 </template>
 <script>
-export default {
+export default
+{
   props: {
-    url: {
-      type: String,
+    finca: {
+      type: Object,
       required: true
     }
-  },
-  data() {
-    return {
-      finca: null
-    };
-  },
-  mounted() {
-    fetch(this.url)
-        .then(response => response.json())
-        .then(data => {
-          this.finca = data;
-          console.log(data);
-        });
   }
 }
 </script>
