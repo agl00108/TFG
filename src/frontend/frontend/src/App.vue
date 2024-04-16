@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import Footer from '@/components/Footer.vue'
 </script>
 
 <template>
@@ -33,20 +34,31 @@ import { RouterLink, RouterView } from 'vue-router'
   <main>
     <RouterView />
   </main>
-
+  <Footer />
 </template>
 
-<style scoped>
-header {
+<style>
+header
+{
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #004d40;
+  background-color: #264d34;
 }
 
-.logo {
+.logo
+{
   max-width: 160px;
   height: auto;
 }
+
+body
+{
+  background-image: url('./assets/img/fondo2.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
 </style>
+
