@@ -121,8 +121,8 @@ public class ControladorREST
      * @param recinto recinto de la finca
      */
     @GetMapping("/provincias/{idP}/municipios/{idM}/zonas/{ubZ}/fincas/{poligono}/{parcela}/{recinto}")
-    ResponseEntity<DTOFinca> verZona(@PathVariable Integer idP, @PathVariable Integer idM, @PathVariable String ubZ,
-    @PathVariable Integer poligono, @PathVariable Integer parcela, @PathVariable Integer recinto)
+    ResponseEntity<DTOFinca> verFinca(@PathVariable Integer idP, @PathVariable Integer idM, @PathVariable String ubZ,
+                                      @PathVariable Integer poligono, @PathVariable Integer parcela, @PathVariable Integer recinto)
     {
         Optional<Provincia> p = sistemaFincas.buscarProvincia(idP);
         if(p.isPresent())

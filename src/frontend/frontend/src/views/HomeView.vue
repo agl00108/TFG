@@ -1,16 +1,18 @@
 <script>
-import Mapa from '../components/GoogleMapLoader.vue';
-export default
-{
-  components:
-      {
-    Mapa
-  }};
+import LeafletMap  from "@/components/MapaFincasProvincia.vue";
+export default {
+  components: {
+    LeafletMap,
+  }
+}
 </script>
 
 <template>
   <h1>Página de Inicio</h1>
-  <Mapa></Mapa>
-<main>
+    <LeafletMap />
+  <main>
   </main>
 </template>
+
+<style scoped>
+</style>

@@ -1,12 +1,9 @@
 <template>
   <div>
     <h1>Página de Fincas</h1>
-    <!--
-    <DatosFinca :url="urlFinca" />
-    -->
     <div class="grid-container">
       <div v-for="finca in fincas" :key="finca.id" class="grid">
-        <Finca :finca="finca" />
+        <Finca :finca="finca" :zonaUrl="getZonaUrl(finca.zonaUbicacion)" />
       </div>
     </div>
   </div>
@@ -29,8 +26,13 @@ export default {
         .then(response => response.json())
         .then(data => {
           this.fincas = data;
-          console.log(data);
+         console.log(data);
         });
+  },
+  methods: {
+    getZonaUrl(zonaUbicacion) {
+      return `../assets/shp/${zonaUbicacion}.shp`;
+    }
   }
 }
 </script>
