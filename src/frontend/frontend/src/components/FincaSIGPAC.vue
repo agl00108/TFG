@@ -28,7 +28,7 @@ export default {
               .then((response) => response.json())
               .then((data) => {
                 this.zona = data;
-                console.log(this.zona);
+                //console.log(this.zona);
               });
         }
       },
@@ -45,14 +45,13 @@ export default {
       <p><strong>Municipio:</strong> {{ finca.municipioCodigo }}</p>
       <p><strong>Provincia:</strong> {{ finca.provinciaCodigo }}</p>
       <p><strong>Coordenadas:</strong> {{zona.latitud}}, {{zona.longitud}}</p>
-      <FincaMapa :latitud="zona.latitud" :longitud="zona.longitud" :shapefileUrl="zonaUrl" />
+      <FincaMapa :latitud="zona.latitud" :longitud="zona.longitud" :geoJSONUrl="zonaUrl" />
     </div>
     <div v-else>
       <p>Cargando datos de la finca...</p>
     </div>
   </div>
 </template>
-
 
 
 <style scoped>

@@ -26,12 +26,14 @@ export default {
         .then(response => response.json())
         .then(data => {
           this.fincas = data;
-         console.log(data);
+         //console.log(data);
         });
   },
-  methods: {
-    getZonaUrl(zonaUbicacion) {
-      return `../assets/shp/${zonaUbicacion}.shp`;
+  methods:
+      {
+    getZonaUrl(zonaUbicacion)
+    {
+      return `../assets/shp/${zonaUbicacion}.geojson`;
     }
   }
 }

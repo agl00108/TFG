@@ -14,7 +14,7 @@ import 'leaflet-draw';
 const props = defineProps({
   latitud: Number,
   longitud: Number,
-  shapefileUrl: String,
+  geoJSONUrl: String,
 });
 
 const map = ref(null);
@@ -27,16 +27,6 @@ onMounted(() => {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map.value);
-
-  // Convertir shapefile a geoJSON y agregarlo al mapa
-  fetch(props.shapefileUrl) // Cargar el archivo shapefile
-      .then(response => response.json())
-      .then(geoJsonData => {
-        L.geoJSON(geoJsonData).addTo(map.value);
-      })
-      .catch(error => {
-        console.error('Error loading shapefile:', error);
-      });
 
   // Inicializar el plugin Leaflet Draw
   const drawnItems = new L.FeatureGroup();
@@ -60,11 +50,11 @@ onMounted(() => {
   // Marcar la finca en el mapa
   L.marker([props.latitud, props.longitud]).addTo(map.value).bindPopup('Finca');
 });
+
 </script>
 
 <style scoped>
-.map-container
-{
+.map-container {
   width: 100%;
   height: 100%;
 }
