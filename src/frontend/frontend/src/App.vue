@@ -1,9 +1,9 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import Footer from '@/components/Footer.vue'
 </script>
 
 <template>
-  <div class="container">
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
@@ -14,13 +14,13 @@ import { RouterLink, RouterView } from 'vue-router'
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link class="nav-link active" aria-current="page" to="/">Home</router-link>
+              <router-link class="nav-link active" aria-current="page" to="/">Inicio</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/finca">Finca</router-link>
+              <router-link class="nav-link" to="/finca">Fincas</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/enfermedad">Enfermedad</router-link>
+              <router-link class="nav-link" to="/enfermedad">Enfermedades</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/analisis">Analisis</router-link>
@@ -30,29 +30,35 @@ import { RouterLink, RouterView } from 'vue-router'
       </div>
     </nav>
   </header>
-  </div>
 
   <main>
     <RouterView />
   </main>
-
+  <Footer />
 </template>
 
 <style>
-header {
+header
+{
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #22472e;
+  background-color: #264d34;
 }
-.logo {
+
+.logo
+{
   max-width: 160px;
   height: auto;
 }
-body {
-  background-image: url('../src/assets/img/fondo2.png');
+
+body
+{
+  background-image: url('./assets/img/fondo2.png');
   background-size: cover;
-  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
 }
 </style>
+
