@@ -678,6 +678,18 @@ public class SistemaFincasTest
         Assertions.assertThat(resultado.size()).isGreaterThan(0);
     }
 
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void buscarFincaEspecifico()
+    {
+        int provinciaCodigo=23;
+        int municipioCodigo=87;
+        int poligono=42;
+        int parcela=284;
+        int recinto=2;
 
+        Optional<Finca> resultado=sistemaFincas.buscarFincaEsp(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
+        Assertions.assertThat(resultado.isPresent()).isTrue();
+    }
 
 }

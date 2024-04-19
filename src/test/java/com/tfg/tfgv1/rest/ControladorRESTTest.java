@@ -131,4 +131,20 @@ public class ControladorRESTTest
         DTOFinca[] fincas = response.getBody();
         Assertions.assertThat(fincas).isNotEmpty();
     }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarFincaEsp()
+    {
+        int provinciaCodigo=23;
+        int municipioCodigo=87;
+        int poligono=42;
+        int parcela=284;
+        int recinto=2;
+        ResponseEntity<DTOFinca> response = restTemplate.getForEntity("/provincia/"+provinciaCodigo+"/municipio/"+
+                municipioCodigo+"/finca/"+poligono+"/"+parcela+"/"+recinto, DTOFinca.class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        DTOFinca finca = response.getBody();
+        Assertions.assertThat(finca).isNotNull();
+    }
 }

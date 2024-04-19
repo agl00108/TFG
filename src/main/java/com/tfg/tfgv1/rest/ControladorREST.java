@@ -160,4 +160,17 @@ public class ControladorREST
                 .stream().map(DTOFinca::new).toList();
     }
 
+    //FALTA TEST
+    @GetMapping("/provincia/{provinciaCodigo}/municipio/{municipioCodigo}/finca/{poligono}/{parcela}/{recinto}")
+    public ResponseEntity<Finca> buscarFincaEsp(
+            @PathVariable int provinciaCodigo,
+            @PathVariable int municipioCodigo,
+            @PathVariable int poligono,
+            @PathVariable int parcela,
+            @PathVariable int recinto)
+    {
+        Optional<Finca> fincaOptional = sistemaFincas.buscarFincaEsp(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
+        return fincaOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }

@@ -250,4 +250,11 @@ public class SistemaFincas
     {
         return historicoFincaRepositorio.obtenerFincasConHistorico();
     }
+
+    @Transactional
+    public Optional<Finca> buscarFincaEsp(int provinciaCodigo, int municipioCodigo,
+                                          int poligono, int parcela, int recinto)
+    {
+        return fincaRepositorio.buscarFinca(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
+    }
 }

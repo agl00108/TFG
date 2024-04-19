@@ -23,7 +23,10 @@ import Footer from '@/components/Footer.vue'
               <router-link class="nav-link" to="/enfermedad">Enfermedades</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/analisis">Analisis</router-link>
+              <router-link class="nav-link" to="/analisis">Análisis</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/indices">Índices de vegetación</router-link>
             </li>
           </ul>
         </div>
@@ -45,6 +48,7 @@ header
   left: 0;
   width: 100%;
   background-color: #264d34;
+  z-index: 2000;
 }
 
 .logo

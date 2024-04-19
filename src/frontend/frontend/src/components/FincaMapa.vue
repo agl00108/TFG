@@ -1,6 +1,6 @@
 <template>
   <div class="map-container">
-    <div ref="map" style="height: 400px;"></div>
+    <div ref="map" class="map"></div>
   </div>
 </template>
 
@@ -54,8 +54,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.map-container {
+.map-container
+{
   width: 100%;
-  height: 100%;
+}
+.map{
+  height: 250px;
+  width: 280px;
+  overflow: auto;
 }
 </style>

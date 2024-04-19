@@ -1,6 +1,11 @@
 <template>
   <div>
-    <h1>Página de Fincas</h1>
+    <h3>Buscador de fincas</h3>
+    <form @submit.prevent="buscarFinca">
+      <input v-model="codigoSIGPAC" type="text" placeholder="Introduce el código SIGPAC">
+      <button type="submit">Buscar</button>
+    </form>
+    <h1>Fincas Esenciales</h1>
     <div class="grid-container">
       <div v-for="finca in fincas" :key="finca.id" class="grid">
         <Finca :finca="finca" :zonaUrl="getZonaUrl(finca.zonaUbicacion)" />
@@ -18,7 +23,8 @@ export default {
   },
   data() {
     return {
-      fincas: []
+      fincas: [],
+      codigoSIGPAC: ''
     };
   },
   mounted() {
@@ -31,22 +37,48 @@ export default {
   },
   methods:
       {
-    getZonaUrl(zonaUbicacion)
-    {
-      return `../assets/shp/${zonaUbicacion}.geojson`;
-    }
-  }
-}
+        getZonaUrl(zonaUbicacion) {
+          return `../assets/shp/${zonaUbicacion}.geojson`;
+        },
+        buscarFinca() {
+          const [provinciaCodigo, municipioCodigo, , , poligono, parcela, recinto] = this.codigoSIGPAC.split(':');
+          console.log("PROVINCIA: " + provinciaCodigo);
+          console.log("MUNICIPIO: " + municipioCodigo);
+          console.log("POLIGONO: " + poligono);
+          console.log("PARCELA: " + parcela);
+          console.log("RECINTO: " + recinto);
+          fetch(`/TFG/provincia/${provinciaCodigo}/municipio/${municipioCodigo}/finca/${poligono}/${parcela}/${recinto}`)
+              .then(response => response.json())
+              .then(data => {
+                this.$router.push({name: 'fincaEsp', params: {finca: data}});
+              });
+        }
+      }
+};
 </script>
 
 <style scoped>
+h1
+{
+  text-align: center;
+  margin-top: 120px;
+  color: #e8e4df;
+}
+
+h3
+{
+  text-align: center;
+  margin-top: 120px;
+  color: #e8e4df;
+}
+
 .grid-container
 {
   display: grid;
   grid-template-columns: repeat(4, minmax(200px, 1fr));
   gap: 110px;
-  padding-top: 80px;
-  padding-bottom: 100px;
+  padding-top: 20px;
+  padding-bottom: 90px;
 }
 
 .grid

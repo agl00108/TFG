@@ -23,6 +23,16 @@ const router = createRouter({
       path: '/finca',
       name: 'finca',
       component: () => import('../views/FincaView.vue')
+    },
+    {
+      path: '/indices',
+      name: 'indice',
+      component: () => import('../views/IndicesVegetacionView.vue')
+    },
+    {
+      path: '/fincaEsp',
+      name: 'fincaEsp',
+      component: () => import('../views/FincaEspecifica.vue')
     }
   ]
 })

@@ -23,6 +23,7 @@ public class FincaRepositorio
         return Optional.ofNullable(em.find(Finca.class, codigo));
     }
 
+
     public void guardar(Finca finca)
     {
         em.persist(finca);
@@ -36,5 +37,24 @@ public class FincaRepositorio
     public void borrar(Finca municipio)
     {
         em.remove(em.merge(municipio));
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public Optional<Finca> buscarFinca(int provinciaCodigo, int municipioCodigo, int poligono, int parcela, int recinto)
+    {
+        String jpql = "SELECT f FROM Finca f WHERE f.id.zona.id.municipio.id.codigoMunicipio = :municipioCodigo " +
+                "AND f.id.zona.id.municipio.id.provincia.codigoProvincia = :provinciaCodigo " +
+                "AND f.id.poligono = :poligono " +
+                "AND f.id.parcela = :parcela AND f.id.recinto = :recinto";
+
+        return em.createQuery(jpql, Finca.class)
+                .setParameter("provinciaCodigo", provinciaCodigo)
+                .setParameter("municipioCodigo", municipioCodigo)
+                .setParameter("poligono", poligono)
+                .setParameter("parcela", parcela)
+                .setParameter("recinto", recinto)
+                .getResultList()
+                .stream()
+                .findFirst();
     }
 }

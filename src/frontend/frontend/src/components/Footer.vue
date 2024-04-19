@@ -14,13 +14,15 @@ const Footer = {
 </template>
 
 <style>
-.footer {
+.footer
+{
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #224930; /* Color verde militar */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente elegante */
+  background-color: #224930;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 2000;
 }
 
 .footer p
