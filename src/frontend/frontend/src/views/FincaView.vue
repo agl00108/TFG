@@ -32,28 +32,22 @@ export default {
         .then(response => response.json())
         .then(data => {
           this.fincas = data;
-         //console.log(data);
         });
   },
-  methods:
-      {
-        getZonaUrl(zonaUbicacion) {
-          return `../assets/shp/${zonaUbicacion}.geojson`;
-        },
-        buscarFinca() {
-          const [provinciaCodigo, municipioCodigo, , , poligono, parcela, recinto] = this.codigoSIGPAC.split(':');
-          console.log("PROVINCIA: " + provinciaCodigo);
-          console.log("MUNICIPIO: " + municipioCodigo);
-          console.log("POLIGONO: " + poligono);
-          console.log("PARCELA: " + parcela);
-          console.log("RECINTO: " + recinto);
-          fetch(`/TFG/provincia/${provinciaCodigo}/municipio/${municipioCodigo}/finca/${poligono}/${parcela}/${recinto}`)
-              .then(response => response.json())
-              .then(data => {
-                this.$router.push({name: 'fincaEsp', params: {finca: data}});
-              });
-        }
-      }
+  methods: {
+    getZonaUrl(zonaUbicacion) {
+      return `../assets/shp/${zonaUbicacion}.geojson`;
+    },
+    buscarFinca() {
+      const [provinciaCodigo, municipioCodigo, , , poligono, parcela, recinto] = this.codigoSIGPAC.split(':');
+      fetch(`/TFG/provincia/${provinciaCodigo}/municipio/${municipioCodigo}/finca/${poligono}/${parcela}/${recinto}`)
+          .then(response => response.json())
+          .then(data => {
+            this.$store.commit('setFinca', data);
+            this.$router.push({ name: 'fincaEsp' });
+          });
+    }
+  }
 };
 </script>
 

@@ -15,7 +15,8 @@
     "leaflet-draw": "^1.0.4",
     "leaflet.markercluster": "^1.5.3",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

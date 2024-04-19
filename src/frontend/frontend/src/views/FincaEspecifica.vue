@@ -17,15 +17,13 @@
   </div>
 </template>
 <script>
-export default
-{
-  props: {
-    finca: {
-      type: Object,
-      required: true
-    }
-  }
-}
+export default {
+  computed: {
+    finca() {
+      return this.$store.state.finca;
+    },
+  },
+};
 </script>
 
 <style scoped>
