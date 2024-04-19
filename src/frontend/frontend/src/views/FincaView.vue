@@ -1,11 +1,22 @@
 <template>
   <div>
     <h3>Buscador de fincas</h3>
-    <form @submit.prevent="buscarFinca">
-      <input v-model="codigoSIGPAC" type="text" placeholder="Introduce el código SIGPAC">
-      <button type="submit">Buscar</button>
-    </form>
-    <h1>Fincas Esenciales</h1>
+    <div class="search-form-container">
+      <form @submit.prevent="buscarFinca" class="search-form">
+        <div class="input-group">
+          <input v-model="codigoSIGPAC" type="text" class="form-control" placeholder="Introduce el código SIGPAC">
+          <button type="submit" class="btn btn-success"><i class="bi bi-search"></i> Buscar</button>
+        </div>
+        <div v-if="mostrarErrorFormato" class="error-message">
+          Formato SIGPAC no válido (provincia:municipio:agregado:zona:polígono:parcela:recinto)
+        </div>
+        <div v-if="mostrarErrorEncontrado" class="error-message">
+          Código SIGPAC no encontrado.
+        </div>
+      </form>
+
+    </div>
+    <h3 class="subtitulo">Fincas Esenciales</h3>
     <div class="grid-container">
       <div v-for="finca in fincas" :key="finca.id" class="grid">
         <Finca :finca="finca" :zonaUrl="getZonaUrl(finca.zonaUbicacion)" />
@@ -24,7 +35,9 @@ export default {
   data() {
     return {
       fincas: [],
-      codigoSIGPAC: ''
+      codigoSIGPAC: '',
+      mostrarErrorFormato: false,
+      mostrarErrorEncontrado: false
     };
   },
   mounted() {
@@ -39,31 +52,51 @@ export default {
       return `../assets/shp/${zonaUbicacion}.geojson`;
     },
     buscarFinca() {
-      const [provinciaCodigo, municipioCodigo, , , poligono, parcela, recinto] = this.codigoSIGPAC.split(':');
-      fetch(`/TFG/provincia/${provinciaCodigo}/municipio/${municipioCodigo}/finca/${poligono}/${parcela}/${recinto}`)
-          .then(response => response.json())
-          .then(data => {
-            this.$store.commit('setFinca', data);
-            this.$router.push({ name: 'fincaEsp' });
-          });
+      const formatoValido = /^[0-9]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+$/.test(this.codigoSIGPAC);
+      if (!formatoValido)
+      {
+        this.mostrarErrorEncontrado = false;
+        this.mostrarErrorFormato = true;
+      } else
+      {
+        this.mostrarErrorFormato=false;
+        const [provinciaCodigo, municipioCodigo, , , poligono, parcela, recinto] = this.codigoSIGPAC.split(':');
+        fetch(`/TFG/provincia/${provinciaCodigo}/municipio/${municipioCodigo}/finca/${poligono}/${parcela}/${recinto}`)
+            .then(response => {
+              if (!response.ok) {
+                this.mostrarErrorEncontrado = true;
+                throw new Error(`HTTP error! status: ${response.status}`);
+              }
+              return response.json();
+            })
+            .then(data => {
+              this.$store.commit('setFinca', data);
+              this.$router.push({name: 'fincaEsp'});
+            })
+            .catch(error => {
+              console.error('Error en la solicitud:', error);
+            });
+      }
     }
   }
-};
+  };
 </script>
 
 <style scoped>
-h1
+.subtitulo
 {
   text-align: center;
-  margin-top: 120px;
-  color: #e8e4df;
+  margin-top: 15px
 }
 
 h3
 {
-  text-align: center;
-  margin-top: 120px;
-  color: #e8e4df;
+  margin-top: 100px;
+  display: inline-block;
+  padding: 10px;
+  background-color: rgba(38, 77, 52, 0.5);
+  color: white;
+  border-radius: 5px;
 }
 
 .grid-container
@@ -104,5 +137,43 @@ h3
   {
     width: 75%;
   }
+}
+.search-form-container
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15vh;
+  width: 100%;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.search-form
+{
+  width: 90%;
+  border-radius: 20px;
+}
+
+.input-group
+{
+  display: flex;
+}
+
+.input-group input
+{
+  flex: 1;
+  border-radius: 20px;
+}
+
+.input-group button
+{
+  border-radius: 20px;
+}
+
+.error-message
+{
+  margin-top: 10px;
+  color: red;
 }
 </style>
