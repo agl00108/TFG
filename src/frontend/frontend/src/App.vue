@@ -23,9 +23,6 @@ import Footer from '@/components/Footer.vue'
               <router-link class="nav-link" to="/enfermedad">Enfermedades</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/analisis">Análisis</router-link>
-            </li>
-            <li class="nav-item">
               <router-link class="nav-link" to="/indices">Índices de vegetación</router-link>
             </li>
           </ul>

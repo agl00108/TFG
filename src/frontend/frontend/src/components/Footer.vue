@@ -13,7 +13,7 @@ const Footer = {
   </footer>
 </template>
 
-<style>
+<style scoped>
 .footer
 {
   position: fixed;

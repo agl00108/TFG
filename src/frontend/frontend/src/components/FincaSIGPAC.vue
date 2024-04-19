@@ -53,7 +53,7 @@ export default {
                 this.zona = data;
               });
           fetch(`/TFG/provincias/${newFinca.provinciaCodigo}`)
-          .then((response) => response.json())
+              .then((response) => response.json())
               .then((data) => {
                 this.provincia=data;
               });
@@ -68,14 +68,26 @@ export default {
   },
   methods:
       {
-    verMasInformacion()
-    {
-      this.$router.push({ name: 'fincaEsp', params: { finca: this.finca, zona: this.zona, provincia: this.provincia, municipio: this.municipio } });
-    }
-  }
+        verMasInformacion()
+        {
+          fetch(`/TFG/provincia/${this.finca.provinciaCodigo}/municipio/${this.finca.municipioCodigo}/finca/${this.finca.poligono}/${this.finca.parcela}/${this.finca.recinto}`)
+              .then(response =>
+              {
+                if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();})
+              .then(data => {
+                this.$store.commit('setFinca', data);
+                this.$router.push({name: 'fincaEsp'});
+              })
+              .catch(error => {
+                console.error('Error en la solicitud:', error);
+              });
+        }
+      }
 };
 </script>
-
 <style scoped>
 .finca-details {
   background-color: rgba(255, 255, 255, 0.7);

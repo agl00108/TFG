@@ -1,5 +1,4 @@
 <template>
-  <div>
     <h3>Buscador de fincas</h3>
     <div class="search-form-container">
       <form @submit.prevent="buscarFinca" class="search-form">
@@ -14,7 +13,6 @@
           Código SIGPAC no encontrado.
         </div>
       </form>
-
     </div>
     <h3 class="subtitulo">Fincas Esenciales</h3>
     <div class="grid-container">
@@ -22,7 +20,6 @@
         <Finca :finca="finca" :zonaUrl="getZonaUrl(finca.zonaUbicacion)" />
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -48,36 +45,39 @@ export default {
         });
   },
   methods: {
-    getZonaUrl(zonaUbicacion) {
+    getZonaUrl(zonaUbicacion)
+    {
       return `../assets/shp/${zonaUbicacion}.geojson`;
     },
-    buscarFinca() {
+    buscarFinca()
+    {
       const formatoValido = /^[0-9]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+$/.test(this.codigoSIGPAC);
-      if (!formatoValido)
-      {
-        this.mostrarErrorEncontrado = false;
-        this.mostrarErrorFormato = true;
-      } else
-      {
-        this.mostrarErrorFormato=false;
-        const [provinciaCodigo, municipioCodigo, , , poligono, parcela, recinto] = this.codigoSIGPAC.split(':');
-        fetch(`/TFG/provincia/${provinciaCodigo}/municipio/${municipioCodigo}/finca/${poligono}/${parcela}/${recinto}`)
-            .then(response => {
-              if (!response.ok) {
-                this.mostrarErrorEncontrado = true;
-                throw new Error(`HTTP error! status: ${response.status}`);
-              }
-              return response.json();
-            })
+      const [provinciaCodigo, municipioCodigo, , , poligono, parcela, recinto] = this.codigoSIGPAC.split(':');
+      fetch(`/TFG/provincia/${provinciaCodigo}/municipio/${municipioCodigo}/finca/${poligono}/${parcela}/${recinto}`)
+          .then(response =>
+          {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();})
             .then(data => {
               this.$store.commit('setFinca', data);
               this.$router.push({name: 'fincaEsp'});
             })
             .catch(error => {
               console.error('Error en la solicitud:', error);
+              if (!formatoValido)
+              {
+                this.mostrarErrorFormato = true;
+                this.mostrarErrorEncontrado = false;
+              }
+              else
+              {
+                this.mostrarErrorFormato = false;
+                this.mostrarErrorEncontrado = true;
+              }
             });
       }
-    }
   }
   };
 </script>
@@ -143,8 +143,8 @@ h3
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 15vh;
-  width: 100%;
+  height: 14vh;
+  width: 1100px;
   border-radius: 20px;
   background-color: rgba(255, 255, 255, 0.8);
 }
