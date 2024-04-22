@@ -52,4 +52,5 @@ public class HistoricoFincaRepositorio
         TypedQuery<Finca> query = em.createQuery(jpql, Finca.class);
         return query.getResultList();
     }
+
 }

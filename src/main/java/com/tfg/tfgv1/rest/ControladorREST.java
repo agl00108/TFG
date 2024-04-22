@@ -160,7 +160,30 @@ public class ControladorREST
                 .stream().map(DTOFinca::new).toList();
     }
 
-    //FALTA TEST
+    /**
+     * @brief Función para obtener todas las fincas
+     * @return Lista de Fincas
+     */
+    @GetMapping("/FincasCompletas")
+    @ResponseStatus(HttpStatus.OK)
+    public List<DTOFinca> obtenerTodasFincas()
+    {
+        return sistemaFincas.obtenerTodasFincas()
+                .stream().map(DTOFinca::new).toList();
+    }
+
+    /**
+     * @brief Función para obtener todas las zonas
+     * @return Lista de Zonas
+     */
+    @GetMapping("/ZonasCompletas")
+    @ResponseStatus(HttpStatus.OK)
+    public List<DTOZona> obtenerTodasZonas()
+    {
+        return sistemaFincas.obtenerTodasZonas()
+                .stream().map(DTOZona::new).toList();
+    }
+
     @GetMapping("/provincia/{provinciaCodigo}/municipio/{municipioCodigo}/finca/{poligono}/{parcela}/{recinto}")
     public ResponseEntity<Finca> buscarFincaEsp(
             @PathVariable int provinciaCodigo,

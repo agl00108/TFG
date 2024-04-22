@@ -4,10 +4,12 @@ import com.tfg.tfgv1.Ids.ZonaId;
 import com.tfg.tfgv1.entidades.Zona;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -36,5 +38,17 @@ public class ZonaRepositorio
     public void borrar(Zona zona)
     {
         em.remove(em.merge(zona));
+    }
+
+    /**
+     * @brief Obtener todas las Zonas
+     * @return Lista de Zonas
+     */
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<Zona> obtenerTodasZonas()
+    {
+        String jpql = "SELECT DISTINCT z FROM Zona z";
+        TypedQuery<Zona> query = em.createQuery(jpql, Zona.class);
+        return query.getResultList();
     }
 }

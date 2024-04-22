@@ -4,10 +4,12 @@ import com.tfg.tfgv1.Ids.FincaId;
 import com.tfg.tfgv1.entidades.Finca;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -37,6 +39,18 @@ public class FincaRepositorio
     public void borrar(Finca municipio)
     {
         em.remove(em.merge(municipio));
+    }
+
+    /**
+     * @brief Obtener todas las Fincas
+     * @return Lista de Fincas
+     */
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<Finca> obtenerTodasFincas()
+    {
+        String jpql = "SELECT DISTINCT f FROM Finca f";
+        TypedQuery<Finca> query = em.createQuery(jpql, Finca.class);
+        return query.getResultList();
     }
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

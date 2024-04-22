@@ -8,7 +8,6 @@ export default {
 </script>
 
 <template>
-  <h1>Página de Inicio</h1>
     <LeafletMap />
   <main>
   </main>

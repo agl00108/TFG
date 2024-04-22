@@ -252,6 +252,18 @@ public class SistemaFincas
     }
 
     @Transactional
+    public List<Finca> obtenerTodasFincas()
+    {
+        return fincaRepositorio.obtenerTodasFincas();
+    }
+
+    @Transactional
+    public List<Zona> obtenerTodasZonas()
+    {
+        return zonaRepositorio.obtenerTodasZonas();
+    }
+
+    @Transactional
     public Optional<Finca> buscarFincaEsp(int provinciaCodigo, int municipioCodigo,
                                           int poligono, int parcela, int recinto)
     {

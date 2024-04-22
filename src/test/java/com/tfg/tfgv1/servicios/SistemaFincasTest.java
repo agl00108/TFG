@@ -692,4 +692,6 @@ public class SistemaFincasTest
         Assertions.assertThat(resultado.isPresent()).isTrue();
     }
 
+
+
 }

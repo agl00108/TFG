@@ -2,10 +2,10 @@
   <div class="finca-details">
     <div v-if="finca && Object.keys(zona).length">
       <h3>Finca {{finca.zonaUbicacion}}</h3>
+      <p><strong>Zona:</strong> {{zona.descripcion}}</p>
       <p><strong>SIGPAC:</strong> {{ finca.provinciaCodigo }}:{{ finca.municipioCodigo }}:0:0:{{ finca.poligono }}:{{ finca.parcela }}:{{ finca.recinto }} </p>
       <p><strong>Municipio:</strong>  {{municipio.nombre}} ({{ finca.municipioCodigo }})</p>
       <p><strong>Provincia:</strong>  {{provincia.nombreProvincia}} ({{ finca.provinciaCodigo }})</p>
-      <p><strong>Coordenadas:</strong> {{zona.latitud}}, {{zona.longitud}}</p>
       <FincaMapa :latitud="zona.latitud" :longitud="zona.longitud" :geoJSONUrl="zonaUrl" />
       <div class="button-container">
         <button @click="verMasInformacion" class="btn btn-primary button-custom">Más información</button>
@@ -19,8 +19,10 @@
 
 <script>
 import FincaMapa from "@/components/FincaMapa.vue";
+import FincaEspecifica from "@/views/FincaEspecifica.vue";
 export default {
   components: {
+    FincaEspecifica,
     FincaMapa,
   },
   data() {
@@ -66,26 +68,25 @@ export default {
       },
     },
   },
-  methods:
-      {
-        verMasInformacion()
-        {
-          fetch(`/TFG/provincia/${this.finca.provinciaCodigo}/municipio/${this.finca.municipioCodigo}/finca/${this.finca.poligono}/${this.finca.parcela}/${this.finca.recinto}`)
-              .then(response =>
-              {
-                if (!response.ok) {
-                  throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();})
-              .then(data => {
-                this.$store.commit('setFinca', data);
-                this.$router.push({name: 'fincaEsp'});
-              })
-              .catch(error => {
-                console.error('Error en la solicitud:', error);
-              });
-        }
-      }
+  methods: {
+    verMasInformacion() {
+      const url = `/TFG/provincia/${this.finca.provinciaCodigo}/municipio/${this.finca.municipioCodigo}/finca/${this.finca.poligono}/${this.finca.parcela}/${this.finca.recinto}`;
+      fetch(url)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            this.$store.commit('setFinca', data);
+            this.$router.push({name: 'fincaEsp', query: {zonaUrl: this.zonaUrl}});
+          })
+          .catch(error => {
+            console.error('Error en la solicitud:', error);
+          });
+    }
+  }
 };
 </script>
 <style scoped>

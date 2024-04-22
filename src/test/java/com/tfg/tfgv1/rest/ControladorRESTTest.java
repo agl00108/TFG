@@ -3,6 +3,7 @@ package com.tfg.tfgv1.rest;
 import com.tfg.tfgv1.TfgV1Application;
 import com.tfg.tfgv1.rest.dto.DTOFinca;
 import com.tfg.tfgv1.rest.dto.DTOProvincia;
+import com.tfg.tfgv1.rest.dto.DTOZona;
 import jakarta.annotation.PostConstruct;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -146,5 +147,25 @@ public class ControladorRESTTest
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         DTOFinca finca = response.getBody();
         Assertions.assertThat(finca).isNotNull();
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarFincasCompletas()
+    {
+        ResponseEntity<DTOFinca[]> response = restTemplate.getForEntity("/FincasCompletas", DTOFinca[].class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        DTOFinca[] fincas = response.getBody();
+        Assertions.assertThat(fincas).isNotEmpty();
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarZonasCompletas()
+    {
+        ResponseEntity<DTOZona[]> response = restTemplate.getForEntity("/ZonasCompletas", DTOZona[].class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        DTOZona[] zonas = response.getBody();
+        Assertions.assertThat(zonas).isNotEmpty();
     }
 }
