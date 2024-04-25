@@ -1,7 +1,9 @@
 <template>
-  <div class="search-form-container">
-    <LeafletMap />
+  <div class="container">
+    <div class="content">
+      <div class="search-form-container">
     <form @submit.prevent="buscarFinca" class="search-form">
+      <LeafletMap />
       <div class="input-group">
         <input v-model="codigoSIGPAC" type="text" class="form-control" placeholder="Introduce el código SIGPAC">
         <button type="submit" class="btn btn-success"><i class="bi bi-search"></i> Buscar</button>
@@ -13,15 +15,15 @@
         Código SIGPAC no encontrado.
       </div>
     </form>
+      </div>
+      <div class="info-container">
+        <EnfermedadesPeq />
+        <IndicesPeq />
+      </div>
+    </div>
+    <main>
+    </main>
   </div>
-  <div>
-    <EnfermedadesPeq />
-  </div>
-  <div>
-    <IndicesPeq />
-  </div>
-  <main>
-  </main>
 </template>
 
 <script>
@@ -76,6 +78,36 @@ export default {
   border: 2px solid #ccc;
   border-radius: 10px;
   padding: 20px;
+  margin-top: 120px;
   text-align: center;
+}
+
+.container
+{
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content
+{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.search-form-container
+{
+  flex: 1;
+}
+
+.info-container
+{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 80px;
 }
 </style>
