@@ -269,4 +269,12 @@ public class SistemaFincas
     {
         return fincaRepositorio.buscarFinca(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
     }
+
+    @Transactional
+    public List<Cosecha> obtenerDatosCosechas(int provinciaCodigo, int municipioCodigo,
+                                             int poligono, int parcela, int recinto )
+    {
+        Optional<Finca> finca = fincaRepositorio.buscarFinca(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
+        return finca.map(value -> cosechaRepositorio.obtenerCosechasPorFinca(value)).orElse(null);
+    }
 }

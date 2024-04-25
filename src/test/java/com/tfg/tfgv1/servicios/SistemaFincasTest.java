@@ -692,6 +692,20 @@ public class SistemaFincasTest
         Assertions.assertThat(resultado.isPresent()).isTrue();
     }
 
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void buscarCosechaFinca()
+    {
+        int provinciaCodigo=23;
+        int municipioCodigo=41;
+        int poligono=2;
+        int parcela=10;
+        int recinto=2;
+
+        List<Cosecha> resultado = sistemaFincas.obtenerDatosCosechas(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
+        Assertions.assertThat(resultado.size()).isGreaterThan(0);
+    }
+
 
 
 }
