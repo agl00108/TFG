@@ -1,44 +1,3 @@
-<script>
-import LeafletMap  from "@/components/MapaFincasProvincia.vue";
-export default {
-  components: {
-    LeafletMap,
-  },
-methods: {
-
-  buscarFinca()
-  {
-    const formatoValido = /^[0-9]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+$/.test(this.codigoSIGPAC);
-    const [provinciaCodigo, municipioCodigo, , , poligono, parcela, recinto] = this.codigoSIGPAC.split(':');
-    fetch(`/TFG/provincia/${provinciaCodigo}/municipio/${municipioCodigo}/finca/${poligono}/${parcela}/${recinto}`)
-        .then(response =>
-        {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();})
-        .then(data => {
-          this.$store.commit('setFinca', data);
-          this.$router.push({name: 'fincaEsp'});
-        })
-        .catch(error => {
-          console.error('Error en la solicitud:', error);
-          if (!formatoValido)
-          {
-            this.mostrarErrorFormato = true;
-            this.mostrarErrorEncontrado = false;
-          }
-          else
-          {
-            this.mostrarErrorFormato = false;
-            this.mostrarErrorEncontrado = true;
-          }
-        });
-  }
-}
-};
-</script>
-
 <template>
   <div class="search-form-container">
     <LeafletMap />
@@ -59,5 +18,54 @@ methods: {
   </main>
 </template>
 
+<script>
+import LeafletMap  from "@/components/MapaFincasProvincia.vue";
+export default {
+  components: {
+    LeafletMap,
+  },
+  methods:
+  {
+    buscarFinca()
+    {
+      const formatoValido = /^[0-9]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+:[0-9]+$/.test(this.codigoSIGPAC);
+      const [provinciaCodigo, municipioCodigo, , , poligono, parcela, recinto] = this.codigoSIGPAC.split(':');
+      fetch(`/TFG/provincia/${provinciaCodigo}/municipio/${municipioCodigo}/finca/${poligono}/${parcela}/${recinto}`)
+          .then(response =>
+          {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();})
+          .then(data => {
+            this.$store.commit('setFinca', data);
+            this.$router.push({name: 'fincaEsp'});
+          })
+          .catch(error => {
+            console.error('Error en la solicitud:', error);
+            if (!formatoValido)
+            {
+              this.mostrarErrorFormato = true;
+              this.mostrarErrorEncontrado = false;
+            }
+            else
+            {
+              this.mostrarErrorFormato = false;
+              this.mostrarErrorEncontrado = true;
+            }
+          });
+    }
+  }
+};
+</script>
+
 <style scoped>
+.search-form-container
+{
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
 </style>

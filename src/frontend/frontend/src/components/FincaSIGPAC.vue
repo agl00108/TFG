@@ -91,7 +91,7 @@ export default {
 </script>
 <style scoped>
 .finca-details {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   padding: 10px;
 }

@@ -25,13 +25,14 @@ onMounted(async () => {
   }
   const zonas = await response.json();
   zonas.forEach(zona => {
-    L.marker([zona.latitud, zona.longitud]).addTo(initialMap.value).bindPopup(zona.name);
+    L.marker([zona.latitud, zona.longitud]).addTo(initialMap.value).bindPopup(zona.ubicacion + " " + zona.descripcion);
   });
 });
 </script>
 
 <style scoped>
-.map-container {
+.map-container
+{
   width: 100%;
   height: 100%;
 }

@@ -94,7 +94,7 @@ h3
   margin-top: 100px;
   display: inline-block;
   padding: 10px;
-  background-color: rgba(38, 77, 52, 0.5);
+  background-color: rgba(38, 77, 52, 0.7);
   color: white;
   border-radius: 5px;
 }
@@ -144,7 +144,7 @@ h3
   justify-content: center;
   align-items: center;
   height: 14vh;
-  width: 1100px;
+  width: 110%;
   border-radius: 20px;
   background-color: rgba(255, 255, 255, 0.8);
 }

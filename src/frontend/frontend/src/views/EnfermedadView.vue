@@ -1,18 +1,14 @@
-<script setup>
-
-</script>
-
 <template>
   <div class="table-container">
     <table class="custom-table">
       <thead>
       <tr>
-        <th v-for="header in headers" :key="header">{{ header }}</th>
+        <th v-for="header in headers" :key="header" style="font-weight: bold; color: #004d40;">{{ header }}</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="(row, index) in data" :key="index">
-        <td v-for="(cell, cellIndex) in row" :key="cellIndex">{{ cell }}</td>
+        <td v-for="(cell, cellIndex) in row" :key="cellIndex" style="color: black;">{{ cell }}</td>
       </tr>
       </tbody>
     </table>
@@ -57,23 +53,26 @@ const data = [
 </script>
 
 <style scoped>
-.table-container {
-  width: 100%;
-  overflow-x: auto;
+.table-container
+{
+  display: flex;
+  justify-content: center;
+  padding-top: 100px;
+  padding-bottom: 90px;
+  width: 160%;
 }
-
-.custom-table {
-  width: 100%;
+.custom-table
+{
   border-collapse: collapse;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
-.custom-table th, .custom-table td {
-  border: 1px solid #ddd;
+.custom-table th,
+.custom-table td
+{
+  border: 2px solid #000;
   padding: 8px;
   text-align: left;
 }
 
-.custom-table th {
-  background-color: #f2f2f2;
-}
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <div class="container">
   <div class="finca-details">
     <h2>Datos de la Finca</h2>
     <div v-if="finca">
@@ -15,8 +16,7 @@
     <div v-else>
       <p>Cargando datos de la finca...</p>
     </div>
-
-    <p><strong>{{ zona.latitud }} {{ zona.longitud }}</strong> {{zonaUrl }}</p>
+  </div>
   </div>
 </template>
 
@@ -73,9 +73,17 @@ export default {
 </script>
 
 <style scoped>
-.finca-details {
-  background-color: rgba(255, 255, 255, 0.7);
+.container
+{
+  padding-top: 120px;
+  padding-bottom: 90px;
+  width: 200%;
+}
+.finca-details
+{
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid #ccc;
   border-radius: 10px;
-  padding: 10px;
+  padding: 20px;
 }
 </style>
