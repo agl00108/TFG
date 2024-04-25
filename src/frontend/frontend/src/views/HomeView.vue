@@ -14,14 +14,24 @@
       </div>
     </form>
   </div>
+  <div>
+    <EnfermedadesPeq />
+  </div>
+  <div>
+    <IndicesPeq />
+  </div>
   <main>
   </main>
 </template>
 
 <script>
 import LeafletMap  from "@/components/MapaFincasProvincia.vue";
+import EnfermedadesPeq from "@/components/EnfermedadesPeq.vue";
+import IndicesPeq from "@/components/IndicesPeq.vue";
 export default {
   components: {
+    IndicesPeq,
+    EnfermedadesPeq,
     LeafletMap,
   },
   methods:
