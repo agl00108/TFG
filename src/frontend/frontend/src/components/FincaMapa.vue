@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps } from 'vue';
+import { ref, onMounted, defineProps, watch } from 'vue';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
@@ -18,9 +18,10 @@ const props = defineProps({
 });
 
 const map = ref(null);
+let marker = null;
 
 onMounted(() => {
-  map.value = L.map(map.value).setView([props.latitud, props.longitud], 15);
+  map.value = L.map(map.value).setView([props.latitud, props.longitud], 14);
 
   // Agregar capa de OpenStreetMap
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -47,8 +48,14 @@ onMounted(() => {
   });
   map.value.addControl(drawControl);
 
-  // Marcar la finca en el mapa
-  L.marker([props.latitud, props.longitud]).addTo(map.value).bindPopup('Finca');
+  marker = L.marker([props.latitud, props.longitud]).addTo(map.value).bindPopup('Finca');
+});
+
+watch(() => [props.latitud, props.longitud], ([newLat, newLon]) => {
+  if (marker) {
+    marker.setLatLng([newLat, newLon]);
+    map.value.setView([newLat, newLon], 14);
+  }
 });
 
 </script>

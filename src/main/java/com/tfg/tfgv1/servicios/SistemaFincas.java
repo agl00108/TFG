@@ -282,4 +282,10 @@ public class SistemaFincas
             return cosechaRepositorio.obtenerCosechasPorFinca(finca.get());
         }
     }
+
+    @Transactional
+    public List<HistoricoFinca> obtenerHistoricoFincaAnio(Finca finca, int anio)
+    {
+        return historicoFincaRepositorio.obtenerHistoricoFincaAnio(finca, anio);
+    }
 }

@@ -53,4 +53,20 @@ public class HistoricoFincaRepositorio
         return query.getResultList();
     }
 
+    /**
+     * @brief Obtener los años de los que se tienen datos históricos de una finca
+     * @param finca Finca de la que se quieren obtener los historicos
+     * @param anio Año del que se quieren obtener los datos
+     * @return Lista de HistoricoFinca
+     */
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<HistoricoFinca> obtenerHistoricoFincaAnio(Finca finca, int anio)
+    {
+        String jpql = "SELECT hf FROM HistoricoFinca hf WHERE hf.id.finca = :finca AND FUNCTION('YEAR', hf.id.fecha) = :anio";
+        TypedQuery<HistoricoFinca> query = em.createQuery(jpql, HistoricoFinca.class)
+                .setParameter("finca", finca)
+                .setParameter("anio", anio);
+        return query.getResultList();
+    }
+
 }

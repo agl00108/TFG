@@ -94,7 +94,7 @@ h3
   margin-top: 100px;
   display: inline-block;
   padding: 10px;
-  background-color: rgba(38, 77, 52, 0.7);
+  background-color: rgba(38, 77, 52, 0.9);
   color: white;
   border-radius: 5px;
 }
@@ -146,7 +146,7 @@ h3
   height: 14vh;
   width: 110%;
   border-radius: 20px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .search-form

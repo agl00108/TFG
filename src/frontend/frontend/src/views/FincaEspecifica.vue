@@ -9,8 +9,8 @@
       <p><strong>Área:</strong> {{ finca.area }}</p>
       <p><strong>Año SIGPAC:</strong> {{ finca.anioSigpac }}</p>
       <p><strong>Zona Ubicación:</strong> {{ finca.zonaUbicacion }}</p>
-      <p><strong>Código Municipio:</strong> {{ finca.municipioCodigo }}</p>
-      <p><strong>Código Provincia:</strong> {{ finca.codigoProvincia }}</p>
+      <p><strong>Municipio:</strong> {{municipio.nombre}} ({{ finca.municipioCodigo }})</p>
+      <p><strong>Provincia:</strong>{{provincia.nombreProvincia}} ({{finca.codigoProvincia}})</p>
       <FincaMapa :latitud="zona.latitud" :longitud="zona.longitud" :geoJSONUrl="zonaUrl" />
       <CosechaGrafica :finca="finca"/>
     </div>
@@ -51,25 +51,30 @@ export default {
     },
   },
   methods: {
-    fetchZona(fincaData) {
+    fetchZona(fincaData)
+    {
       fetch(`/TFG/provincias/${fincaData.codigoProvincia}/municipios/${fincaData.municipioCodigo}/zonas/${fincaData.zonaUbicacion}`)
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json();
-          })
+          .then((response) => response.json())
           .then((data) => {
             this.zona = data;
-          })
-          .catch((error) => {
-            console.error('Error al obtener la zona:', error);
+          });
+      fetch(`/TFG/provincias/${fincaData.codigoProvincia}`)
+          .then((response) => response.json())
+          .then((data) => {
+            this.provincia=data;
+          });
+      fetch(`/TFG/provincias/${fincaData.codigoProvincia}/municipios/${fincaData.municipioCodigo}`)
+          .then((response) => response.json())
+          .then((data) => {
+            this.municipio=data;
           });
     },
   },
   data() {
     return {
       zona: { latitud: 0, longitud: 0, geoJSONUrl: '' },
+      provincia: {},
+      municipio: {}
     };
   },
 };
@@ -84,7 +89,7 @@ export default {
 }
 .finca-details
 {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.9);
   border: 2px solid #ccc;
   border-radius: 10px;
   padding: 20px;

@@ -64,7 +64,7 @@ const data = [
 .custom-table
 {
   border-collapse: collapse;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .custom-table th,
