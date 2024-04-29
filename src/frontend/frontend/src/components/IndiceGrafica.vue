@@ -3,6 +3,11 @@
     <div id="chart">
       <apexchart type="line" height="350" :options="chartOptions" :series="series"></apexchart>
     </div>
+    <div>
+      <button v-for="year in years" :key="year" @click="fetchCosechasData(year)">
+        {{ year }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -24,6 +29,7 @@ export default {
   data()
   {
     return {
+      years: Array.from({length: 9}, (_, i) => i + 2016),
       series: [{
         name: "Kg de Aceitunas",
         data: []
@@ -100,9 +106,14 @@ export default {
     this.fetchCosechasData();
   },
   methods: {
-    async fetchCosechasData() {
+    async fetchCosechasData(year) {
+      // Clear previous data
+      this.series[0].data = [];
+      this.series[1].data = [];
+      this.chartOptions.xaxis.categories = [];
+
       try {
-        const url=`/TFG/provincia/${this.finca.codigoProvincia}/municipio/${this.finca.municipioCodigo}/finca/${this.finca.poligono}/${this.finca.parcela}/${this.finca.recinto}/cosechas`;
+        const url=`/TFG/provincia/${this.finca.codigoProvincia}/municipio/${this.finca.municipioCodigo}/finca/${this.finca.poligono}/${this.finca.parcela}/${this.finca.recinto}/historico/${year}`;
         const response = await fetch(url);
         let data = await response.json();
         data = data.sort((a, b) => a.campania - b.campania);
