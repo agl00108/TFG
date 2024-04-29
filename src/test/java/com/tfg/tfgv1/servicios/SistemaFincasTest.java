@@ -711,10 +711,10 @@ public class SistemaFincasTest
     public void buscarHistoricoFincaPorAnio()
     {
         int provinciaCodigo=23;
-        int municipioCodigo=41;
-        int poligono=2;
-        int parcela=10;
-        int recinto=2;
+        int municipioCodigo=32;
+        int poligono=3;
+        int parcela=101;
+        int recinto=3;
         int anio=2020;
 
         Optional<Finca> resultado=sistemaFincas.buscarFincaEsp(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
