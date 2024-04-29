@@ -1,6 +1,7 @@
 package com.tfg.tfgv1.rest;
 
 import com.tfg.tfgv1.TfgV1Application;
+import com.tfg.tfgv1.rest.dto.DTOCosecha;
 import com.tfg.tfgv1.rest.dto.DTOFinca;
 import com.tfg.tfgv1.rest.dto.DTOProvincia;
 import com.tfg.tfgv1.rest.dto.DTOZona;
@@ -167,5 +168,22 @@ public class ControladorRESTTest
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         DTOZona[] zonas = response.getBody();
         Assertions.assertThat(zonas).isNotEmpty();
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarCosechaFinca()
+    {
+        int provinciaCodigo=23;
+        int municipioCodigo=41;
+        int poligono=2;
+        int parcela=10;
+        int recinto=2;
+
+        ResponseEntity<DTOCosecha[]> response = restTemplate.getForEntity("/provincia/"+provinciaCodigo+"/municipio/" +
+                municipioCodigo + "/finca/" + poligono + "/" + parcela + "/" + recinto + "/cosechas", DTOCosecha[].class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        DTOCosecha[] cosechas = response.getBody();
+        Assertions.assertThat(cosechas).isNotEmpty();
     }
 }

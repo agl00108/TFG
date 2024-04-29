@@ -1,7 +1,6 @@
 package com.tfg.tfgv1.rest.dto;
 
-import com.tfg.tfgv1.Ids.MunicipioId;
-import com.tfg.tfgv1.entidades.*;
+import com.tfg.tfgv1.entidades.Cosecha;
 
 public record DTOCosecha(
         Integer idCosecha,
@@ -13,7 +12,8 @@ public record DTOCosecha(
         Integer poligono,
         Integer parcela,
         Integer recinto,
-        String zonaUbicacion)
+        String zonaUbicacion
+)
 {
     public DTOCosecha(Cosecha cosecha)
     {
@@ -28,25 +28,6 @@ public record DTOCosecha(
                 cosecha.getParcela(),
                 cosecha.getRecinto(),
                 cosecha.getZonaUbicacion()
-        );
-    }
-
-    public Cosecha aCosecha()
-    {
-        return new Cosecha(
-                this.idCosecha,
-                this.campania,
-                this.aceitunas,
-                this.aceite,
-                new Finca(
-                        0.0,
-                        this.poligono,
-                        this.parcela,
-                        this.recinto,
-                        0,
-                        new Zona(this.zonaUbicacion, null,null,"",
-                                new Municipio(new MunicipioId(this.municipioCodigo, new Provincia(this.provinciaCodigo, "")), ""), 0.0f)
-                )
         );
     }
 }

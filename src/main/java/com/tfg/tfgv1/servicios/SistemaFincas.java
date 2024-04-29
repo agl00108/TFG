@@ -272,9 +272,14 @@ public class SistemaFincas
 
     @Transactional
     public List<Cosecha> obtenerDatosCosechas(int provinciaCodigo, int municipioCodigo,
-                                             int poligono, int parcela, int recinto )
+                                              int poligono, int parcela, int recinto )
     {
         Optional<Finca> finca = fincaRepositorio.buscarFinca(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
-        return finca.map(value -> cosechaRepositorio.obtenerCosechasPorFinca(value)).orElse(null);
+        if(finca.isEmpty())
+            throw new IllegalArgumentException("Finca no encontrada");
+        else
+        {
+            return cosechaRepositorio.obtenerCosechasPorFinca(finca.get());
+        }
     }
 }

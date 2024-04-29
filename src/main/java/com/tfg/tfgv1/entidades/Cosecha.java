@@ -5,6 +5,8 @@
 package com.tfg.tfgv1.entidades;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -13,15 +15,24 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "COSECHA", schema="ALBAGOMEZ")
 public class Cosecha
 {
+    //SETTERS DE LA CLASE
+    @Getter
+    @Setter
     @Id
     @Column(name = "ID_COSECHA")
     private Integer idCosecha; //ID de la cosecha
+    @Getter
+    @Setter
     @NotBlank
     @Column(name = "CAMPAÑA")
     private String campania; //Año de la campaña (en el que empezó)
+    @Getter
+    @Setter
     @Min(0)
     @Column(name = "ACEITUNAS")
     private Double aceitunas; //KG de aceitunas recogidos
+    @Getter
+    @Setter
     @Min(0)
     @Column(name = "ACEITE")
     private Double aceite; //KG de aceite recogidos
@@ -66,26 +77,6 @@ public class Cosecha
 
     //GETTERS DE LA CLASE
 
-    public Integer getIdCosecha()
-    {
-        return idCosecha;
-    }
-
-    public String getCampania()
-    {
-        return campania;
-    }
-
-    public Double getAceitunas()
-    {
-        return aceitunas;
-    }
-
-    public Double getAceite()
-    {
-        return aceite;
-    }
-
     public Integer getMunicipioCodigo()
     {
         return finca.getMunicipioCodigo();
@@ -117,42 +108,23 @@ public class Cosecha
     }
 
 
-
-    //SETTERS DE LA CLASE
-    public void setIdCosecha(Integer idCosecha)
-    {
-        this.idCosecha = idCosecha;
-    }
-
-    public void setCampania(String campania)
-    {
-        this.campania = campania;
-    }
-
-    public void setAceitunas(Double aceitunas)
-    {
-        this.aceitunas = aceitunas;
-    }
-
-    public void setAceite(Double aceite)
-    {
-        this.aceite = aceite;
-    }
-
-
     /**
      * @brief método toString para imprimir la información de la Cosecha
      * @return string con los parámetros
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Cosecha{" +
-                "idCosecha=" + idCosecha +
-                ", campania='" + campania + '\'' +
-                ", municipioCodigo=" + finca.getMunicipioCodigo() +
-                ", aceitunas=" + aceitunas +
-                ", aceite=" + aceite +
-                ", finca=" + finca + '}';
+                "idCosecha"+ (idCosecha != null ? idCosecha : "null") +
+                "campania='" + (campania != null ? campania : "null") + '\'' +
+                ", aceitunas=" + (aceitunas != null ? aceitunas : "null") +
+                ", aceite=" + (aceite != null ? aceite : "null") +
+                ", municipio_codigo=" + getMunicipioCodigo() +
+                ", provincia_codigo=" + getProvinciaCodigo() +
+                ", poligono=" + getPoligono() +
+                ", parcela=" + getParcela() +
+                ", recinto=" + getRecinto() +
+                ", zona_ubicacion='" + getZonaUbicacion() + '\'' +
+                '}';
     }
 }

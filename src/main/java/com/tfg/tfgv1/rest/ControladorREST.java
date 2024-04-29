@@ -3,15 +3,9 @@ package com.tfg.tfgv1.rest;
 import com.tfg.tfgv1.Ids.FincaId;
 import com.tfg.tfgv1.Ids.MunicipioId;
 import com.tfg.tfgv1.Ids.ZonaId;
-import com.tfg.tfgv1.entidades.Finca;
-import com.tfg.tfgv1.entidades.Municipio;
-import com.tfg.tfgv1.entidades.Provincia;
-import com.tfg.tfgv1.entidades.Zona;
+import com.tfg.tfgv1.entidades.*;
 import com.tfg.tfgv1.excepciones.ProvinciaYaRegistrada;
-import com.tfg.tfgv1.rest.dto.DTOFinca;
-import com.tfg.tfgv1.rest.dto.DTOMunicipio;
-import com.tfg.tfgv1.rest.dto.DTOProvincia;
-import com.tfg.tfgv1.rest.dto.DTOZona;
+import com.tfg.tfgv1.rest.dto.*;
 import com.tfg.tfgv1.servicios.SistemaFincas;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/TFG")
@@ -194,6 +189,20 @@ public class ControladorREST
     {
         Optional<Finca> fincaOptional = sistemaFincas.buscarFincaEsp(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
         return fincaOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/provincia/{provinciaCodigo}/municipio/{municipioCodigo}/finca/{poligono}/{parcela}/{recinto}/cosechas")
+    public List<DTOCosecha> buscarCosechasFinca(
+            @PathVariable int provinciaCodigo,
+            @PathVariable int municipioCodigo,
+            @PathVariable int poligono,
+            @PathVariable int parcela,
+            @PathVariable int recinto)
+    {
+        List<Cosecha> cosechas = sistemaFincas.obtenerDatosCosechas(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
+        Stream<Cosecha> streamCosechas = cosechas.stream();
+        Stream<DTOCosecha> streamDTOCosechas = streamCosechas.map(DTOCosecha::new);
+        return streamDTOCosechas.toList();
     }
 
 }
