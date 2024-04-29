@@ -1,10 +1,7 @@
 package com.tfg.tfgv1.rest;
 
 import com.tfg.tfgv1.TfgV1Application;
-import com.tfg.tfgv1.rest.dto.DTOCosecha;
-import com.tfg.tfgv1.rest.dto.DTOFinca;
-import com.tfg.tfgv1.rest.dto.DTOProvincia;
-import com.tfg.tfgv1.rest.dto.DTOZona;
+import com.tfg.tfgv1.rest.dto.*;
 import jakarta.annotation.PostConstruct;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -185,5 +182,23 @@ public class ControladorRESTTest
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         DTOCosecha[] cosechas = response.getBody();
         Assertions.assertThat(cosechas).isNotEmpty();
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarHistoricoFincaPorAnio()
+    {
+        int provinciaCodigo=23;
+        int municipioCodigo=32;
+        int poligono=3;
+        int parcela=101;
+        int recinto=3;
+        int anio=2020;
+
+        ResponseEntity<DTOHistoricoFinca[]> response = restTemplate.getForEntity("/provincia/"+provinciaCodigo+"/municipio/" +
+                municipioCodigo + "/finca/" + poligono + "/" + parcela + "/" + recinto + "/historico/" + anio, DTOHistoricoFinca[].class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        DTOHistoricoFinca[] historicos = response.getBody();
+        Assertions.assertThat(historicos).isNotEmpty();
     }
 }
