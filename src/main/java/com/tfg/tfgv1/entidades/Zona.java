@@ -8,6 +8,8 @@ import com.tfg.tfgv1.Ids.ZonaId;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -19,14 +21,22 @@ public class Zona
     @EmbeddedId
     private ZonaId id;
 
+    @Setter
+    @Getter
     @Column(name="LONGITUD")
     private Float longitud; //Longitud de la zona
 
+    @Setter
+    @Getter
     @Column(name="LATITUD")
     private Float latitud; //Latitud de la zona
+    @Setter
+    @Getter
     @NotBlank
     @Column(name="DESCRIPCION")
     private String descripcion; //Descripción de la zona
+    @Setter
+    @Getter
     @NotNull
     @Min(0)
     @Column(name="RADIO")
@@ -70,21 +80,6 @@ public class Zona
         return id.getUbicacion();
     }
 
-    public Float getLongitud()
-    {
-        return longitud;
-    }
-
-    public Float getLatitud()
-    {
-        return latitud;
-    }
-
-    public String getDescripcion()
-    {
-        return descripcion;
-    }
-
     public Integer getMunicipioCodigo()
     {
         return id.getMunicipioCodigo();
@@ -95,40 +90,15 @@ public class Zona
         return id.getProvinciaCodigo();
     }
 
-    public Float getRadio()
-    {
-        return radio;
-    }
-
     //SETTERS DE LA CLASE
     public void setUbicacion(String ubicacion)
     {
         this.id.setUbicacion(ubicacion);
     }
 
-    public void setLongitud(Float longitud)
-    {
-        this.longitud = longitud;
-    }
-
-    public void setLatitud(Float latitud)
-    {
-        this.latitud = latitud;
-    }
-
-    public void setDescripcion(String descripcion)
-    {
-        this.descripcion = descripcion;
-    }
-
     public void setMunicipio(Municipio municipio)
     {
         this.id.setMunicipio(municipio);
-    }
-
-    public void setRadio(Float radio)
-    {
-        this.radio = radio;
     }
 
     /**

@@ -2,6 +2,7 @@ package com.tfg.tfgv1.Ids;
 
 import com.tfg.tfgv1.entidades.Zona;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -16,12 +17,15 @@ public class FincaId implements Serializable
             @JoinColumn(name = "ZONA_UBICACION", referencedColumnName = "UBICACION")
     })
     private Zona zona;
+    @Getter
     @NotNull
     @Column(name = "POLIGONO")
     private Integer poligono; //Poligono del código SIGPAC
+    @Getter
     @NotNull
     @Column(name = "PARCELA")
     private Integer parcela; //Parcela del código SIGPAC
+    @Getter
     @NotNull
     @Column(name = "RECINTO")
     private Integer recinto; //Recinto del código SIGPAC
@@ -41,21 +45,6 @@ public class FincaId implements Serializable
         this.parcela = -1;
         this.recinto = -1;
         this.zona = null;
-    }
-
-    public Integer getPoligono()
-    {
-        return poligono;
-    }
-
-    public Integer getParcela()
-    {
-        return parcela;
-    }
-
-    public Integer getRecinto()
-    {
-        return recinto;
     }
 
     public Integer getMunicipio()

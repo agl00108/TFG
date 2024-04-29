@@ -705,7 +705,4 @@ public class SistemaFincasTest
         List<Cosecha> resultado = sistemaFincas.obtenerDatosCosechas(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
         Assertions.assertThat(resultado.size()).isGreaterThan(0);
     }
-
-
-
 }

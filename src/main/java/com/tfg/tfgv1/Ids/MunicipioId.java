@@ -5,14 +5,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+@Setter
 @Embeddable
 public class MunicipioId implements Serializable
 {
+    @Getter
     @NotNull
     @Min(-1)
     @Column(name = "CODIGO_MUNICIPIO")
@@ -34,23 +38,9 @@ public class MunicipioId implements Serializable
         this.provincia = null;
     }
 
-    public Integer getCodigoMunicipio()
-    {
-        return codigoMunicipio;
-    }
-
     public Integer getProvinciaCodigo()
     {
         return provincia.getCodigoProvincia();
     }
 
-    public void setCodigoMunicipio(Integer codigoMunicipio)
-    {
-        this.codigoMunicipio = codigoMunicipio;
-    }
-
-    public void setProvincia(Provincia provincia)
-    {
-        this.provincia = provincia;
-    }
 }
