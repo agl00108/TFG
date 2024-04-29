@@ -16,8 +16,10 @@
     "leaflet-draw": "^1.0.4",
     "leaflet.markercluster": "^1.5.3",
     "vue": "^3.4.21",
+    "vue-apexcharts": "^1.6.2",
     "vue-chartjs": "^5.3.1",
     "vue-router": "^4.3.0",
+    "vue3-apexcharts": "^1.5.2",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

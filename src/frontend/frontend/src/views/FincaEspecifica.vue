@@ -12,6 +12,7 @@
       <p><strong>Código Municipio:</strong> {{ finca.municipioCodigo }}</p>
       <p><strong>Código Provincia:</strong> {{ finca.codigoProvincia }}</p>
       <FincaMapa :latitud="zona.latitud" :longitud="zona.longitud" :geoJSONUrl="zonaUrl" />
+      <CosechaGrafica :finca="finca"/>
     </div>
     <div v-else>
       <p>Cargando datos de la finca...</p>
@@ -22,9 +23,10 @@
 
 <script>
 import FincaMapa from "@/components/FincaMapa.vue";
+import CosechaGrafica from "@/components/CosechaGrafica.vue";
 
 export default {
-  components: { FincaMapa },
+  components: {CosechaGrafica, FincaMapa },
   props: {
     zonaUrl: {
       type: String,
@@ -39,8 +41,10 @@ export default {
   watch: {
     finca: {
       immediate: true,
-      handler(newFinca) {
-        if (newFinca) {
+      handler(newFinca)
+      {
+        if (newFinca)
+        {
           this.fetchZona(newFinca);
         }
       },
@@ -57,7 +61,6 @@ export default {
           })
           .then((data) => {
             this.zona = data;
-            console.log(data);
           })
           .catch((error) => {
             console.error('Error al obtener la zona:', error);

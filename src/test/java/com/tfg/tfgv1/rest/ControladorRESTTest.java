@@ -175,9 +175,9 @@ public class ControladorRESTTest
     public void testBuscarCosechaFinca()
     {
         int provinciaCodigo=23;
-        int municipioCodigo=41;
-        int poligono=2;
-        int parcela=10;
+        int municipioCodigo=87;
+        int poligono=42;
+        int parcela=284;
         int recinto=2;
 
         ResponseEntity<DTOCosecha[]> response = restTemplate.getForEntity("/provincia/"+provinciaCodigo+"/municipio/" +
