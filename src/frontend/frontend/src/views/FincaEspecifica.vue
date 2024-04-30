@@ -1,32 +1,38 @@
 <template>
   <div class="container">
-  <div class="finca-details">
-    <h2>Datos de la Finca</h2>
-    <div v-if="finca">
-      <p><strong>Polígono:</strong> {{ finca.poligono }}</p>
-      <p><strong>Parcela:</strong> {{ finca.parcela }}</p>
-      <p><strong>Recinto:</strong> {{ finca.recinto }}</p>
-      <p><strong>Área:</strong> {{ finca.area }}</p>
-      <p><strong>Año SIGPAC:</strong> {{ finca.anioSigpac }}</p>
-      <p><strong>Zona Ubicación:</strong> {{ finca.zonaUbicacion }}</p>
-      <p><strong>Municipio:</strong> {{municipio.nombre}} ({{ finca.municipioCodigo }})</p>
-      <p><strong>Provincia:</strong>{{provincia.nombreProvincia}} ({{finca.codigoProvincia}})</p>
-      <FincaMapa :latitud="zona.latitud" :longitud="zona.longitud" :geoJSONUrl="zonaUrl" />
-      <CosechaGrafica :finca="finca"/>
+    <div class="finca-details">
+      <h2>Datos de la Finca</h2>
+      <div v-if="finca">
+        <p><strong>Polígono:</strong> {{ finca.poligono }}</p>
+        <p><strong>Parcela:</strong> {{ finca.parcela }}</p>
+        <p><strong>Recinto:</strong> {{ finca.recinto }}</p>
+        <p><strong>Área:</strong> {{ finca.area }}</p>
+        <p><strong>Año SIGPAC:</strong> {{ finca.anioSigpac }}</p>
+        <p><strong>Zona Ubicación:</strong> {{ finca.zonaUbicacion }}</p>
+        <p><strong>Municipio:</strong> {{ municipio.nombre }} ({{ finca.municipioCodigo }})</p>
+        <p><strong>Provincia:</strong> {{ provincia.nombreProvincia }} ({{ finca.codigoProvincia }})</p>
+        <FincaMapa :latitud="zona.latitud" :longitud="zona.longitud" :geoJSONUrl="zonaUrl" />
+        <CosechaGrafica :finca="finca"/>
+        <div>
+          <h3>Seleccionar Año:</h3>
+          <button v-for="year in years" :key="year" @click="selectYear(year)">{{ year }}</button>
+        </div>
+        <IndiceGrafica v-if="selectedYear" :year="selectedYear" :finca="finca" />
+      </div>
+      <div v-else>
+        <p>Cargando datos de la finca...</p>
+      </div>
     </div>
-    <div v-else>
-      <p>Cargando datos de la finca...</p>
-    </div>
-  </div>
   </div>
 </template>
 
 <script>
 import FincaMapa from "@/components/FincaMapa.vue";
 import CosechaGrafica from "@/components/CosechaGrafica.vue";
+import IndiceGrafica from "@/components/InsertarGraficos.vue";
 
 export default {
-  components: {CosechaGrafica, FincaMapa },
+  components: {IndiceGrafica, CosechaGrafica, FincaMapa },
   props: {
     zonaUrl: {
       type: String,
@@ -69,12 +75,19 @@ export default {
             this.municipio=data;
           });
     },
+    selectYear(year)
+    {
+      this.selectedYear = year;
+    },
   },
-  data() {
+  data()
+  {
     return {
       zona: { latitud: 0, longitud: 0, geoJSONUrl: '' },
       provincia: {},
-      municipio: {}
+      municipio: {},
+      selectedYear: null,
+      years: Array.from({ length: 8 }, (_, i) => 2016 + i),
     };
   },
 };
