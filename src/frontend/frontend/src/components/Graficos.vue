@@ -47,20 +47,29 @@ export default {
         chart: {
           height: 350,
           type: 'line',
+          stacked: false,
           zoom: {
             enabled: false
           },
         },
+        colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#546E7A', '#26a69a'],
         dataLabels: {
           enabled: false
         },
         stroke: {
-          width: [5],
+          width: [2],
           curve: 'smooth',
         },
+        markers: {
+          size: 5,
+          shape: "circle",
+        },
         title: {
-          text: 'Información sobre temperaturas',
-          align: 'left'
+          text: 'Temperaturas registradas',
+          align: 'center',
+          style: {
+            fontSize: '24px',
+          },
         },
         xaxis: {
           categories: []
@@ -100,8 +109,11 @@ export default {
           options: {
             ...this.chartOptions,
             title: {
-              text: 'Índice de Vegetación de Diferencia Normalizada | NDVI |',
-              align: 'left'
+              text: 'Índice de Vegetación de Diferencia Normalizada (NDVI)',
+              align: 'center',
+              style: {
+                fontSize: '24px',
+              },
             }
           }
         },
@@ -117,8 +129,11 @@ export default {
           options: {
             ...this.chartOptions,
             title: {
-              text: 'Índice de Humedad de Diferencia Normalizada | NDMI |',
-              align: 'left'
+              text: 'Índice de Humedad de Diferencia Normalizada (NDMI)',
+              align: 'center',
+              style: {
+                fontSize: '24px',
+              },
             }
           }
         },
@@ -134,8 +149,11 @@ export default {
           options: {
             ...this.chartOptions,
             title: {
-              text: 'Índice de Vegetación Ajustado al Suelo | SAVI |',
-              align: 'left'
+              text: 'Índice de Vegetación Ajustado al Suelo (SAVI)',
+              align: 'center',
+              style: {
+                fontSize: '24px',
+              },
             }
           }
         }
@@ -143,46 +161,76 @@ export default {
 
       const temperaturaSeries = [
         {
-          name: "Max Día",
+          name: "Máxima Día",
           data: this.temperaturaData.map(item => {
             const maxDiaObj = item.data.find(subItem => Object.keys(subItem)[0] === 'max_dia');
             return maxDiaObj ? parseFloat(Object.values(maxDiaObj)[0].replace(',', '.')) : null;
-          })
+          }),
+          markers: {
+            size: 5,
+            shape: "circle",
+          },
+          color: "#264d34",
         },
         {
-          name: "Min Día",
+          name: "Mínima Día",
           data: this.temperaturaData.map(item => {
             const minDiaObj = item.data.find(subItem => Object.keys(subItem)[0] === 'min_dia');
             return minDiaObj ? parseFloat(Object.values(minDiaObj)[0].replace(',', '.')) : null;
-          })
+          }),
+          markers: {
+            size: 5,
+            shape: "circle",
+          },
+          color: "#467c59",
         },
         {
           name: "Media Día",
           data: this.temperaturaData.map(item => {
             const meanDiaObj = item.data.find(subItem => Object.keys(subItem)[0] === 'mean_dia');
             return meanDiaObj ? parseFloat(Object.values(meanDiaObj)[0].replace(',', '.')) : null;
-          })
+          }),
+          markers: {
+            size: 5,
+            shape: "circle",
+          },
+          color: "#00ff64",
         },
         {
-          name: "Max Noche",
+          name: "Máxima Noche",
           data: this.temperaturaData.map(item => {
             const maxNocheObj = item.data.find(subItem => Object.keys(subItem)[0] === 'max_noc');
             return maxNocheObj ? parseFloat(Object.values(maxNocheObj)[0].replace(',', '.')) : null;
-          })
+          }),
+          markers: {
+            size: 5,
+            shape: "diamond",
+          },
+          color: "#264d34",
         },
         {
-          name: "Min Noche",
+          name: "Mínima Noche",
           data: this.temperaturaData.map(item => {
             const minNocheObj = item.data.find(subItem => Object.keys(subItem)[0] === 'min_noc');
             return minNocheObj ? parseFloat(Object.values(minNocheObj)[0].replace(',', '.')) : null;
-          })
+          }),
+          markers: {
+            size: 5,
+            shape: "diamond",
+          },
+          color: "#467c59",
         },
         {
           name: "Media Noche",
           data: this.temperaturaData.map(item => {
             const meanNocheObj = item.data.find(subItem => Object.keys(subItem)[0] === 'mean_noc');
             return meanNocheObj ? parseFloat(Object.values(meanNocheObj)[0].replace(',', '.')) : null;
-          })
+          }),
+          markers: {
+            size: 5,
+            shape: "diamond",
+          },
+          color: "#00ff64",
         }
       ];
 
@@ -193,8 +241,11 @@ export default {
           options: {
             ...this.chartOptions,
             title: {
-              text: 'Información sobre Precipitaciones',
-              align: 'left'
+              text: 'Precipitaciones registradas',
+              align: 'center',
+              style: {
+                fontSize: '24px',
+              },
             }
           }
         }
@@ -253,4 +304,5 @@ export default {
 .chart {
   margin-bottom: 20px;
 }
+
 </style>

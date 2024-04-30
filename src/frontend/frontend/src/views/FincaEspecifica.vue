@@ -1,17 +1,18 @@
 <template>
   <div class="container">
     <div class="finca-details">
-      <h2>Datos de la Finca</h2>
+      <h2>Datos de la Finca {{finca.zonaUbicacion }} </h2>
       <div v-if="finca">
-        <p><strong>Polígono:</strong> {{ finca.poligono }} <strong>Parcela:</strong> {{ finca.parcela }} <strong>Recinto:</strong> {{ finca.recinto }}</p>
-        <p><strong>Área:</strong> {{ finca.area }} m^2 <strong>Nombre Zona:</strong> {{ finca.zonaUbicacion }}</p>
-        <p><strong>Municipio:</strong> {{ municipio.nombre }} ({{ finca.municipioCodigo }})<strong>Provincia:</strong> {{ provincia.nombreProvincia }} ({{ finca.codigoProvincia }})</p>
-        <FincaMapa :latitud="zona.latitud" :longitud="zona.longitud" :geoJSONUrl="zonaUrl" />
-        <CosechaGrafica :finca="finca"/>
+        <p class="data"><strong>Municipio:</strong> {{ municipio.nombre }} ({{ finca.municipioCodigo }}) <strong>Provincia:</strong> {{ provincia.nombreProvincia }} ({{ finca.codigoProvincia }}) <strong>Polígono:</strong> {{ finca.poligono }} <strong>Parcela:</strong> {{ finca.parcela }} <strong>Recinto:</strong> {{ finca.recinto }} <strong>Área:</strong> {{ finca.area }} m² <strong>Zona:</strong> {{ finca.zonaUbicacion }}</p>
+        <div class="container">
+          <FincaMapa class="finca-mapa" :latitud="zona.latitud" :longitud="zona.longitud" :geoJSONUrl="zonaUrl" />
+          <CosechaGrafica class="cosecha-grafica" :finca="finca"/>
+        </div>
         <div>
-          <h3>Histórico de datos de la finca {{finca.zonaUbicacion }} </h3>
+          <h3>Histórico de datos </h3>
           <p>Seleccione año</p>
-          <button v-for="year in years" :key="year" @click="selectYear(year)">{{ year }}</button>
+          <button  v-for="year in years"  :key="year" @click="selectYear(year)" class="btn btn-success btn-year"
+              :class="{ 'selected': selectedYear === year }" >{{ year }}</button>
         </div>
         <IndiceGrafica v-if="selectedYear" :year="selectedYear" :finca="finca" />
       </div>
@@ -91,17 +92,56 @@ export default {
 </script>
 
 <style scoped>
+.h2
+{
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
 .container
 {
   padding-top: 120px;
   padding-bottom: 90px;
-  width: 200%;
+  width: 1000%;
 }
 .finca-details
 {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255);
   border: 2px solid #ccc;
   border-radius: 10px;
   padding: 20px;
 }
+.btn-year {
+  color: white;
+  border: 2px solid #ccc;
+  margin-right: 30px;
+  margin-bottom: 10px;
+  background-color: #264d34;
+  text-align: center;
+
+}
+
+.btn-year.selected
+{
+  background-color: #477a58;
+}
+
+.data {
+  color: #000000;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.data strong {
+  color: #477a58;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.finca-mapa,
+.cosecha-grafica {
+  flex: 1;
+}
+
 </style>

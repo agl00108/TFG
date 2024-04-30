@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="fetchHistorico">Cargar Datos</button>
+    <button @click="fetchHistorico" class="btn btn-success btn-year" style="display: block;">Cargar Datos</button>
     <div v-if="historico.length">
       <Graficos
           v-if="historico.length"
@@ -75,3 +75,20 @@ export default {
   }
 };
 </script>
+
+<style>
+.btn-year
+{
+  color: white;
+  border: 2px solid #ccc;
+  margin-right: 30px;
+  margin-bottom: 10px;
+  background-color: #264d34;
+  text-align: center;
+}
+
+.btn-year.selected
+{
+  background-color: #477a58;
+}
+</style>
