@@ -1,8 +1,7 @@
 <template>
   <div>
-    <button @click="fetchHistorico">Obtener Datos Históricos</button>
+    <button @click="fetchHistorico">Cargar Datos</button>
     <div v-if="historico.length">
-      <h3>Gráficas del Histórico de Datos de la Finca</h3>
       <Graficos
           v-if="historico.length"
           :finca="finca"
@@ -15,7 +14,7 @@
 </template>
 
 <script>
-import Graficos from './Graficos.vue'; // Ajusta la ruta según la ubicación real del componente
+import Graficos from './Graficos.vue';
 
 export default {
   components: {
@@ -34,7 +33,8 @@ export default {
     };
   },
   methods: {
-    fetchHistorico() {
+    fetchHistorico()
+    {
       const url = `/TFG/provincia/${this.finca.codigoProvincia}/municipio/${this.finca.municipioCodigo}/finca/${this.finca.poligono}/${this.finca.parcela}/${this.finca.recinto}/historico/${this.year}`;
       fetch(url)
           .then(response => response.json())
@@ -44,7 +44,9 @@ export default {
               this.reflectanciaData = [];
               this.temperaturaData = [];
               this.lluviaData = [];
-              this.historico = data;
+              this.historico = [];
+              this.historico =data;
+              console.log(this.historico);
               data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
               data.forEach(item =>

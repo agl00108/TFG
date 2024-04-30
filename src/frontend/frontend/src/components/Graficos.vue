@@ -85,7 +85,8 @@ export default {
     this.prepareChartData();
   },
   methods: {
-    prepareChartData() {
+    prepareChartData()
+    {
       const indicesSeries = [
         {
           name: "NDVI",
@@ -207,6 +208,7 @@ export default {
       this.chartOptions.xaxis.categories = categories;
 
       this.series = [];
+      this.temperaturaSeries=[];
       if (this.reflectanciaData.length > 0)
       {
         this.series = [...this.series, ...indicesSeries];
@@ -223,6 +225,26 @@ export default {
         console.log('lluvia');
       }
     }
+  },
+  watch: {
+    reflectanciaData: {
+      handler() {
+        this.prepareChartData();
+      },
+      deep: true,
+    },
+    temperaturaData: {
+      handler() {
+        this.prepareChartData();
+      },
+      deep: true,
+    },
+    lluviaData: {
+      handler() {
+        this.prepareChartData();
+      },
+      deep: true,
+    },
   },
 };
 </script>

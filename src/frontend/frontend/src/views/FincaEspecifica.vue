@@ -3,18 +3,14 @@
     <div class="finca-details">
       <h2>Datos de la Finca</h2>
       <div v-if="finca">
-        <p><strong>Polígono:</strong> {{ finca.poligono }}</p>
-        <p><strong>Parcela:</strong> {{ finca.parcela }}</p>
-        <p><strong>Recinto:</strong> {{ finca.recinto }}</p>
-        <p><strong>Área:</strong> {{ finca.area }}</p>
-        <p><strong>Año SIGPAC:</strong> {{ finca.anioSigpac }}</p>
-        <p><strong>Zona Ubicación:</strong> {{ finca.zonaUbicacion }}</p>
-        <p><strong>Municipio:</strong> {{ municipio.nombre }} ({{ finca.municipioCodigo }})</p>
-        <p><strong>Provincia:</strong> {{ provincia.nombreProvincia }} ({{ finca.codigoProvincia }})</p>
+        <p><strong>Polígono:</strong> {{ finca.poligono }} <strong>Parcela:</strong> {{ finca.parcela }} <strong>Recinto:</strong> {{ finca.recinto }}</p>
+        <p><strong>Área:</strong> {{ finca.area }} m^2 <strong>Nombre Zona:</strong> {{ finca.zonaUbicacion }}</p>
+        <p><strong>Municipio:</strong> {{ municipio.nombre }} ({{ finca.municipioCodigo }})<strong>Provincia:</strong> {{ provincia.nombreProvincia }} ({{ finca.codigoProvincia }})</p>
         <FincaMapa :latitud="zona.latitud" :longitud="zona.longitud" :geoJSONUrl="zonaUrl" />
         <CosechaGrafica :finca="finca"/>
         <div>
-          <h3>Seleccionar Año:</h3>
+          <h3>Histórico de datos de la finca {{finca.zonaUbicacion }} </h3>
+          <p>Seleccione año</p>
           <button v-for="year in years" :key="year" @click="selectYear(year)">{{ year }}</button>
         </div>
         <IndiceGrafica v-if="selectedYear" :year="selectedYear" :finca="finca" />
@@ -78,6 +74,7 @@ export default {
     selectYear(year)
     {
       this.selectedYear = year;
+      console.log(this.selectedYear);
     },
   },
   data()
