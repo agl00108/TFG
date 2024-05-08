@@ -14,14 +14,14 @@ import 'leaflet-draw';
 const props = defineProps({
   latitud: Number,
   longitud: Number,
-  geoJSONUrl: String,
+  zona: String,
 });
 
 const map = ref(null);
 let marker = null;
 
-onMounted(() => {
-  map.value = L.map(map.value).setView([props.latitud, props.longitud], 14);
+onMounted(async () => {
+  map.value = L.map(map.value).setView([props.latitud, props.longitud], 16);
 
   // Agregar capa de OpenStreetMap
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -47,6 +47,19 @@ onMounted(() => {
     }
   });
   map.value.addControl(drawControl);
+
+  //PARA CARGAR EL CONTORNO DEL MAPA
+  let geojson;
+  try {
+    const module = await import(`@/assets/geojson/${props.zona}.json`);
+    geojson = module.default;
+  } catch (error) {
+    console.error('Error al cargar el archivo GeoJSON:', error);
+    return;
+  }
+  L.geoJson(geojson, {
+    style: {"color": "#224930", "fill": false}
+  }).addTo(map.value);
 
   marker = L.marker([props.latitud, props.longitud]).addTo(map.value).bindPopup('Finca');
 });

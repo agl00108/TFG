@@ -45,6 +45,7 @@ onMounted(async () =>
     L.geoJson(geojson, {
       style: {"color": "#90ee90", "fill": false }
     }).addTo(map.value);
+
     // Inicializar el plugin Leaflet Draw
     const drawnItems = new L.FeatureGroup();
     map.value.addLayer(drawnItems);
@@ -99,6 +100,6 @@ watch(() => [props.latitud, props.longitud], ([newLat, newLon]) => {
 .map
 {
   height: 500px;
-  width: 500px;
+  width: 860px;
 }
 </style>

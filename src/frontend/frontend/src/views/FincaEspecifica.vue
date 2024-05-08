@@ -3,22 +3,30 @@
     <div class="finca-details">
       <h2>Datos de la Finca {{finca.zonaUbicacion }} </h2>
       <div v-if="finca">
-        <p class="data"><strong>Municipio:</strong> {{ municipio.nombre }} ({{ finca.municipioCodigo }}) <strong>Provincia:</strong> {{ provincia.nombreProvincia }} ({{ finca.codigoProvincia }}) <strong>Polígono:</strong> {{ finca.poligono }} <strong>Parcela:</strong> {{ finca.parcela }} <strong>Recinto:</strong> {{ finca.recinto }} <strong>Área:</strong> {{ finca.area }} m² <strong>Zona:</strong> {{ finca.zonaUbicacion }}</p>
-        <div class="container">
+        <div class="containerDatos">
+          <p class="data">
+            <strong>Municipio:</strong> {{ municipio.nombre }} ({{ finca.municipioCodigo }}) <br>
+            <strong>Provincia:</strong> {{ provincia.nombreProvincia }} ({{ finca.codigoProvincia }}) <br>
+            <strong>Polígono:</strong> {{ finca.poligono }} <br>
+            <strong>Parcela:</strong> {{ finca.parcela }} <br>
+            <strong>Recinto:</strong> {{ finca.recinto }} <br>
+            <strong>Área:</strong> {{ finca.area }} m² <br>
+            <strong>Zona:</strong> {{ finca.zonaUbicacion }}
+          </p>
           <Mapa class="finca-mapa" :latitud="zona.latitud" :longitud="zona.longitud" :zona="finca.zonaUbicacion" />
+        </div>
           <CosechaGrafica class="cosecha-grafica" :finca="finca"/>
-        </div>
-        <div>
-          <h3>Histórico de datos </h3>
-          <p>Seleccione año</p>
-          <button  v-for="year in years"  :key="year" @click="selectYear(year)" class="btn btn-success btn-year"
-              :class="{ 'selected': selectedYear === year }" >{{ year }}</button>
-        </div>
-        <IndiceGrafica v-if="selectedYear" :year="selectedYear" :finca="finca" />
       </div>
-      <div v-else>
-        <p>Cargando datos de la finca...</p>
+        <div v-else>
+          <p>Cargando datos de la finca...</p>
+        </div>
+      <div>
+        <h3>Histórico de datos </h3>
+        <p>Seleccione año</p>
+        <button  v-for="year in years"  :key="year" @click="selectYear(year)" class="btn btn-success btn-year"
+                 :class="{ 'selected': selectedYear === year }" >{{ year }}</button>
       </div>
+      <IndiceGrafica v-if="selectedYear" :year="selectedYear" :finca="finca" />
     </div>
   </div>
 </template>
@@ -26,7 +34,7 @@
 <script>
 import CosechaGrafica from "@/components/CosechaGrafica.vue";
 import IndiceGrafica from "@/components/InsertarGraficos.vue";
-import Mapa from "@/components/PruebaMapa.vue";
+import Mapa from "@/components/MapaPNOA.vue";
 
 export default {
   components: {IndiceGrafica, CosechaGrafica, Mapa },
@@ -94,8 +102,9 @@ export default {
 }
 .container
 {
+  padding-bottom: 50px;
+  margin-bottom: 50px;
   padding-top: 120px;
-  padding-bottom: 90px;
   width: 1000%;
 }
 .finca-details
@@ -105,14 +114,14 @@ export default {
   border-radius: 10px;
   padding: 20px;
 }
-.btn-year {
+.btn-year
+{
   color: white;
   border: 2px solid #ccc;
   margin-right: 30px;
   margin-bottom: 10px;
   background-color: #264d34;
   text-align: center;
-
 }
 
 .btn-year.selected
@@ -120,17 +129,21 @@ export default {
   background-color: #477a58;
 }
 
-.data {
+.data
+{
   color: #000000;
   font-size: 1.2em;
   margin-bottom: 10px;
+  margin-right: 120px;
 }
 
 .data strong {
   color: #477a58;
 }
-.container {
+.containerDatos
+{
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
