@@ -6,8 +6,7 @@
       <p><strong>SIGPAC:</strong> {{ finca.provinciaCodigo }}:{{ finca.municipioCodigo }}:0:0:{{ finca.poligono }}:{{ finca.parcela }}:{{ finca.recinto }} </p>
       <p><strong>Municipio:</strong>  {{municipio.nombre}} ({{ finca.municipioCodigo }})</p>
       <p><strong>Provincia:</strong>  {{provincia.nombreProvincia}} ({{ finca.provinciaCodigo }})</p>
-      <FincaMapa :latitud="zona.latitud" :longitud="zona.longitud" :geoJSONUrl="zonaUrl" />
-      <div class="button-container">
+      <FincaMapa :latitud="zona.latitud" :longitud="zona.longitud" :geoJSONUrl="zonaUrl"  /><div class="button-container">
         <button @click="verMasInformacion" class="btn btn-primary button-custom">Más información</button>
       </div>
     </div>
@@ -113,4 +112,5 @@ h3
   border-color: white;
   text-align: center;
 }
+
 </style>

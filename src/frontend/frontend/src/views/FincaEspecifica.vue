@@ -5,7 +5,7 @@
       <div v-if="finca">
         <p class="data"><strong>Municipio:</strong> {{ municipio.nombre }} ({{ finca.municipioCodigo }}) <strong>Provincia:</strong> {{ provincia.nombreProvincia }} ({{ finca.codigoProvincia }}) <strong>Polígono:</strong> {{ finca.poligono }} <strong>Parcela:</strong> {{ finca.parcela }} <strong>Recinto:</strong> {{ finca.recinto }} <strong>Área:</strong> {{ finca.area }} m² <strong>Zona:</strong> {{ finca.zonaUbicacion }}</p>
         <div class="container">
-          <FincaMapa class="finca-mapa" :latitud="zona.latitud" :longitud="zona.longitud" :geoJSONUrl="zonaUrl" />
+          <Mapa class="finca-mapa" :latitud="zona.latitud" :longitud="zona.longitud" :zona="finca.zonaUbicacion" />
           <CosechaGrafica class="cosecha-grafica" :finca="finca"/>
         </div>
         <div>
@@ -24,18 +24,13 @@
 </template>
 
 <script>
-import FincaMapa from "@/components/FincaMapa.vue";
 import CosechaGrafica from "@/components/CosechaGrafica.vue";
 import IndiceGrafica from "@/components/InsertarGraficos.vue";
+import Mapa from "@/components/PruebaMapa.vue";
 
 export default {
-  components: {IndiceGrafica, CosechaGrafica, FincaMapa },
-  props: {
-    zonaUrl: {
-      type: String,
-      required: true,
-    },
-  },
+  components: {IndiceGrafica, CosechaGrafica, Mapa },
+
   computed: {
     finca() {
       return this.$store.state.finca;
