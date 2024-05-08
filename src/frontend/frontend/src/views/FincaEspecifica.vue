@@ -13,7 +13,7 @@
             <strong>Área:</strong> {{ finca.area }} m² <br>
             <strong>Zona:</strong> {{ finca.zonaUbicacion }}
           </p>
-          <Mapa class="finca-mapa" :latitud="zona.latitud" :longitud="zona.longitud" :zona="finca.zonaUbicacion" />
+          <MapaPNOA class="finca-mapa" :latitud="zona.latitud" :longitud="zona.longitud" :zona="finca.zonaUbicacion" />
         </div>
           <CosechaGrafica class="cosecha-grafica" :finca="finca"/>
       </div>
@@ -34,10 +34,10 @@
 <script>
 import CosechaGrafica from "@/components/CosechaGrafica.vue";
 import IndiceGrafica from "@/components/InsertarGraficos.vue";
-import Mapa from "@/components/MapaPNOA.vue";
+import MapaPNOA from "@/components/MapaPNOA.vue";
 
 export default {
-  components: {IndiceGrafica, CosechaGrafica, Mapa },
+  components: {IndiceGrafica, CosechaGrafica, MapaPNOA },
 
   computed: {
     finca() {

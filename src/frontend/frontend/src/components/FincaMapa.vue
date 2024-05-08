@@ -10,6 +10,8 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw';
+import iconoUbicacion from '@/assets/img/iconoUbicacion.png';
+
 
 const props = defineProps({
   latitud: Number,
@@ -61,7 +63,16 @@ onMounted(async () => {
     style: {"color": "#224930", "fill": false}
   }).addTo(map.value);
 
-  marker = L.marker([props.latitud, props.longitud]).addTo(map.value).bindPopup('Finca');
+  const greenIcon = L.icon({
+    iconUrl: iconoUbicacion,
+    iconSize: [70, 75],
+    iconAnchor: [35, 50],
+    popupAnchor: [0, -37.5]
+  });
+
+// Crear el marcador con el ícono verde oscuro
+  marker = L.marker([props.latitud, props.longitud], { icon: greenIcon }).addTo(map.value).bindPopup('Finca');
+
 });
 
 watch(() => [props.latitud, props.longitud], ([newLat, newLon]) => {
