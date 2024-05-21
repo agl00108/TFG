@@ -70,9 +70,7 @@ onMounted(async () => {
     popupAnchor: [0, -37.5]
   });
 
-// Crear el marcador con el ícono verde oscuro
   marker = L.marker([props.latitud, props.longitud], { icon: greenIcon }).addTo(map.value).bindPopup('Finca');
-
 });
 
 watch(() => [props.latitud, props.longitud], ([newLat, newLon]) => {

@@ -35,7 +35,7 @@ export default {
   methods: {
     fetchHistorico()
     {
-      const url = `/TFG/provincia/${this.finca.codigoProvincia}/municipio/${this.finca.municipioCodigo}/finca/${this.finca.poligono}/${this.finca.parcela}/${this.finca.recinto}/historico/${this.year}`;
+      const url = `/TFG/provincia/${this.finca.codigoProvincia}/municipio/${this.finca.municipioCodigo}/finca/${this.finca.poligono}/${this.finca.parcela}/${this.finca.recinto}/historico/${this.year}/sat`;
       fetch(url)
           .then(response => response.json())
           .then(data => {
@@ -65,6 +65,7 @@ export default {
                 }
               });
             } else {
+              console.log(data);
               console.error('La respuesta no es un array.');
             }
           })

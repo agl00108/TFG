@@ -43,7 +43,7 @@ onMounted(async () =>
       return;
     }
     L.geoJson(geojson, {
-      style: {"color": "#90ee90", "fill": false }
+      style: {"color": "#224930", "fill": false }
     }).addTo(map.value);
 
     // Inicializar el plugin Leaflet Draw

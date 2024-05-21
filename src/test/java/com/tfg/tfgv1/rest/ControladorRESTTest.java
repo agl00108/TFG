@@ -193,10 +193,10 @@ public class ControladorRESTTest
         int poligono=3;
         int parcela=101;
         int recinto=3;
-        int anio=2020;
+        int anio=2019;
 
         ResponseEntity<DTOHistoricoFinca[]> response = restTemplate.getForEntity("/provincia/"+provinciaCodigo+"/municipio/" +
-                municipioCodigo + "/finca/" + poligono + "/" + parcela + "/" + recinto + "/historico/" + anio, DTOHistoricoFinca[].class);
+                municipioCodigo + "/finca/" + poligono + "/" + parcela + "/" + recinto + "/historico/" + anio+"/sat", DTOHistoricoFinca[].class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         DTOHistoricoFinca[] historicos = response.getBody();
         Assertions.assertThat(historicos).isNotEmpty();

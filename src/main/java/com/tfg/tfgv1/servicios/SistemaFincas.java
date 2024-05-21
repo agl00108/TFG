@@ -284,8 +284,14 @@ public class SistemaFincas
     }
 
     @Transactional
-    public List<HistoricoFinca> obtenerHistoricoFincaAnio(Finca finca, int anio)
+    public List<HistoricoFinca> obtenerHistoricoFincaAnioSat(Finca finca, int anio)
     {
-        return historicoFincaRepositorio.obtenerHistoricoFincaAnio(finca, anio);
+        return historicoFincaRepositorio.obtenerHistoricoFincaAnioSat(finca, anio);
+    }
+
+    @Transactional
+    public List<HistoricoFinca> obtenerHistoricoFincaAnioDron(Finca finca, int anio)
+    {
+        return historicoFincaRepositorio.obtenerHistoricoFincaAnioDron(finca, anio);
     }
 }

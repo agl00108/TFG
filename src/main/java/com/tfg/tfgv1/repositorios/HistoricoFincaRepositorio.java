@@ -54,19 +54,42 @@ public class HistoricoFincaRepositorio
     }
 
     /**
-     * @brief Obtener los años de los que se tienen datos históricos de una finca
+     * @brief Obtener los años de los que se tienen datos históricos de una finca de satélites
      * @param finca Finca de la que se quieren obtener los historicos
      * @param anio Año del que se quieren obtener los datos
      * @return Lista de HistoricoFinca
      */
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public List<HistoricoFinca> obtenerHistoricoFincaAnio(Finca finca, int anio)
+    public List<HistoricoFinca> obtenerHistoricoFincaAnioSat(Finca finca, int anio)
     {
         String jpql = "SELECT hf FROM HistoricoFinca hf WHERE hf.id.finca.id.parcela = :fincaParcela AND " +
                 "hf.id.finca.id.poligono = :fincaPoligono AND hf.id.finca.id.recinto = :fincaRecinto AND " +
                 "hf.id.finca.id.zona.id.municipio.id.codigoMunicipio = :municipioCodigo AND " +
                 "hf.id.finca.id.zona.id.municipio.id.provincia.codigoProvincia = :provinciaCodigo AND " +
-                "EXTRACT(YEAR FROM hf.id.fecha) = :anio";
+                "EXTRACT(YEAR FROM hf.id.fecha) = :anio AND hf.tipoFuente = 'Satélite'";
+        TypedQuery<HistoricoFinca> query = em.createQuery(jpql, HistoricoFinca.class)
+                .setParameter("municipioCodigo", finca.getMunicipioCodigo())
+                .setParameter("provinciaCodigo", finca.getCodigoProvincia())
+                .setParameter("fincaPoligono", finca.getPoligono())
+                .setParameter("fincaParcela", finca.getParcela())
+                .setParameter("fincaRecinto", finca.getRecinto())
+                .setParameter("anio", anio);
+        return query.getResultList();
+    }
+    /**
+     * @brief Obtener los años de los que se tienen datos históricos de una finca de dron
+     * @param finca Finca de la que se quieren obtener los historicos
+     * @param anio Año del que se quieren obtener los datos
+     * @return Lista de HistoricoFinca
+     */
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<HistoricoFinca> obtenerHistoricoFincaAnioDron(Finca finca, int anio)
+    {
+        String jpql = "SELECT hf FROM HistoricoFinca hf WHERE hf.id.finca.id.parcela = :fincaParcela AND " +
+                "hf.id.finca.id.poligono = :fincaPoligono AND hf.id.finca.id.recinto = :fincaRecinto AND " +
+                "hf.id.finca.id.zona.id.municipio.id.codigoMunicipio = :municipioCodigo AND " +
+                "hf.id.finca.id.zona.id.municipio.id.provincia.codigoProvincia = :provinciaCodigo AND " +
+                "EXTRACT(YEAR FROM hf.id.fecha) = :anio AND hf.tipoFuente = 'Dron'";
         TypedQuery<HistoricoFinca> query = em.createQuery(jpql, HistoricoFinca.class)
                 .setParameter("municipioCodigo", finca.getMunicipioCodigo())
                 .setParameter("provinciaCodigo", finca.getCodigoProvincia())

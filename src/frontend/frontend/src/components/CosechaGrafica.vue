@@ -51,8 +51,11 @@ export default {
           dashArray: [0, 8, 5]
         },
         title: {
-          text: 'Estadísticas de Cosechas',
-          align: 'left'
+          text: 'Estadísticas de Cosechas Anuales',
+            align: 'center',
+            style: {
+              fontSize: '24px',
+            },
         },
         legend: {
           tooltipHoverFormatter: function(val, opts)
@@ -130,3 +133,8 @@ export default {
 };
 </script>
 
+<style>
+  #chart {
+    margin-top: 20px;
+  }
+</style>

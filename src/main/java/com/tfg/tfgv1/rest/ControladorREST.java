@@ -205,8 +205,8 @@ public class ControladorREST
         return streamDTOCosechas.toList();
     }
 
-    @GetMapping("/provincia/{provinciaCodigo}/municipio/{municipioCodigo}/finca/{poligono}/{parcela}/{recinto}/historico/{anio}")
-    public List<DTOHistoricoFinca> buscarHistoricoAnio(
+    @GetMapping("/provincia/{provinciaCodigo}/municipio/{municipioCodigo}/finca/{poligono}/{parcela}/{recinto}/historico/{anio}/sat")
+    public List<DTOHistoricoFinca> buscarHistoricoAnioSat(
             @PathVariable int provinciaCodigo, @PathVariable int municipioCodigo,
             @PathVariable int poligono, @PathVariable int parcela,
             @PathVariable int recinto, @PathVariable int anio)
@@ -214,7 +214,7 @@ public class ControladorREST
         Optional<Finca> fincaOptional = sistemaFincas.buscarFincaEsp(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
         if(fincaOptional.isPresent())
         {
-            List<HistoricoFinca> historico = sistemaFincas.obtenerHistoricoFincaAnio(fincaOptional.get(), anio);
+            List<HistoricoFinca> historico = sistemaFincas.obtenerHistoricoFincaAnioSat(fincaOptional.get(), anio);
             Stream<HistoricoFinca> stream = historico.stream();
             Stream<DTOHistoricoFinca> streamDTO = stream.map(DTOHistoricoFinca::new);
             return streamDTO.toList();
@@ -222,4 +222,20 @@ public class ControladorREST
         return List.of();
     }
 
+    @GetMapping("/provincia/{provinciaCodigo}/municipio/{municipioCodigo}/finca/{poligono}/{parcela}/{recinto}/historico/{anio}/dron")
+    public List<DTOHistoricoFinca> buscarHistoricoAnioDron(
+            @PathVariable int provinciaCodigo, @PathVariable int municipioCodigo,
+            @PathVariable int poligono, @PathVariable int parcela,
+            @PathVariable int recinto, @PathVariable int anio)
+    {
+        Optional<Finca> fincaOptional = sistemaFincas.buscarFincaEsp(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
+        if(fincaOptional.isPresent())
+        {
+            List<HistoricoFinca> historico = sistemaFincas.obtenerHistoricoFincaAnioDron(fincaOptional.get(), anio);
+            Stream<HistoricoFinca> stream = historico.stream();
+            Stream<DTOHistoricoFinca> streamDTO = stream.map(DTOHistoricoFinca::new);
+            return streamDTO.toList();
+        }
+        return List.of();
+    }
 }

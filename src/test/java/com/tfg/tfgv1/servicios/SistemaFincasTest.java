@@ -715,12 +715,31 @@ public class SistemaFincasTest
         int poligono=3;
         int parcela=101;
         int recinto=3;
-        int anio=2020;
+        int anio=2023;
 
         Optional<Finca> resultado=sistemaFincas.buscarFincaEsp(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
         if(resultado.isPresent())
         {
-            List<HistoricoFinca> historico = sistemaFincas.obtenerHistoricoFincaAnio(resultado.get(), anio);
+            List<HistoricoFinca> historico = sistemaFincas.obtenerHistoricoFincaAnioSat(resultado.get(), anio);
+            Assertions.assertThat(historico.size()).isGreaterThan(0);
+        }
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void buscarHistoricoFincaPorAnioDron()
+    {
+        int provinciaCodigo=23;
+        int municipioCodigo=59;
+        int poligono=6;
+        int parcela=211;
+        int recinto=1;
+        int anio=2023;
+
+        Optional<Finca> resultado=sistemaFincas.buscarFincaEsp(provinciaCodigo, municipioCodigo, poligono, parcela, recinto);
+        if(resultado.isPresent())
+        {
+            List<HistoricoFinca> historico = sistemaFincas.obtenerHistoricoFincaAnioDron(resultado.get(), anio);
             Assertions.assertThat(historico.size()).isGreaterThan(0);
         }
     }

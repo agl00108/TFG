@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="finca-details">
-      <h2>Datos de la Finca {{finca.zonaUbicacion }} </h2>
+      <h2>Informe de la Finca {{finca.zonaUbicacion }}</h2>
       <div v-if="finca">
         <div class="containerDatos">
           <p class="data">
@@ -10,7 +10,7 @@
             <strong>Polígono:</strong> {{ finca.poligono }} <br>
             <strong>Parcela:</strong> {{ finca.parcela }} <br>
             <strong>Recinto:</strong> {{ finca.recinto }} <br>
-            <strong>Área:</strong> {{ finca.area }} m² <br>
+            <strong>Área:</strong> {{ finca.area }} ha <br>
             <strong>Zona:</strong> {{ finca.zonaUbicacion }}
           </p>
           <MapaPNOA class="finca-mapa" :latitud="zona.latitud" :longitud="zona.longitud" :zona="finca.zonaUbicacion" />
@@ -95,10 +95,11 @@ export default {
 </script>
 
 <style scoped>
-.h2
+h2
 {
-  font-size: 1.5em;
+  font-size: 2.5em;
   margin-bottom: 20px;
+  text-align: center;
 }
 .container
 {
