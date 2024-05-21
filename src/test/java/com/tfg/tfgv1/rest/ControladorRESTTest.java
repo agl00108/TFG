@@ -201,4 +201,22 @@ public class ControladorRESTTest
         DTOHistoricoFinca[] historicos = response.getBody();
         Assertions.assertThat(historicos).isNotEmpty();
     }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarHistoricoFincaPorAnioDron()
+    {
+        int provinciaCodigo=23;
+        int municipioCodigo=59;
+        int poligono=6;
+        int parcela=211;
+        int recinto=1;
+        int anio=2023;
+
+        ResponseEntity<DTOHistoricoFinca[]> response = restTemplate.getForEntity("/provincia/"+provinciaCodigo+"/municipio/" +
+                municipioCodigo + "/finca/" + poligono + "/" + parcela + "/" + recinto + "/historico/" + anio+"/dron", DTOHistoricoFinca[].class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        DTOHistoricoFinca[] historicos = response.getBody();
+        Assertions.assertThat(historicos).isNotEmpty();
+    }
 }
