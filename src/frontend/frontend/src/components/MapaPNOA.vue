@@ -13,6 +13,7 @@ import 'leaflet-draw';
 import proj4 from 'proj4';
 import pointInPolygon from '@turf/boolean-point-in-polygon';
 import { point, polygon } from '@turf/helpers';
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
   latitud: Number,
@@ -20,6 +21,7 @@ const props = defineProps({
   zona: String,
   olivos: Array
 });
+const router = useRouter();
 
 let map = ref(null);
 let centerMarker = null;
@@ -38,7 +40,7 @@ let geojsonLayer = null;
 
 onMounted(async () => {
   if (!map.value) {
-    map.value = L.map('map').setView([props.latitud, props.longitud], 17);
+    map.value = L.map('map').setView([props.latitud, props.longitud], 18);
     L.tileLayer.wms("http://www.ign.es/wms-inspire/pnoa-ma", {
       layers: 'OI.OrthoimageCoverage',
       attribution: "Fuente: Ortofotos PNOA"
@@ -84,13 +86,13 @@ watch(() => [props.latitud, props.longitud], ([newLat, newLon]) => {
   }
 
   if (!map.value) {
-    map.value = L.map('map').setView([newLat, newLon], 17);
+    map.value = L.map('map').setView([newLat, newLon], 18);
     L.tileLayer.wms("http://www.ign.es/wms-inspire/pnoa-ma", {
       layers: 'OI.OrthoimageCoverage',
       attribution: "Fuente: Ortofotos PNOA"
     }).addTo(map.value);
   } else {
-    map.value.setView([newLat, newLon], 17);
+    map.value.setView([newLat, newLon], 18);
   }
 });
 
@@ -109,11 +111,12 @@ watch(() => props.olivos, (newOlivos) => {
 
       if (isInside) {
         const circle = L.circle([lat, lon], {
-          color: 'blue',
-          fillColor: '#0080ff',
-          fillOpacity: 0.5,
+          color: "rgba(34,73,48,0.39)",
           radius: 3
         }).addTo(map.value).bindPopup(`Olivo: ${olivo.idObjeto}`);
+
+        circle.on('click', () => { router.push('/OlivoView'); });
+
         markers.value.push(circle);
       }
     });

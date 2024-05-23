@@ -33,6 +33,11 @@ const router = createRouter({
       path: '/fincaEsp',
       name: 'fincaEsp',
       component: () => import('../views/FincaEspecifica.vue')
+    },
+    {
+      path: '/OlivoView',
+      name: 'olivoView',
+      component: () => import('../views/OlivoView.vue')
     }
   ]
 })
