@@ -4,18 +4,16 @@
     <div v-if="historico.length">
       <Graficos
           v-if="historico.length"
-          :finca="finca"
+          :id="id"
           :reflectanciaDataS="reflectanciaDataS"
           :reflectanciaDataD="reflectanciaDataD"
-          :temperaturaData="temperaturaData"
-          :lluviaData="lluviaData"
       />
     </div>
   </div>
 </template>
 
 <script>
-import Graficos from './Graficos.vue';
+import Graficos from './GraficosOlivo.vue';
 
 export default {
   components: {
@@ -23,21 +21,20 @@ export default {
   },
   props: {
     year: Number,
-    finca: Object
+    id: Number
   },
   data() {
     return {
       historico: [],
       reflectanciaDataS: [],
       reflectanciaDataD: [],
-      temperaturaData: [],
-      lluviaData: []
     };
   },
   methods: {
     fetchHistorico()
     {
-      const urlS = `/TFG/provincia/${this.finca.codigoProvincia}/municipio/${this.finca.municipioCodigo}/finca/${this.finca.poligono}/${this.finca.parcela}/${this.finca.recinto}/historico/${this.year}/sat`;
+      const urlS = `/TFG/historico/${this.year}/olivo/${this.id}/sat`;
+      console.log(urlS);
       fetch(urlS)
           .then(response => response.json())
           .then(data => {
@@ -45,22 +42,15 @@ export default {
             {
               this.historico = [];
               this.reflectanciaDataS= [];
-              this.temperaturaData= [];
-              this.lluviaData= [];
               this.historico =data;
               data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
               data.forEach(item =>
               {
-                if (item.reflectancia && item.temperatura && item.lluvia)
+                if (item.reflectancia)
                 {
                   const reflectanciaJSON = JSON.parse(atob(item.reflectancia));
-                  const temperaturaJSON = JSON.parse(atob(item.temperatura));
-                  const lluvia = item.lluvia;
-
                   this.reflectanciaDataS.push(reflectanciaJSON);
-                  this.temperaturaData.push(temperaturaJSON);
-                  this.lluviaData.push(lluvia);
                 } else {
                   console.error('El item no contiene los datos esperados.');
                 }
@@ -74,7 +64,7 @@ export default {
           });
 
       this.reflectanciaDataD= [];
-      const urlD = `/TFG/provincia/${this.finca.codigoProvincia}/municipio/${this.finca.municipioCodigo}/finca/${this.finca.poligono}/${this.finca.parcela}/${this.finca.recinto}/historico/${this.year}/dron`;
+      const urlD = `/TFG/historico/${this.year}/olivo/${this.id}/dron`;
       fetch(urlD)
           .then(response => response.json())
           .then(data => {

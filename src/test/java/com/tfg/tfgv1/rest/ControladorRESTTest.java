@@ -259,4 +259,15 @@ public class ControladorRESTTest
         DTOHistoricoDatos[] historicos = response.getBody();
         Assertions.assertThat(historicos).isNotEmpty();
     }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarOlivo()
+    {
+        int id=588;
+        ResponseEntity<DTOObjeto> response = restTemplate.getForEntity("/olivos/"+id, DTOObjeto.class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        DTOObjeto olivo = response.getBody();
+        Assertions.assertThat(olivo).isNotNull();
+    }
 }

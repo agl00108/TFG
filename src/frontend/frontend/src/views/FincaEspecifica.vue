@@ -33,10 +33,11 @@
 
 <script>
 import CosechaGrafica from "@/components/CosechaGrafica.vue";
-import IndiceGrafica from "@/components/InsertarGraficos.vue";
+import IndiceGrafica from "@/components/InsertarGraficosFinca.vue";
 import MapaPNOA from "@/components/MapaPNOA.vue";
 
-export default {
+export default
+{
   components: {IndiceGrafica, CosechaGrafica, MapaPNOA },
 
   computed: {

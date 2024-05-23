@@ -61,6 +61,13 @@ public class ControladorREST
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/olivos/{id}")
+    public ResponseEntity<DTOObjeto> buscarOlivo(@PathVariable int id)
+    {
+        Optional<Objeto> olivoOptional = sistemaFincas.buscarObjeto(id);
+        return olivoOptional.map(u -> ResponseEntity.ok(new DTOObjeto(u))).orElse(ResponseEntity.notFound().build());
+    }
+
     /**
      * Consultar municipio en concreto
      */
