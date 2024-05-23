@@ -74,7 +74,6 @@ onMounted(async () => {
     });
     map.value.addControl(drawControl);
 
-    centerMarker = L.marker([props.latitud, props.longitud]).addTo(map.value).bindPopup('Finca');
   }
 });
 
@@ -109,8 +108,13 @@ watch(() => props.olivos, (newOlivos) => {
       });
 
       if (isInside) {
-        const marker = L.marker([lat, lon]).addTo(map.value).bindPopup(`Olivo: ${olivo.idObjeto}`);
-        markers.value.push(marker);
+        const circle = L.circle([lat, lon], {
+          color: 'blue',
+          fillColor: '#0080ff',
+          fillOpacity: 0.5,
+          radius: 3
+        }).addTo(map.value).bindPopup(`Olivo: ${olivo.idObjeto}`);
+        markers.value.push(circle);
       }
     });
   }
