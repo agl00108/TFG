@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import OlivoView from "../views/OlivoView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,9 +36,10 @@ const router = createRouter({
       component: () => import('../views/FincaEspecifica.vue')
     },
     {
-      path: '/OlivoView',
-      name: 'olivoView',
-      component: () => import('../views/OlivoView.vue')
+      path: '/OlivoView/:idObjeto',
+      name: 'OlivoView',
+      component: OlivoView,
+      props: true
     }
   ]
 })

@@ -115,7 +115,7 @@ watch(() => props.olivos, (newOlivos) => {
           radius: 3
         }).addTo(map.value).bindPopup(`Olivo: ${olivo.idObjeto}`);
 
-        circle.on('click', () => { router.push('/OlivoView'); });
+        circle.on('click', () => { router.push({ name: 'OlivoView', params: { idObjeto: olivo.idObjeto }});});
 
         markers.value.push(circle);
       }
