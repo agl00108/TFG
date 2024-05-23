@@ -5,35 +5,45 @@
 </template>
 
 <script setup>
-import {ref, onMounted, defineProps, watch, onUnmounted} from 'vue';
+import { ref, onMounted, defineProps, watch } from 'vue';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet-draw';
+import proj4 from 'proj4';
+import pointInPolygon from '@turf/boolean-point-in-polygon';
+import { point, polygon } from '@turf/helpers';
 
 const props = defineProps({
   latitud: Number,
   longitud: Number,
-  zona:String,
+  zona: String,
+  olivos: Array
 });
 
 let map = ref(null);
-let marker = null;
+let centerMarker = null;
+let markers = ref([]);
 
-onMounted(async () =>
-{
-  //PARA CREAR EL MAPA
-  if (!map.value)
-  {
+// Define the UTM projection
+const utmProjection = `+proj=utm +zone=30 +datum=WGS84 +units=m +no_defs`; // Replace with your specific UTM zone if different
+
+// Function to convert UTM to LatLng
+const convertUTMToLatLng = (x, y) => {
+  const [lon, lat] = proj4(utmProjection, 'EPSG:4326', [x, y]);
+  return [lat, lon];
+};
+
+let geojsonLayer = null;
+
+onMounted(async () => {
+  if (!map.value) {
     map.value = L.map('map').setView([props.latitud, props.longitud], 17);
-    var capa = L.tileLayer.wms("http://www.ign.es/wms-inspire/pnoa-ma",
-    {
+    L.tileLayer.wms("http://www.ign.es/wms-inspire/pnoa-ma", {
       layers: 'OI.OrthoimageCoverage',
       attribution: "Fuente: Ortofotos PNOA"
-    });
-    capa.addTo(map.value);
+    }).addTo(map.value);
 
-    //PARA CARGAR EL CONTORNO DEL MAPA
     let geojson;
     try {
       const module = await import(`@/assets/geojson/${props.zona}.json`);
@@ -42,11 +52,10 @@ onMounted(async () =>
       console.error('Error al cargar el archivo GeoJSON:', error);
       return;
     }
-    L.geoJson(geojson, {
+    geojsonLayer = L.geoJson(geojson, {
       style: {"color": "#224930", "fill": false }
     }).addTo(map.value);
 
-    // Inicializar el plugin Leaflet Draw
     const drawnItems = new L.FeatureGroup();
     map.value.addLayer(drawnItems);
     const drawControl = new L.Control.Draw({
@@ -65,40 +74,54 @@ onMounted(async () =>
     });
     map.value.addControl(drawControl);
 
-    //PARA AÑADIR EL MARCADOR DEL CENTRO
-    marker = L.marker([props.latitud, props.longitud]).addTo(map.value).bindPopup('Finca');
+    centerMarker = L.marker([props.latitud, props.longitud]).addTo(map.value).bindPopup('Finca');
   }
-
 });
 
 watch(() => [props.latitud, props.longitud], ([newLat, newLon]) => {
-  if (marker) {
-    marker.setLatLng([newLat, newLon]);
+  if (centerMarker) {
+    centerMarker.setLatLng([newLat, newLon]);
     map.value.setView([newLat, newLon], 14);
   }
 
-  if (!map.value)
-  {
+  if (!map.value) {
     map.value = L.map('map').setView([newLat, newLon], 17);
-    var capa = L.tileLayer.wms("http://www.ign.es/wms-inspire/pnoa-ma", {
+    L.tileLayer.wms("http://www.ign.es/wms-inspire/pnoa-ma", {
       layers: 'OI.OrthoimageCoverage',
       attribution: "Fuente: Ortofotos PNOA"
-    });
-    capa.addTo(map.value);
+    }).addTo(map.value);
   } else {
     map.value.setView([newLat, newLon], 17);
   }
 });
 
+watch(() => props.olivos, (newOlivos) => {
+  if (map.value) {
+    markers.value.forEach(marker => map.value.removeLayer(marker));
+    markers.value = [];
+
+    newOlivos.forEach(olivo => {
+      const [lat, lon] = convertUTMToLatLng(olivo.puntoMedio.x, olivo.puntoMedio.y);
+      const olivoPoint = point([lon, lat]); // renamed from 'point' to 'olivoPoint'
+      const isInside = geojsonLayer.getLayers().some(layer => {
+        const olivoPolygon = polygon(layer.toGeoJSON().geometry.coordinates);
+        return pointInPolygon(olivoPoint, olivoPolygon);
+      });
+
+      if (isInside) {
+        const marker = L.marker([lat, lon]).addTo(map.value).bindPopup(`Olivo: ${olivo.idObjeto}`);
+        markers.value.push(marker);
+      }
+    });
+  }
+}, { immediate: true });
 </script>
 
 <style scoped>
-.map-container
-{
+.map-container {
   width: 100%;
 }
-.map
-{
+.map {
   height: 500px;
   width: 860px;
 }

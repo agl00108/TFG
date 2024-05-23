@@ -13,7 +13,7 @@
             <strong>Área:</strong> {{ finca.area }} ha <br>
             <strong>Zona:</strong> {{ finca.zonaUbicacion }}
           </p>
-          <MapaPNOA class="finca-mapa" :latitud="zona.latitud" :longitud="zona.longitud" :zona="finca.zonaUbicacion" />
+          <MapaPNOA class="finca-mapa" :latitud="zona.latitud" :longitud="zona.longitud" :zona="finca.zonaUbicacion" :olivos="olivos"/>
         </div>
           <CosechaGrafica class="cosecha-grafica" :finca="finca"/>
       </div>
@@ -74,6 +74,12 @@ export default {
           .then((data) => {
             this.municipio=data;
           });
+      fetch(`/TFG/provincia/${fincaData.codigoProvincia}/municipio/${fincaData.municipioCodigo}/zona/${fincaData.zonaUbicacion}/objetos`)
+          .then((response) => response.json())
+          .then((data) => {
+            this.olivos = data;
+            console.log(data);
+          });
     },
     selectYear(year)
     {
@@ -86,6 +92,7 @@ export default {
       zona: { latitud: 0, longitud: 0, geoJSONUrl: '' },
       provincia: {},
       municipio: {},
+      olivos: [],
       selectedYear: null,
       years: Array.from({ length: 8 }, (_, i) => 2016 + i),
     };
