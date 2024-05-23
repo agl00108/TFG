@@ -78,7 +78,6 @@ export default {
     selectYear(year)
     {
       this.selectedYear = year;
-      console.log(this.selectedYear);
     },
   },
   data()

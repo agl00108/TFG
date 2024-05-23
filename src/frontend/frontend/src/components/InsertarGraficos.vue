@@ -5,7 +5,8 @@
       <Graficos
           v-if="historico.length"
           :finca="finca"
-          :reflectanciaData="reflectanciaData"
+          :reflectanciaDataS="reflectanciaDataS"
+          :reflectanciaDataD="reflectanciaDataD"
           :temperaturaData="temperaturaData"
           :lluviaData="lluviaData"
       />
@@ -27,7 +28,8 @@ export default {
   data() {
     return {
       historico: [],
-      reflectanciaData: [],
+      reflectanciaDataS: [],
+      reflectanciaDataD: [],
       temperaturaData: [],
       lluviaData: []
     };
@@ -35,18 +37,17 @@ export default {
   methods: {
     fetchHistorico()
     {
-      const url = `/TFG/provincia/${this.finca.codigoProvincia}/municipio/${this.finca.municipioCodigo}/finca/${this.finca.poligono}/${this.finca.parcela}/${this.finca.recinto}/historico/${this.year}/sat`;
-      fetch(url)
+      const urlS = `/TFG/provincia/${this.finca.codigoProvincia}/municipio/${this.finca.municipioCodigo}/finca/${this.finca.poligono}/${this.finca.parcela}/${this.finca.recinto}/historico/${this.year}/sat`;
+      fetch(urlS)
           .then(response => response.json())
           .then(data => {
             if (Array.isArray(data))
             {
-              this.reflectanciaData = [];
-              this.temperaturaData = [];
-              this.lluviaData = [];
               this.historico = [];
+              this.reflectanciaDataS= [];
+              this.temperaturaData= [];
+              this.lluviaData= [];
               this.historico =data;
-              console.log(this.historico);
               data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
               data.forEach(item =>
@@ -57,7 +58,7 @@ export default {
                   const temperaturaJSON = JSON.parse(atob(item.temperatura));
                   const lluvia = item.lluvia;
 
-                  this.reflectanciaData.push(reflectanciaJSON);
+                  this.reflectanciaDataS.push(reflectanciaJSON);
                   this.temperaturaData.push(temperaturaJSON);
                   this.lluviaData.push(lluvia);
                 } else {
@@ -65,7 +66,34 @@ export default {
                 }
               });
             } else {
-              console.log(data);
+              console.error('La respuesta no es un array.');
+            }
+          })
+          .catch(error => {
+            console.error('Error fetching historical data:', error);
+          });
+
+      this.reflectanciaDataD= [];
+      const urlD = `/TFG/provincia/${this.finca.codigoProvincia}/municipio/${this.finca.municipioCodigo}/finca/${this.finca.poligono}/${this.finca.parcela}/${this.finca.recinto}/historico/${this.year}/dron`;
+      fetch(urlD)
+          .then(response => response.json())
+          .then(data => {
+            if (Array.isArray(data))
+            {
+              data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
+              data.forEach(item =>
+              {
+                if (item.reflectancia)
+                {
+                  const reflectanciaJSON = JSON.parse(atob(item.reflectancia));
+                  this.reflectanciaDataD.push(reflectanciaJSON);
+                } else {
+                  console.error('El item no contiene los datos esperados.');
+                }
+              });
+              console.log(this.reflectanciaDataD);
+            } else {
               console.error('La respuesta no es un array.');
             }
           })

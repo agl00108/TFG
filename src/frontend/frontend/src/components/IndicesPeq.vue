@@ -6,7 +6,7 @@
       <h4>{{ indice.nombre }} </h4>
       <p>{{ indice.nombre_c }}</p>
       <img v-if="indice.nombre === 'NDVI'" src="../assets/img/indices/NDVI.png" alt="Fórmula NDVI" class="formula" >
-      <img v-else-if="indice.nombre === 'NDWI'" src="../assets/img/indices/NDWI.png" alt="Fórmula NDWI" class="formula">
+      <img v-else-if="indice.nombre === 'NDMI'" src="../assets/img/indices/NDMI.png" alt="Fórmula NDMI" class="formula">
       <img v-else-if="indice.nombre === 'SAVI'" src="../assets/img/indices/SAVI.png" alt="Fórmula SAVI" class="formula">
     </div>
     <div class="button-container">
@@ -25,8 +25,8 @@ const indices = ref([
     nombre_c:'Normalized Difference Vegetation Index'
   },
   {
-    nombre: 'NDWI',
-    nombre_c:'Normalized Difference Water Index',
+    nombre: 'NDMI',
+    nombre_c:'Normalized Difference Moisture Index',
   },
   {
     nombre: 'SAVI',
@@ -55,12 +55,11 @@ const indices = ref([
 {
   margin-bottom: 20px;
   display: inline-block;
-
 }
 
 .formula
 {
-  width: 40%;
+  width: 60%;
 }
 
 .button-custom

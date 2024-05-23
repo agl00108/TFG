@@ -30,8 +30,10 @@
 import LeafletMap  from "@/components/MapaFincasProvincia.vue";
 import EnfermedadesPeq from "@/components/EnfermedadesPeq.vue";
 import IndicesPeq from "@/components/IndicesPeq.vue";
-export default {
-  components: {
+export default
+{
+  components:
+      {
     IndicesPeq,
     EnfermedadesPeq,
     LeafletMap,
