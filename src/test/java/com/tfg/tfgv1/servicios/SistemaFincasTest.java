@@ -743,4 +743,21 @@ public class SistemaFincasTest
             Assertions.assertThat(historico.size()).isGreaterThan(0);
         }
     }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void buscarObjetosPorZona()
+    {
+        int provinciaCodigo=23;
+        int municipioCodigo=5;
+        String zonaUbicacion="J3";
+
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(provinciaCodigo);
+        MunicipioId municipioId = new MunicipioId(municipioCodigo, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId(zonaUbicacion, optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        List<Objeto> resultado = sistemaFincas.obtenerObjetosZona(optionalZona.get());
+        Assertions.assertThat(resultado.size()).isGreaterThan(0);
+    }
 }

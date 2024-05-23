@@ -294,4 +294,10 @@ public class SistemaFincas
     {
         return historicoFincaRepositorio.obtenerHistoricoFincaAnioDron(finca, anio);
     }
+
+    @Transactional
+    public List<Objeto> obtenerObjetosZona(Zona zona)
+    {
+        return objetoRepositorio.obtenerObjetosFinca(zona.getUbicacion(), zona.getMunicipioCodigo(), zona.getProvinciaCodigo());
+    }
 }

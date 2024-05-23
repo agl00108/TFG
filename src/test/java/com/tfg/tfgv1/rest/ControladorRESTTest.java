@@ -219,4 +219,18 @@ public class ControladorRESTTest
         DTOHistoricoFinca[] historicos = response.getBody();
         Assertions.assertThat(historicos).isNotEmpty();
     }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarOlivosPorZona()
+    {
+        int provinciaCodigo=23;
+        int municipioCodigo=5;
+        String zonaUbicacion="J3";
+        ResponseEntity<DTOObjeto[]> response = restTemplate.getForEntity("/provincia/"+provinciaCodigo+"/municipio/" +
+                municipioCodigo + "/zona/" + zonaUbicacion + "/objetos", DTOObjeto[].class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        DTOObjeto[] olivos = response.getBody();
+        Assertions.assertThat(olivos).isNotEmpty();
+    }
 }

@@ -238,4 +238,27 @@ public class ControladorREST
         }
         return List.of();
     }
+
+    @GetMapping("/provincia/{provinciaCodigo}/municipio/{municipioCodigo}/zona/{id}/objetos")
+    public List<DTOObjeto> obtenerObjetosZona( @PathVariable int provinciaCodigo, @PathVariable int municipioCodigo,
+            @PathVariable String id)
+    {
+        Optional<Provincia> provinciaOptional = sistemaFincas.buscarProvincia(provinciaCodigo);
+        if(provinciaOptional.isEmpty())
+            return List.of();
+        MunicipioId aux= new MunicipioId(municipioCodigo, provinciaOptional.get());
+        Optional<Municipio> municipio=sistemaFincas.buscarMunicipio(aux);
+        if(municipio.isEmpty())
+            return List.of();
+        ZonaId aux2= new ZonaId(id, municipio.get());
+        Optional<Zona> zonaOptional = sistemaFincas.buscarZona(aux2);
+        if(zonaOptional.isPresent())
+        {
+            List<Objeto> objetos = sistemaFincas.obtenerObjetosZona(zonaOptional.get());
+            Stream<Objeto> stream = objetos.stream();
+            Stream<DTOObjeto> streamDTO = stream.map(DTOObjeto::new);
+            return streamDTO.toList();
+        }
+        return List.of();
+    }
 }
