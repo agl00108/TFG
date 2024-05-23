@@ -261,4 +261,22 @@ public class ControladorREST
         }
         return List.of();
     }
+
+    @GetMapping("/historico/{anio}/olivo/{id}/sat")
+    public List<DTOHistoricoDatos> obtenerHistoricoOlivoAnioSat(@PathVariable int anio, @PathVariable int id)
+    {
+        List<HistoricoDatos> historico = sistemaFincas.obtenerHistoricoOlivoAnioSat(anio, id);
+        Stream<HistoricoDatos> stream = historico.stream();
+        Stream<DTOHistoricoDatos> streamDTO = stream.map(DTOHistoricoDatos::new);
+        return streamDTO.toList();
+    }
+
+    @GetMapping("/historico/{anio}/olivo/{id}/dron")
+    public List<DTOHistoricoDatos> obtenerHistoricoOlivoAnioDron(@PathVariable int anio, @PathVariable int id)
+    {
+        List<HistoricoDatos> historico = sistemaFincas.obtenerHistoricoOlivoAnioDron(anio, id);
+        Stream<HistoricoDatos> stream = historico.stream();
+        Stream<DTOHistoricoDatos> streamDTO = stream.map(DTOHistoricoDatos::new);
+        return streamDTO.toList();
+    }
 }

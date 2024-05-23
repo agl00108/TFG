@@ -233,4 +233,30 @@ public class ControladorRESTTest
         DTOObjeto[] olivos = response.getBody();
         Assertions.assertThat(olivos).isNotEmpty();
     }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarHistoricoOlivoPorAnioSat()
+    {
+        int id=588;
+        int anio=2020;
+        ResponseEntity<DTOHistoricoDatos[]> response = restTemplate.getForEntity("/historico/"+anio+"/olivo/" +
+                id+"/sat", DTOHistoricoDatos[].class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        DTOHistoricoDatos[] historicos = response.getBody();
+        Assertions.assertThat(historicos).isNotEmpty();
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarHistoricoOlivoPorAnioDron()
+    {
+        int id=2424;
+        int anio=2023;
+        ResponseEntity<DTOHistoricoDatos[]> response = restTemplate.getForEntity("/historico/"+anio+"/olivo/" +
+                id+"/dron", DTOHistoricoDatos[].class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        DTOHistoricoDatos[] historicos = response.getBody();
+        Assertions.assertThat(historicos).isNotEmpty();
+    }
 }

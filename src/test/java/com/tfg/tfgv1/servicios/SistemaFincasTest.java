@@ -760,4 +760,20 @@ public class SistemaFincasTest
         List<Objeto> resultado = sistemaFincas.obtenerObjetosZona(optionalZona.get());
         Assertions.assertThat(resultado.size()).isGreaterThan(0);
     }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void buscarHistoricoDatosSatObjeto()
+    {
+        List<HistoricoDatos> resultado = sistemaFincas.obtenerHistoricoOlivoAnioSat(2020, 588);
+        Assertions.assertThat(resultado.size()).isGreaterThan(0);
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void buscarHistoricoDatosDronObjeto()
+    {
+        List<HistoricoDatos> resultado = sistemaFincas.obtenerHistoricoOlivoAnioDron(2023, 2424);
+        Assertions.assertThat(resultado.size()).isGreaterThan(0);
+    }
 }

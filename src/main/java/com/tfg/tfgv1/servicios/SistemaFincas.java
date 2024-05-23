@@ -300,4 +300,16 @@ public class SistemaFincas
     {
         return objetoRepositorio.obtenerObjetosFinca(zona.getUbicacion(), zona.getMunicipioCodigo(), zona.getProvinciaCodigo());
     }
+
+    @Transactional
+    public List<HistoricoDatos> obtenerHistoricoOlivoAnioSat(int anio, int id)
+    {
+        return historicoDatosRepositorio.obtenerHistoricoOlivoAnioSat(anio, id);
+    }
+
+    @Transactional
+    public List<HistoricoDatos> obtenerHistoricoOlivoAnioDron(int anio, int id)
+    {
+        return historicoDatosRepositorio.obtenerHistoricoOlivoAnioDron(anio, id);
+    }
 }
