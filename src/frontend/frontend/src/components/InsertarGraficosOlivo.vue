@@ -1,9 +1,9 @@
 <template>
   <div>
     <button @click="fetchHistorico" class="btn btn-success btn-year" style="display: block;">Cargar Datos</button>
-    <div v-if="historico.length">
+    <div v-if="reflectanciaDataS.length">
       <Graficos
-          v-if="historico.length"
+          v-if="reflectanciaDataS.length"
           :id="id"
           :reflectanciaDataS="reflectanciaDataS"
           :reflectanciaDataD="reflectanciaDataD"
@@ -25,7 +25,6 @@ export default {
   },
   data() {
     return {
-      historico: [],
       reflectanciaDataS: [],
       reflectanciaDataD: [],
     };
@@ -34,15 +33,16 @@ export default {
     fetchHistorico()
     {
       const urlS = `/TFG/historico/${this.year}/olivo/${this.id}/sat`;
-      console.log(urlS);
       fetch(urlS)
-          .then(response => response.json())
+          .then(response => {
+            console.log(response);
+            return response.json();
+          })
           .then(data => {
+            console.log(data);
             if (Array.isArray(data))
             {
-              this.historico = [];
               this.reflectanciaDataS= [];
-              this.historico =data;
               data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
               data.forEach(item =>
@@ -82,7 +82,6 @@ export default {
                   console.error('El item no contiene los datos esperados.');
                 }
               });
-              console.log(this.reflectanciaDataD);
             } else {
               console.error('La respuesta no es un array.');
             }
@@ -90,6 +89,8 @@ export default {
           .catch(error => {
             console.error('Error fetching historical data:', error);
           });
+      console.log("DRON: "+ this.reflectanciaDataD.length);
+      console.log("SATELITE: "+ this.reflectanciaDataS.length);
     },
   }
 };

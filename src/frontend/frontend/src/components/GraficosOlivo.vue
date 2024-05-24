@@ -44,6 +44,49 @@ export default {
       series: [],
       NDVIseries: [],
       SAVIseries: [],
+      chartOptions: {
+        chart: {
+          height: 350,
+          type: 'line',
+          stacked: false,
+          zoom: {
+            enabled: false
+          },
+        },
+        colors: ['#224930', '#09f15d'],
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: [2],
+          curve: 'smooth',
+        },
+        markers: {
+          size: 5,
+          shape: "circle",
+        },
+        title: {
+          text: 'Chart Title',
+          align: 'center',
+          style: {
+            fontSize: '24px',
+          },
+        },
+        xaxis: {
+          categories: []
+        },
+        tooltip: {
+          y: [
+            {
+              title: {
+                formatter: function (val) {
+                  return val
+                }
+              }
+            }
+          ]
+        },
+      },
       SAVIOptions: {
         chart: {
           height: 350,
@@ -138,8 +181,11 @@ export default {
       loaded: false
     };
   },
-  mounted() {
+  mounted()
+  {
     this.loaded = true;
+    console.log("RECIBIDO: "+ this.reflectanciaDataS);
+
     this.prepareChartData();
   },
   methods: {

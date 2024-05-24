@@ -103,7 +103,7 @@ watch(() => props.olivos, (newOlivos) => {
 
     newOlivos.forEach(olivo => {
       const [lat, lon] = convertUTMToLatLng(olivo.puntoMedio.x, olivo.puntoMedio.y);
-      const olivoPoint = point([lon, lat]); // renamed from 'point' to 'olivoPoint'
+      const olivoPoint = point([lon, lat]);
       const isInside = geojsonLayer.getLayers().some(layer => {
         const olivoPolygon = polygon(layer.toGeoJSON().geometry.coordinates);
         return pointInPolygon(olivoPoint, olivoPolygon);
