@@ -75,7 +75,7 @@ export default
           .then((data) => {
             this.municipio=data;
           });
-      fetch(`/TFG/provincia/${fincaData.codigoProvincia}/municipio/${fincaData.municipioCodigo}/zona/${fincaData.zonaUbicacion}/objetos`)
+      fetch(`/TFG/provincia/${fincaData.codigoProvincia}/municipio/${fincaData.municipioCodigo}/zona/${fincaData.zonaUbicacion}/objetosHistorico`)
           .then((response) => response.json())
           .then((data) => {
             this.olivos = data;

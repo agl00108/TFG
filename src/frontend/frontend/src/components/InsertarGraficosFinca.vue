@@ -78,21 +78,22 @@ export default {
       fetch(urlD)
           .then(response => response.json())
           .then(data => {
-            if (Array.isArray(data))
-            {
+            if (Array.isArray(data)) {
               data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-
-              data.forEach(item =>
-              {
-                if (item.reflectancia)
-                {
+              data.forEach(item => {
+                if (item.reflectancia) {
                   const reflectanciaJSON = JSON.parse(atob(item.reflectancia));
+                  const fecha = new Date(item.fecha);
+                  let mes = fecha.toLocaleString('default', { month: 'long' });
+                  // Convertir la primera letra a mayúscula
+                  mes = mes.charAt(0).toUpperCase() + mes.slice(1);
+                  reflectanciaJSON.mes = mes;
                   this.reflectanciaDataD.push(reflectanciaJSON);
+                  console.log(reflectanciaJSON);
                 } else {
                   console.error('El item no contiene los datos esperados.');
                 }
               });
-              console.log(this.reflectanciaDataD);
             } else {
               console.error('La respuesta no es un array.');
             }

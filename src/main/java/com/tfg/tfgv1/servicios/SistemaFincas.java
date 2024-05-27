@@ -302,6 +302,12 @@ public class SistemaFincas
     }
 
     @Transactional
+    public List<Objeto> obtenerObjetosZonaConHistorico(Zona zona)
+    {
+        return historicoDatosRepositorio.obtenerObjetosConHistorico(zona.getUbicacion());
+    }
+
+    @Transactional
     public List<HistoricoDatos> obtenerHistoricoOlivoAnioSat(int anio, int id)
     {
         return historicoDatosRepositorio.obtenerHistoricoOlivoAnioSat(anio, id);

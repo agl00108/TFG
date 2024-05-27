@@ -2,6 +2,7 @@ package com.tfg.tfgv1.repositorios;
 
 import com.tfg.tfgv1.Ids.HistoricoDatosId;
 import com.tfg.tfgv1.entidades.HistoricoDatos;
+import com.tfg.tfgv1.entidades.Objeto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -70,6 +71,21 @@ public class HistoricoDatosRepositorio
         TypedQuery<HistoricoDatos> query = em.createQuery(jpql, HistoricoDatos.class)
                 .setParameter("id", id)
                 .setParameter("anio", anio);
+        return query.getResultList();
+    }
+
+    /**
+     * @brief obtener los objetos que tienen datos históricos en una zona
+     * @param zonaUbicacion Ubicación de la zona
+     * @return Lista de objetos
+     */
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<Objeto> obtenerObjetosConHistorico(String zonaUbicacion)
+    {
+        String jpql = "SELECT o FROM Objeto o WHERE o.zona.id.ubicacion = :zonaUbicacion AND EXISTS (" +
+                "SELECT h FROM HistoricoDatos h WHERE h.id.objeto.id = o.id)";
+        TypedQuery<Objeto> query = em.createQuery(jpql, Objeto.class);
+        query.setParameter("zonaUbicacion", zonaUbicacion);
         return query.getResultList();
     }
 

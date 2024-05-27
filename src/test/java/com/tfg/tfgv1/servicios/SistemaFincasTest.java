@@ -763,6 +763,23 @@ public class SistemaFincasTest
 
     @Test
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void buscarObjetosPorZonaConHistorico()
+    {
+        int provinciaCodigo=23;
+        int municipioCodigo=5;
+        String zonaUbicacion="J3";
+
+        Optional<Provincia> optional=sistemaFincas.buscarProvincia(provinciaCodigo);
+        MunicipioId municipioId = new MunicipioId(municipioCodigo, optional.get());
+        Optional<Municipio> optionalMunicipio = sistemaFincas.buscarMunicipio(municipioId);
+        ZonaId zonaId = new ZonaId(zonaUbicacion, optionalMunicipio.get());
+        Optional<Zona> optionalZona = sistemaFincas.buscarZona(zonaId);
+        List<Objeto> resultado = sistemaFincas.obtenerObjetosZonaConHistorico(optionalZona.get());
+        Assertions.assertThat(resultado.size()).isGreaterThan(0);
+    }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     public void buscarHistoricoDatosSatObjeto()
     {
         List<HistoricoDatos> resultado = sistemaFincas.obtenerHistoricoOlivoAnioSat(2020, 588);
