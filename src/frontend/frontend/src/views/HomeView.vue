@@ -16,14 +16,16 @@
       </div>
     </form>
       </div>
-      <div class="info-container">
-        <EnfermedadesPeq />
-        <IndicesPeq />
+        <div class="info-ind">
+          <IndicesPeq />
+        </div>
       </div>
+    <div class="info-enf">
+      <EnfermedadesPeq />
     </div>
-    <main>
-    </main>
-  </div>
+      <main>
+      </main>
+    </div>
 </template>
 
 <script>
@@ -74,16 +76,6 @@ export default
 </script>
 
 <style scoped>
-.search-form-container
-{
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  padding: 20px;
-  margin-top: 120px;
-  text-align: center;
-}
-
 .container
 {
   padding-top: 20px;
@@ -96,20 +88,31 @@ export default
 {
   display: flex;
   justify-content: space-around;
-  width: 100%;
+  width: 130%;
+  margin-bottom: 20px;
 }
 
 .search-form-container
 {
-  flex: 1;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 120px;
+  margin-bottom: auto;
+  text-align: center;
 }
 
-.info-container
+.info-ind
 {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-left: 80px;
+  margin-top: 100px;
+  width: 500px;
+}
+.info-enf
+{
+  margin-top: -230px;
+  margin-left: -80px;
+  margin-right: 185px;
+  //padding-left: -20px;
 }
 </style>

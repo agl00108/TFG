@@ -41,7 +41,18 @@ export default {
     fetch('/TFG/FincasConHistorico')
         .then(response => response.json())
         .then(data => {
-          this.fincas = data;
+          this.fincas = data.sort((a, b) =>
+          {
+            if (a.zonaUbicacion < b.zonaUbicacion)
+            {
+              return -1;
+            }
+            if (a.zonaUbicacion > b.zonaUbicacion)
+            {
+              return 1;
+            }
+            return 0;
+          });
         });
   },
   methods: {

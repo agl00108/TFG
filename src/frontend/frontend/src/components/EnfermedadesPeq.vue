@@ -3,18 +3,21 @@
     <table class="custom-table">
       <thead>
       <tr>
-        <th v-for="header in headers" :key="header" style="font-weight: bold; color: #004d40;">{{ header }}</th>
+        <th v-for="header in headers" :key="header" style="font-weight: bold;background-color: #0c4128; color: white;">{{ header }}</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="(row, index) in data" :key="index">
-        <td v-for="(cell, cellIndex) in row" :key="cellIndex" style="color: black;">{{ cell }}</td>
+        <td v-for="(cell, cellIndex) in row" :key="cellIndex" style="color: black;">
+          <strong v-if="cellIndex < 2">{{ cell }}</strong>
+          <span v-else>{{ cell }}</span>
+        </td>
       </tr>
-      </tbody><div class="button-container">
+      </tbody>
+    </table>
+    <div class="button-container">
       <router-link class="btn btn-primary button-custom" to="/enfermedad">Más información</router-link>
     </div>
-    </table>
-
   </div>
 </template>
 
@@ -46,16 +49,17 @@ const data = [
 <style scoped>
 .table-container
 {
-  display: flex;
   justify-content: center;
   padding-top: 100px;
   padding-bottom: 90px;
-  width: 160%;
+  text-align: center;
+  width: 155%;
 }
 .custom-table
 {
   border-collapse: collapse;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.85);
+  border-spacing: 0 10px;
 }
 
 .custom-table th,
@@ -69,12 +73,12 @@ const data = [
 .button-container
 {
   padding-top: 10px;
-  width: 200%;
   align-content: center;
 }
+
 .button-custom
 {
-  background-color: #264d34;
+  background-color: #224930;
   color: white;
   border-color: white;
   text-align: center;

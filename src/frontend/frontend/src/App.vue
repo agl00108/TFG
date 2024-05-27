@@ -7,7 +7,7 @@ import Footer from '@/components/Footer.vue'
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
-        <router-link class="navbar-brand" to="/"><img src="./assets/img/logo.png" alt="Logo" class="logo"></router-link>
+        <router-link class="navbar-brand" to="/"><img src="./assets/img/logo.png" alt="Logo" class="logo" ></router-link>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>

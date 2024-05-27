@@ -3,12 +3,15 @@
     <table class="custom-table">
       <thead>
       <tr>
-        <th v-for="header in headers" :key="header" style="font-weight: bold; color: #004d40;">{{ header }}</th>
+        <th v-for="header in headers" :key="header" style="font-weight: bold;background-color: #0c4128; color: white;">{{ header }}</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="(row, index) in data" :key="index">
-        <td v-for="(cell, cellIndex) in row" :key="cellIndex" style="color: black;">{{ cell }}</td>
+        <td v-for="(cell, cellIndex) in row" :key="cellIndex" style="color: black;">
+          <strong v-if="cellIndex < 2">{{ cell }}</strong>
+          <span v-else v-html="cell.replace(/\n/g, '<br>')"></span>
+        </td>
       </tr>
       </tbody>
     </table>
@@ -20,14 +23,14 @@ const headers = ['ENFERMEDAD', 'NOMBRE CIENTÍFICO', 'RIESGO NULO', 'RIESGO BAJO
 
 const data = [
   ['Abichado del olivo', 'Euzophera Pinguis',
-   '-Temperatura: inferior a 10°C o superior a 35°C.\n' + '-Humedad: inferior al 40%\n' + '-Presencia de depredadores\n' + '-Fuera de la época\n',
-  '-Temperatura: \n' + 'entre 10°C y 20°C\n' + '-Humedad: \n' + 'entre 40% y 60%\n' + '-Presencia de depredadores\n' + '-Fuera de la época\n',
-  '-Temperatura: entre 25°C y 30°C\n' + '-Humedad: \n' + 'entre 40% y 60%\n' + '-Presencia de depredadores\n' + '-Época: abril-junio, agosto-octubre\n' + '\n',
+   '-Temperatura: inferior a 10°C o superior a 35°C \n' + '-Humedad: inferior al 40% \n' + '-Presencia de depredadores\n' + '-Fuera de la época\n',
+  '-Temperatura:' + 'entre 10°C y 20°C\n' + '-Humedad: \n' + 'entre 40% y 60%\n' + '-Presencia de depredadores\n' + '-Fuera de la época\n',
+  '-Temperatura: entre 25°C y 30°C\n' + '-Humedad: entre 40% y 60%\n' + '-Presencia de depredadores\n' + '-Época: abril-junio, agosto-octubre\n',
   '-Temperatura: entre 25°C y 30°C\n' + '-Humedad: superior al 80%\n' + '-Ausencia de depredadores\n' + '-Época: abril-junio, agosto-octubre',
   '-Presencia de larvas\n' + '-Temperatura: entre 25°C y 30°C\n' + '-Humedad: superior al 80%\n' + '-Ausencia de depredadores\n' + '-Época: abril-junio, agosto-octubre'],
   ['Mosca del olivo', 'Bactrocera oleae Gmel',
-    '-Fuera de la época\n' + '-Ausencia de frutos\n' + '-Temperatura: \n' + 'por encima de 35°C\n' + '-Humedad: \n' + 'por debajo del 40% durante períodos prolongados.\n',
-    '- Temprano o tarde (julio-agosto  octubre-noviembre)\n' + '-Presencia de frutos: aceitunas verdes jóvenes\n' + '-Temperatura: medias diarias por debajo de 20°C.\n' + 'Humedad: 40-60%',
+    '-Fuera de la época\n' + '-Ausencia de frutos\n' + '-Temperatura: por encima de 35°C\n' + '-Humedad: por debajo del 40% durante períodos prolongados.\n',
+    '-Temprano o tarde (julio-agosto  octubre-noviembre)\n' + '-Presencia de frutos: aceitunas verdes jóvenes\n' + '-Temperatura: medias diarias por debajo de 20°C.\n' + 'Humedad: 40-60%',
     '-Temporada: agosto-septiembre\n' + '-Presencia de frutos maduros\n' + '-Temperatura: medias diarias entre 20-30°C\n' + '-Humedad: 60-80%',
     '-Temporada alta con olas de calor (+ de 3 días con 30º)\n' + '-Presencia de frutos abundantes.\n' + '-Temperatura: 25-30º\n' + '-Humedad: niveles superiores al 80%.',
     '-Presencia de larvas\n' + '-Temporada alta con olas de calor (+ de 3 días con 30º)\n' + '-Presencia de frutos abundantes.\n' + '-Temperatura: 25-30º\n' + '-Humedad: niveles superiores al 80%.'],
@@ -39,7 +42,7 @@ const data = [
     '-Epidemia en curso.\n' + '-Época: Invierno o primavera.\n' + '-Temporada alta: olas de calor.\n' + '-Presencia de frutos.\n' + '-Temperatura: 25°C-30°C.\n' + '-Humedad: \n' + '> al 80%.\n'],
   ['Prais del olivo ', 'Prays oleae Bern',
     '-Época: fuera de la temporada alta.\n' + '-Temperatura: <10°C o > 40°C.\n' + '-Humedad: < 40%.\n' + '-Ausencia de frutos.\n',
-    '-Época: \n' + 'Generación: Filófaga (invierno) o antófaga (primavera).\n' + '-Temperatura:\n' + '10°C-15°C.\n' + '-Humedad: \n' + '40%-60%.\n' + '-Presencia de frutos limitada.\n',
+    '-Época: \n' + 'Generación: Filófaga (invierno) o antófaga (primavera).\n' + '-Temperatura:\n' + '10°C-15°C.\n' + '-Humedad: 40%-60%.\n' + '-Presencia de frutos limitada.\n',
     '-Época: Antófaga (primavera) o carpófaga (verano).\n' + '-Temperatura: 15°C-25°C.\n' + '-Humedad: 60%-80%.\n' + '-Presencia de frutos jóvenes.\n',
     '-Temporada alta: primavera y verano.\n' + '-Presencia de frutos  maduros.\n' + '-Temperatura: 25°C-35°C.\n' + '-Humedad: > 80%\n' + '-Generación: Carpófaga (verano) con condiciones climáticas ideales.',
     '-Epidemia en curso\n' + '-Temporada alta: primavera y verano.\n' + '-Presencia de frutos  maduros.\n' + '-Temperatura: 25°C-35°C.\n' + '-Humedad: > 80%\n' + '-Generación: Carpófaga (verano) con condiciones climáticas ideales.'],

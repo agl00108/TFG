@@ -72,4 +72,5 @@ public class HistoricoDatosRepositorio
                 .setParameter("anio", anio);
         return query.getResultList();
     }
+
 }

@@ -1,7 +1,7 @@
 <template>
-  <h3>Fincas Almacenadas</h3>
+  <h2>Fincas Almacenadas</h2>
   <div class="map-container">
-    <div id="map" style="height: 400px; width: 400px"></div>
+    <div id="map" style="height: 500px; width: 500px"></div>
   </div>
 </template>
 
@@ -9,6 +9,7 @@
 import { ref, onMounted } from 'vue';
 import "leaflet/dist/leaflet.css";
 import * as L from 'leaflet';
+import iconoUbicacion from '@/assets/img/iconoUbicacion.png';
 
 const initialMap = ref(null);
 
@@ -23,9 +24,14 @@ onMounted(async () => {
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
+  const greenIcon = L.icon({
+    iconUrl: iconoUbicacion,
+    iconSize: [40, 45],
+  });
+
   const zonas = await response.json();
   zonas.forEach(zona => {
-    L.marker([zona.latitud, zona.longitud]).addTo(initialMap.value).bindPopup(zona.ubicacion + " " + zona.descripcion);
+    L.marker([zona.latitud, zona.longitud], {icon: greenIcon}).addTo(initialMap.value).bindPopup(zona.ubicacion + " " + zona.descripcion);
   });
 });
 </script>

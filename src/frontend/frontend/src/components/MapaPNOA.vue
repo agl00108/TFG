@@ -96,20 +96,25 @@ watch(() => [props.latitud, props.longitud], ([newLat, newLon]) => {
   }
 });
 
-watch(() => props.olivos, (newOlivos) => {
-  if (map.value) {
+watch(() => props.olivos, (newOlivos) =>
+{
+  if (map.value)
+  {
     markers.value.forEach(marker => map.value.removeLayer(marker));
     markers.value = [];
 
-    newOlivos.forEach(olivo => {
+    newOlivos.forEach(olivo =>
+    {
       const [lat, lon] = convertUTMToLatLng(olivo.puntoMedio.x, olivo.puntoMedio.y);
       const olivoPoint = point([lon, lat]);
-      const isInside = geojsonLayer.getLayers().some(layer => {
+      const isInside = geojsonLayer.getLayers().some(layer =>
+      {
         const olivoPolygon = polygon(layer.toGeoJSON().geometry.coordinates);
         return pointInPolygon(olivoPoint, olivoPolygon);
       });
 
-      if (isInside) {
+      if (isInside)
+      {
         const circle = L.circle([lat, lon], {
           color: "rgba(34,73,48,0.39)",
           radius: 3

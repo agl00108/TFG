@@ -3,7 +3,8 @@
     <div class="indice-card" v-if="props.indice">
       <h2>{{ props.indice.nombre }} {{props.indice.nombre_c}}</h2>
       <p>{{ props.indice.descripcion }}</p>
-      <p>{{ props.indice.rango }}</p>
+      <h3>Rango</h3>
+      <p v-html="props.indice.rango.replace(/\n/g, '<br>').replace(/\[(.*?)\]/g, '<strong>[$1]</strong>')"></p>
       <img v-if="props.indice.nombre === 'NDVI'" src="../assets/img/indices/NDVI.png" alt="Fórmula NDVI" class="formula" >
       <img v-else-if="props.indice.nombre === 'NDMI'" src="../assets/img/indices/NDMI.png" alt="Fórmula NDMI" class="formula">
       <img v-else-if="props.indice.nombre === 'SAVI'" src="../assets/img/indices/SAVI.png" alt="Fórmula SAVI" class="formula">

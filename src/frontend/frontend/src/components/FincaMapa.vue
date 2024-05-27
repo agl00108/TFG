@@ -65,9 +65,7 @@ onMounted(async () => {
 
   const greenIcon = L.icon({
     iconUrl: iconoUbicacion,
-    iconSize: [70, 75],
-    iconAnchor: [35, 50],
-    popupAnchor: [0, -37.5]
+    iconSize: [40, 45],
   });
 
   marker = L.marker([props.latitud, props.longitud], { icon: greenIcon }).addTo(map.value).bindPopup('Finca');
