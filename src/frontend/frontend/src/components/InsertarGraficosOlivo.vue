@@ -63,13 +63,13 @@ export default {
             console.error('Error fetching historical data:', error);
           });
 
-      this.reflectanciaDataD= [];
       const urlD = `/TFG/historico/${this.year}/olivo/${this.id}/dron`;
       fetch(urlD)
           .then(response => response.json())
           .then(data => {
             if (Array.isArray(data))
             {
+              this.reflectanciaDataD= [];
               data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
               data.forEach(item =>
@@ -77,6 +77,11 @@ export default {
                 if (item.reflectancia)
                 {
                   const reflectanciaJSON = JSON.parse(atob(item.reflectancia));
+                  const fecha = new Date(item.fecha);
+                  let mes = fecha.toLocaleString('default', { month: 'long' });
+                  // Convertir la primera letra a mayúscula
+                  mes = mes.charAt(0).toUpperCase() + mes.slice(1);
+                  reflectanciaJSON.mes = mes;
                   this.reflectanciaDataD.push(reflectanciaJSON);
                 } else {
                   console.error('El item no contiene los datos esperados.');

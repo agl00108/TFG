@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,13 +95,18 @@ public class HistoricoDatosRepositorio
         String jpql = "SELECT o FROM Objeto o WHERE o.zona.id.ubicacion = :zonaUbicacion";
         TypedQuery<Objeto> query = em.createQuery(jpql, Objeto.class)
                 .setParameter("zonaUbicacion", zonaUbicacion);
-        List<Objeto> aux= query.getResultList();
-        for(int i=0;i<aux.size();i++)
+        List<Objeto> aux = query.getResultList();
+        List<Objeto> devuelve = new ArrayList<>();
+
+        for (Objeto objeto : aux)
         {
-           if (this.buscarHistoricos(aux.get(i).getIdObjeto()).isEmpty())
-               aux.remove(i);
+            int size = this.buscarHistoricos(objeto.getIdObjeto()).size();
+            if (size > 0)
+            {
+                devuelve.add(objeto);
+            }
         }
-        return aux;
+        return devuelve;
     }
 
 }

@@ -79,7 +79,7 @@ export default
           .then((response) => response.json())
           .then((data) => {
             this.olivos = data;
-            console.log(data);
+            console.log("OLIVOS: "+data);
           });
     },
     selectYear(year)
