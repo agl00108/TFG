@@ -243,44 +243,42 @@ export default {
           })
         }];
 
-      //Si se le han mandado datos de refectancia de dron
-      if (Array.isArray(this.reflectanciaDataD) && this.reflectanciaDataD.length > 0 && this.reflectanciaDataD.some(item => item && item.data))
-      {
-        NDVISeries.push
-        ({
-          name: "Dron",
-          data: this.reflectanciaDataD.map(item =>
-          {
-            if (item && item.data)
-            {
-              const ndviDron = item.data.find(subItem => Object.keys(subItem)[0] === 'NDVI');
-              if (ndviDron) {
-                const value = typeof Object.values(ndviDron)[0] === 'string' ? parseFloat(Object.values(ndviDron)[0].replace(',', '.')) : Object.values(ndviDron)[0];
-                return value > 0 ? value : null;
-              }
-            }
-            return null;
-          }),
-        });
+      const allMonths = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      const dataPerMonthDNDVI = new Array(12).fill(null);
+      const dataPerMonthDSAVI = new Array(12).fill(null);
 
-        SAVISeries.push
-        ({
-          name: "Dron",
-          data: this.reflectanciaDataD.map(item =>
-          {
-            if (item && item.data)
-            {
-              const saviSat = item.data.find(subItem => Object.keys(subItem)[0] === 'SAVI');
-              if (saviSat)
-              {
-                const value = Object.values(saviSat)[0];
-                return typeof value === 'string' ? parseFloat(value.replace(',', '.')) : value;
+      //Si se le han mandado datos de refectancia de dron
+      if (Array.isArray(this.reflectanciaDataD) && this.reflectanciaDataD.length > 0 && this.reflectanciaDataD.some(item => item && item.data)) {
+        this.reflectanciaDataD.forEach(item => {
+          if (item && item.data) {
+            const ndviDron = item.data.find(subItem => Object.keys(subItem)[0] === 'NDVI');
+            const saviDron = item.data.find(subItem => Object.keys(subItem)[0] === 'SAVI');
+            if (ndviDron) {
+              const value = typeof Object.values(ndviDron)[0] === 'string' ? parseFloat(Object.values(ndviDron)[0].replace(',', '.')) : Object.values(ndviDron)[0];
+              const monthIndex = allMonths.indexOf(item.mes);
+              if (monthIndex !== -1) {
+                dataPerMonthDNDVI[monthIndex] = value > 0 ? value : null;
               }
             }
-            return null;
-          }),
+            if (saviDron) {
+              const value = typeof Object.values(saviDron)[0] === 'string' ? parseFloat(Object.values(saviDron)[0].replace(',', '.')) : Object.values(saviDron)[0];
+              const monthIndex = allMonths.indexOf(item.mes);
+              if (monthIndex !== -1) {
+                dataPerMonthDSAVI[monthIndex] = value > 0 ? value : null;
+              }
+            }
+          }
         });
       }
+      NDVISeries.push({
+        name: "Dron",
+        data: dataPerMonthDNDVI,
+      });
+
+      SAVISeries.push({
+        name: "Dron",
+        data: dataPerMonthDSAVI,
+      });
 
       const categories = this.reflectanciaDataS.map(item =>
       {

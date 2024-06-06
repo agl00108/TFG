@@ -351,7 +351,7 @@ export default {
       const dataPerMonthDNDVI = new Array(12).fill(null);
       const dataPerMonthDSAVI = new Array(12).fill(null);
 
-      this.reflectanciaDataS.forEach(item =>
+     /* this.reflectanciaDataS.forEach(item =>
       {
         if (item && item.data)
         {
@@ -377,7 +377,7 @@ export default {
           }
         }
       });
-
+*/
       this.reflectanciaDataD.forEach(item =>
       {
         if (item && item.data)
