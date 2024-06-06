@@ -318,4 +318,10 @@ public class SistemaFincas
     {
         return historicoDatosRepositorio.obtenerHistoricoOlivoAnioDron(anio, id);
     }
+
+    @Transactional
+    public Optional<Finca> obtenerFincaOlivo(int olivoId)
+    {
+        return objetoRepositorio.obtenerFincaObjeto(olivoId);
+    }
 }

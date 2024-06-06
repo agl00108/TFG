@@ -83,5 +83,4 @@ const data = [
   border-color: white;
   text-align: center;
 }
-
 </style>

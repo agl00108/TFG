@@ -24,7 +24,7 @@ public class Finca
     @Column(name = "AREA")
     private Double area; //Area en m2 de la finca
     @Min(0)
-    @Column(name = "ANIO_SIGPAC")
+    @Column(name = "AÑO_SIGPAC")
     private Integer anioSigpac; //Año de inscripción del código SIGPAC
 
     /**

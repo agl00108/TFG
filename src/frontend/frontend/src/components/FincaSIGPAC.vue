@@ -112,5 +112,4 @@ h3
   border-color: white;
   text-align: center;
 }
-
 </style>

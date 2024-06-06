@@ -793,4 +793,13 @@ public class SistemaFincasTest
         List<HistoricoDatos> resultado = sistemaFincas.obtenerHistoricoOlivoAnioDron(2023, 2424);
         Assertions.assertThat(resultado.size()).isGreaterThan(0);
     }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void buscarFincaObjeto()
+    {
+        int idObjeto=2002;
+        Optional<Finca> resultado = sistemaFincas.obtenerFincaOlivo(idObjeto);
+        Assertions.assertThat(resultado.get()).isNotNull();
+    }
 }

@@ -77,5 +77,4 @@ const data = [
   padding: 8px;
   text-align: left;
 }
-
 </style>

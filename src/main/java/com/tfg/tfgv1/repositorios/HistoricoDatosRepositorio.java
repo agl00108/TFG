@@ -26,6 +26,15 @@ public class HistoricoDatosRepositorio
         return Optional.ofNullable(em.find(HistoricoDatos.class, id));
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<HistoricoDatos> buscarHistoricos(Integer id)
+    {
+        String jpql = "SELECT h FROM HistoricoDatos h WHERE h.id.objeto.id = :id AND h.tipoFuente = 'Satelite'";
+        TypedQuery<HistoricoDatos> query = em.createQuery(jpql, HistoricoDatos.class)
+                .setParameter("id", id);
+        return query.getResultList();
+    }
+
     public void guardar(HistoricoDatos historicoDatos)
     {
         em.persist(historicoDatos);
@@ -82,11 +91,16 @@ public class HistoricoDatosRepositorio
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<Objeto> obtenerObjetosConHistorico(String zonaUbicacion)
     {
-        String jpql = "SELECT o FROM Objeto o WHERE o.zona.id.ubicacion = :zonaUbicacion AND EXISTS (" +
-                "SELECT h FROM HistoricoDatos h WHERE h.id.objeto.id = o.id)";
-        TypedQuery<Objeto> query = em.createQuery(jpql, Objeto.class);
-        query.setParameter("zonaUbicacion", zonaUbicacion);
-        return query.getResultList();
+        String jpql = "SELECT o FROM Objeto o WHERE o.zona.id.ubicacion = :zonaUbicacion";
+        TypedQuery<Objeto> query = em.createQuery(jpql, Objeto.class)
+                .setParameter("zonaUbicacion", zonaUbicacion);
+        List<Objeto> aux= query.getResultList();
+        for(int i=0;i<aux.size();i++)
+        {
+           if (this.buscarHistoricos(aux.get(i).getIdObjeto()).isEmpty())
+               aux.remove(i);
+        }
+        return aux;
     }
 
 }

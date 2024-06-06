@@ -309,4 +309,11 @@ public class ControladorREST
         Stream<DTOHistoricoDatos> streamDTO = stream.map(DTOHistoricoDatos::new);
         return streamDTO.toList();
     }
+
+    @GetMapping("/olivo/{id}/finca")
+    public ResponseEntity<DTOFinca> obtenerOlivoFinca(@PathVariable int id)
+    {
+        Optional<Finca> fincaOptional= sistemaFincas.obtenerFincaOlivo(id);
+        return fincaOptional.map(u->ResponseEntity.ok(new DTOFinca(u))).orElseGet(()->ResponseEntity.notFound().build());
+    }
 }

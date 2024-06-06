@@ -113,6 +113,5 @@ export default
   margin-top: -230px;
   margin-left: -80px;
   margin-right: 185px;
-  //padding-left: -20px;
 }
 </style>

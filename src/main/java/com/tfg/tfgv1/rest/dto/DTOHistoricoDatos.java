@@ -24,16 +24,4 @@ public record DTOHistoricoDatos(
                 historicoDatos.getTipoFuente()
         );
     }
-/*
-    public HistoricoDatos aHistoricoDatos()
-    {
-        return new HistoricoDatos(
-                this.fecha,
-                this.volumen,
-                Arrays.toString(this.reflectancia),
-               // new Objeto("",this.idObjeto, null, null, null, null),
-                this.nombreFuente,
-                this.tipoFuente
-        );
-    }*/
 }

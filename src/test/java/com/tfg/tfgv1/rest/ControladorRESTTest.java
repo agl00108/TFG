@@ -284,4 +284,15 @@ public class ControladorRESTTest
         DTOObjeto olivo = response.getBody();
         Assertions.assertThat(olivo).isNotNull();
     }
+
+    @Test
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
+    public void testBuscarFincaOlivo()
+    {
+        int id=2002;
+        ResponseEntity<DTOFinca> response = restTemplate.getForEntity("/olivo/"+id+"/finca", DTOFinca.class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        DTOFinca f = response.getBody();
+        Assertions.assertThat(f).isNotNull();
+    }
 }

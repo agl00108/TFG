@@ -27,19 +27,20 @@ let map = ref(null);
 let centerMarker = null;
 let markers = ref([]);
 
-// Define the UTM projection
 const utmProjection = `+proj=utm +zone=30 +datum=WGS84 +units=m +no_defs`; // Replace with your specific UTM zone if different
 
-// Function to convert UTM to LatLng
-const convertUTMToLatLng = (x, y) => {
+const convertUTMToLatLng = (x, y) =>
+{
   const [lon, lat] = proj4(utmProjection, 'EPSG:4326', [x, y]);
   return [lat, lon];
 };
 
 let geojsonLayer = null;
 
-onMounted(async () => {
-  if (!map.value) {
+onMounted(async () =>
+{
+  if (!map.value)
+  {
     map.value = L.map('map').setView([props.latitud, props.longitud], 18);
     L.tileLayer.wms("http://www.ign.es/wms-inspire/pnoa-ma", {
       layers: 'OI.OrthoimageCoverage',
@@ -50,7 +51,8 @@ onMounted(async () => {
     try {
       const module = await import(`@/assets/geojson/${props.zona}.json`);
       geojson = module.default;
-    } catch (error) {
+    } catch (error)
+    {
       console.error('Error al cargar el archivo GeoJSON:', error);
       return;
     }
@@ -75,17 +77,19 @@ onMounted(async () => {
       }
     });
     map.value.addControl(drawControl);
-
   }
 });
 
-watch(() => [props.latitud, props.longitud], ([newLat, newLon]) => {
-  if (centerMarker) {
+watch(() => [props.latitud, props.longitud], ([newLat, newLon]) =>
+{
+  if (centerMarker)
+  {
     centerMarker.setLatLng([newLat, newLon]);
     map.value.setView([newLat, newLon], 14);
   }
 
-  if (!map.value) {
+  if (!map.value)
+  {
     map.value = L.map('map').setView([newLat, newLon], 18);
     L.tileLayer.wms("http://www.ign.es/wms-inspire/pnoa-ma", {
       layers: 'OI.OrthoimageCoverage',

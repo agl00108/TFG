@@ -145,7 +145,8 @@ h2
   margin-right: 120px;
 }
 
-.data strong {
+.data strong
+{
   color: #477a58;
 }
 .containerDatos
@@ -156,8 +157,8 @@ h2
 }
 
 .finca-mapa,
-.cosecha-grafica {
+.cosecha-grafica
+{
   flex: 1;
 }
-
 </style>

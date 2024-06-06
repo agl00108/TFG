@@ -477,5 +477,4 @@ export default {
 .chart {
   margin-bottom: 20px;
 }
-
 </style>
