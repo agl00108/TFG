@@ -100,8 +100,7 @@ public class HistoricoDatosRepositorio
 
         for (Objeto objeto : aux)
         {
-            int size = this.buscarHistoricos(objeto.getIdObjeto()).size();
-            if (size > 0)
+            if (!this.buscarHistoricos(objeto.getIdObjeto()).isEmpty())
             {
                 devuelve.add(objeto);
             }

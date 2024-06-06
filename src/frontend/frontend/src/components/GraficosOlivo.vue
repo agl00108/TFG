@@ -282,8 +282,10 @@ export default {
         });
       }
 
-      const categories = this.reflectanciaDataS.map(item => {
+      const categories = this.reflectanciaDataS.map(item =>
+      {
         const mesObj = item.data.find(subItem => Object.keys(subItem)[0] === 'Mes');
+        console.log(Object.values(mesObj)[0]);
         return mesObj ? Object.values(mesObj)[0] : null;
       });
 
