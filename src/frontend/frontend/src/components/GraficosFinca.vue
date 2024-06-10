@@ -346,38 +346,10 @@ export default {
       ];
 
       const allMonths = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-      const dataPerMonthSNDVI = new Array(12).fill(null);
-      const dataPerMonthSSAVI= new Array(12).fill(null);
       const dataPerMonthDNDVI = new Array(12).fill(null);
       const dataPerMonthDSAVI = new Array(12).fill(null);
 
-     /* this.reflectanciaDataS.forEach(item =>
-      {
-        if (item && item.data)
-        {
-          const ndviSat = item.data.find(subItem => Object.keys(subItem)[0] === 'NDVI');
-          const saviSat = item.data.find(subItem => Object.keys(subItem)[0] === 'SAVI');
-          if (ndviSat)
-          {
-            const value = typeof Object.values(ndviSat)[0] === 'string' ? parseFloat(Object.values(ndviSat)[0].replace(',', '.')) : Object.values(ndviSat)[0];
-            const monthIndex = allMonths.indexOf(item.mes);
-            if (monthIndex !== -1)
-            {
-              dataPerMonthSNDVI[monthIndex] = value > 0 ? value : null;
-            }
-          }
-          if (saviSat)
-          {
-            const value = typeof Object.values(saviSat)[0] === 'string' ? parseFloat(Object.values(saviSat)[0].replace(',', '.')) : Object.values(saviSat)[0];
-            const monthIndex = allMonths.indexOf(item.mes);
-            if (monthIndex !== -1)
-            {
-              dataPerMonthSSAVI[monthIndex] = value > 0 ? value : null;
-            }
-          }
-        }
-      });
-*/
+
       this.reflectanciaDataD.forEach(item =>
       {
         if (item && item.data)

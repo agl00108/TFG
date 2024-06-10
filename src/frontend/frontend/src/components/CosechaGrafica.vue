@@ -57,12 +57,6 @@ export default {
               fontSize: '24px',
             },
         },
-        legend: {
-          tooltipHoverFormatter: function(val, opts)
-          {
-            return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
-          }
-        },
         markers: {
           size: 0,
           hover: {

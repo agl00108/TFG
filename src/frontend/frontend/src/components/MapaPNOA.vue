@@ -120,7 +120,7 @@ watch(() => props.olivos, (newOlivos) =>
       if (isInside)
       {
         const circle = L.circle([lat, lon], {
-          color: "rgba(34,73,48,0.39)",
+          color: "rgba(34,73,48,0)",
           radius: 3
         }).addTo(map.value).bindPopup(`Olivo: ${olivo.idObjeto}`);
 
