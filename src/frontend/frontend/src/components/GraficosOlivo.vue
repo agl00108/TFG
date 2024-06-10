@@ -141,7 +141,7 @@ export default {
                     enabled: false
                   },
                 },
-            colors: ['#224930', '#09f15d'],
+            colors: ['#224930', '#09f15d', '#f1f109'],
             dataLabels:
                 {
                   enabled: false
@@ -191,9 +191,46 @@ export default {
   methods: {
     prepareChartData()
     {
+      const allMonths = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      const dataPerMonthDNDVI = new Array(12).fill(null);
+      const dataPerMonthDSAVI = new Array(12).fill(null);
+      const dataPerMonthSNDVI = new Array(12).fill(null);
+      const dataPerMonthSSAVI= new Array(12).fill(null);
+
+      this.reflectanciaDataS.map(item => {
+        if (item && item.data)
+        {
+          const ndviSat = item.data.find(subItem => Object.keys(subItem)[0] === 'NDVI');
+          const saviSat = item.data.find(subItem => Object.keys(subItem)[0] === 'SAVI');
+          if (ndviSat)
+          {
+            const value = parseFloat(Object.values(ndviSat)[0].replace(',', '.'));
+            const mesObj = item.data.find(subItem => Object.keys(subItem)[0] === 'Mes');
+            const mes = mesObj ? Object.values(mesObj)[0] : null;
+            const monthIndex = allMonths.indexOf(mes);
+
+            if (monthIndex !== -1)
+            {
+              dataPerMonthSNDVI[monthIndex] = value > 0 ? value : null;
+            }
+          }
+          if (saviSat)
+          {
+            const value = parseFloat(Object.values(saviSat)[0].replace(',', '.'));
+            const mesObj = item.data.find(subItem => Object.keys(subItem)[0] === 'Mes');
+            const mes = mesObj ? Object.values(mesObj)[0] : null;
+            const monthIndex = allMonths.indexOf(mes);
+            if (monthIndex !== -1)
+            {
+              dataPerMonthSSAVI[monthIndex] = value > 0 ? value : null;
+            }
+          }
+        }
+      });
+
       const indicesSeries = [
         {
-          name: "NDMI",
+          name: "Sentinel-2",
           data: this.reflectanciaDataS.map(item =>
           {
             if (item && item.data)
@@ -218,7 +255,7 @@ export default {
       ];
 
       const NDVISeries = [
-        {
+          /*{
           name: "Sentinel-2",
           data: this.reflectanciaDataS.map(item => {
             if (item && item.data) {
@@ -227,10 +264,10 @@ export default {
             }
             return null;
           }),
-        },];
+        },*/];
 
       const SAVISeries= [
-        {
+      /*  {
           name: "Sentinel-2",
           data: this.reflectanciaDataS.map(item =>
           {
@@ -241,12 +278,7 @@ export default {
             }
             return null;
           })
-        }];
-
-      const allMonths = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-      const dataPerMonthDNDVI = new Array(12).fill(null);
-      const dataPerMonthDSAVI = new Array(12).fill(null);
-
+        }*/];
       //Si se le han mandado datos de refectancia de dron
       if (Array.isArray(this.reflectanciaDataD) && this.reflectanciaDataD.length > 0 && this.reflectanciaDataD.some(item => item && item.data)) {
         this.reflectanciaDataD.forEach(item => {
@@ -270,6 +302,17 @@ export default {
           }
         });
       }
+
+      NDVISeries.push({
+        name: "Sentinel-2",
+        data: dataPerMonthSNDVI,
+      });
+
+      SAVISeries.push({
+        name: "Sentinel-2",
+        data: dataPerMonthSSAVI,
+      });
+
       NDVISeries.push({
         name: "Dron",
         data: dataPerMonthDNDVI,
@@ -279,17 +322,19 @@ export default {
         name: "Dron",
         data: dataPerMonthDSAVI,
       });
-
+/*
       const categories = this.reflectanciaDataS.map(item =>
       {
         const mesObj = item.data.find(subItem => Object.keys(subItem)[0] === 'Mes');
         console.log(Object.values(mesObj)[0]);
         return mesObj ? Object.values(mesObj)[0] : null;
       });
+      */
 
-      this.chartOptions.xaxis.categories = categories;
-      this.SAVIOptions.xaxis.categories = categories;
-      this.NDVIOptions.xaxis.categories = categories;
+
+      this.chartOptions.xaxis.categories = allMonths;
+      this.SAVIOptions.xaxis.categories = allMonths;
+      this.NDVIOptions.xaxis.categories = allMonths;
 
       this.series = [];
       this.NDVIseries= [];
