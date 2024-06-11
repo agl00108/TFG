@@ -1,0 +1,33 @@
+{
+  "name": "frontend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@turf/boolean-point-in-polygon": "^6.5.0",
+    "@turf/helpers": "^6.5.0",
+    "@turf/turf": "^6.5.0",
+    "axios": "^1.6.8",
+    "chart.js": "^4.4.2",
+    "google-maps-api-loader": "^1.1.1",
+    "leaflet": "^1.9.4",
+    "leaflet-draw": "^1.0.4",
+    "leaflet.markercluster": "^1.5.3",
+    "proj4": "^2.11.0",
+    "vue": "^3.4.21",
+    "vue-apexcharts": "^1.6.2",
+    "vue-chartjs": "^5.3.1",
+    "vue-router": "^4.3.0",
+    "vue3-apexcharts": "^1.5.2",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "vite": "^5.2.8"
+  }
+}
