@@ -229,7 +229,7 @@ export default {
 
       const NDVISeries = [
         {
-          name: "Sentinel-2",
+          name: "Sentinel-2:",
           data: this.reflectanciaDataS.map(item => {
             if (item && item.data) {
               const ndviObj = item.data.find(subItem => Object.keys(subItem)[0] === 'NDVI');
@@ -241,7 +241,7 @@ export default {
 
       const SAVISeries= [
         {
-          name: "Sentinel-2",
+          name: "Sentinel-2: ",
           data: this.reflectanciaDataS.map(item =>
           {
             if (item && item.data)
@@ -255,10 +255,10 @@ export default {
 
       const temperaturaSeries = [
         {
-          name: "Máxima Día",
+          name: "Máxima Día °C:",
           data: this.temperaturaData.map(item => {
             const maxDiaObj = item.data.find(subItem => Object.keys(subItem)[0] === 'max_dia');
-            return maxDiaObj ? parseFloat(Object.values(maxDiaObj)[0].replace(',', '.')) : null;
+            return maxDiaObj ? parseFloat(Object.values(maxDiaObj)[0].replace(',', '.')).toFixed(2) : null;
           }),
           markers: {
             size: 5,
@@ -267,10 +267,10 @@ export default {
           color: "#264d34",
         },
         {
-          name: "Mínima Día",
+          name: "Mínima Día °C:",
           data: this.temperaturaData.map(item => {
             const minDiaObj = item.data.find(subItem => Object.keys(subItem)[0] === 'min_dia');
-            return minDiaObj ? parseFloat(Object.values(minDiaObj)[0].replace(',', '.')) : null;
+            return minDiaObj ? parseFloat(Object.values(minDiaObj)[0].replace(',', '.')).toFixed(2) : null;
           }),
           markers: {
             size: 5,
@@ -279,10 +279,10 @@ export default {
           color: "#467c59",
         },
         {
-          name: "Media Día",
+          name: "Media Día °C:",
           data: this.temperaturaData.map(item => {
             const meanDiaObj = item.data.find(subItem => Object.keys(subItem)[0] === 'mean_dia');
-            return meanDiaObj ? parseFloat(Object.values(meanDiaObj)[0].replace(',', '.')) : null;
+            return meanDiaObj ? parseFloat(Object.values(meanDiaObj)[0].replace(',', '.')).toFixed(2) : null;
           }),
           markers: {
             size: 5,
@@ -291,10 +291,10 @@ export default {
           color: "#00ff64",
         },
         {
-          name: "Máxima Noche",
+          name: "Máxima Noche °C:",
           data: this.temperaturaData.map(item => {
             const maxNocheObj = item.data.find(subItem => Object.keys(subItem)[0] === 'max_noc');
-            return maxNocheObj ? parseFloat(Object.values(maxNocheObj)[0].replace(',', '.')) : null;
+            return maxNocheObj ? parseFloat(Object.values(maxNocheObj)[0].replace(',', '.')).toFixed(2) : null;
           }),
           markers: {
             size: 5,
@@ -303,10 +303,10 @@ export default {
           color: "#264d34",
         },
         {
-          name: "Mínima Noche",
+          name: "Mínima Noche °C:",
           data: this.temperaturaData.map(item => {
             const minNocheObj = item.data.find(subItem => Object.keys(subItem)[0] === 'min_noc');
-            return minNocheObj ? parseFloat(Object.values(minNocheObj)[0].replace(',', '.')) : null;
+            return minNocheObj ? parseFloat(Object.values(minNocheObj)[0].replace(',', '.')).toFixed(2) : null;
           }),
           markers: {
             size: 5,
@@ -315,10 +315,10 @@ export default {
           color: "#467c59",
         },
         {
-          name: "Media Noche",
+          name: "Media Noche °C:",
           data: this.temperaturaData.map(item => {
             const meanNocheObj = item.data.find(subItem => Object.keys(subItem)[0] === 'mean_noc');
-            return meanNocheObj ? parseFloat(Object.values(meanNocheObj)[0].replace(',', '.')) : null;
+            return meanNocheObj ? parseFloat(Object.values(meanNocheObj)[0].replace(',', '.')).toFixed(2) : null;
           }),
           markers: {
             size: 5,
@@ -330,8 +330,8 @@ export default {
 
       const lluviaSeries = [
         {
-          name: "Lluvia",
-          data: this.lluviaData,
+          name: "Lluvia (litros):",
+          data: this.lluviaData.map(item => parseFloat(item).toFixed(2)),
           options: {
             ...this.chartOptions,
             title: {
@@ -378,12 +378,12 @@ export default {
       });
 
       NDVISeries.push({
-        name: "Dron",
+        name: "Dron: ",
         data: dataPerMonthDNDVI,
       });
 
       SAVISeries.push({
-        name: "Dron",
+        name: "Dron: ",
         data: dataPerMonthDSAVI,
       });
 
@@ -425,7 +425,6 @@ export default {
     reflectanciaDataD: {
       handler() {
         this.prepareChartData();
-        console.log("RECIBIDO: "+ this.reflectanciaDataD);
       },
       deep: true,
     },

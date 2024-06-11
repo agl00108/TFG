@@ -184,8 +184,6 @@ export default {
   mounted()
   {
     this.loaded = true;
-    console.log("RECIBIDO: "+ this.reflectanciaDataS);
-
     this.prepareChartData();
   },
   methods: {
@@ -230,7 +228,7 @@ export default {
 
       const indicesSeries = [
         {
-          name: "Sentinel-2",
+          name: "Sentinel-2: ",
           data: this.reflectanciaDataS.map(item =>
           {
             if (item && item.data)
@@ -304,22 +302,22 @@ export default {
       }
 
       NDVISeries.push({
-        name: "Sentinel-2",
+        name: "Sentinel-2: ",
         data: dataPerMonthSNDVI,
       });
 
       SAVISeries.push({
-        name: "Sentinel-2",
+        name: "Sentinel-2: ",
         data: dataPerMonthSSAVI,
       });
 
       NDVISeries.push({
-        name: "Dron",
+        name: "Dron: ",
         data: dataPerMonthDNDVI,
       });
 
       SAVISeries.push({
-        name: "Dron",
+        name: "Dron: ",
         data: dataPerMonthDSAVI,
       });
 /*
@@ -330,7 +328,6 @@ export default {
         return mesObj ? Object.values(mesObj)[0] : null;
       });
       */
-
 
       this.chartOptions.xaxis.categories = allMonths;
       this.SAVIOptions.xaxis.categories = allMonths;
@@ -359,7 +356,6 @@ export default {
     reflectanciaDataD: {
       handler() {
         this.prepareChartData();
-        console.log("RECIBIDO: "+ this.reflectanciaDataD);
       },
       deep: true,
     },
