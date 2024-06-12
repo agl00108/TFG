@@ -212,7 +212,7 @@ export default {
 
             if (monthIndex !== -1)
             {
-              dataPerMonthSNDVI[monthIndex] = value > 0 ? value : null;
+              dataPerMonthSNDVI[monthIndex] = value > -1 ? value : null;
             }
           }
           if (saviSat)
@@ -223,7 +223,7 @@ export default {
             const monthIndex = allMonths.indexOf(mes);
             if (monthIndex !== -1)
             {
-              dataPerMonthSSAVI[monthIndex] = value > 0 ? value : null;
+              dataPerMonthSSAVI[monthIndex] = value > -1.5 ? value : null;
             }
           }
           if (ndmiSat)
