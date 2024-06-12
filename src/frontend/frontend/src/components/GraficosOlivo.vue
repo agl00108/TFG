@@ -229,7 +229,6 @@ export default {
           if (ndmiSat)
           {
             const value = parseFloat(Object.values(ndmiSat)[0].replace(',', '.'));
-            console.log("Hola"+value);
             const mesObj = item.data.find(subItem => Object.keys(subItem)[0] === 'Mes');
             const mes = mesObj ? Object.values(mesObj)[0] : null;
             const monthIndex = allMonths.indexOf(mes);
