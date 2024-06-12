@@ -194,12 +194,15 @@ export default {
       const dataPerMonthDSAVI = new Array(12).fill(null);
       const dataPerMonthSNDVI = new Array(12).fill(null);
       const dataPerMonthSSAVI= new Array(12).fill(null);
+      const dataPerMonthSNDMI= new Array(12).fill(null);
 
       this.reflectanciaDataS.map(item => {
         if (item && item.data)
         {
           const ndviSat = item.data.find(subItem => Object.keys(subItem)[0] === 'NDVI');
           const saviSat = item.data.find(subItem => Object.keys(subItem)[0] === 'SAVI');
+          const ndmiSat = item.data.find(subItem => Object.keys(subItem)[0] === 'NDMI');
+
           if (ndviSat)
           {
             const value = parseFloat(Object.values(ndviSat)[0].replace(',', '.'));
@@ -223,11 +226,23 @@ export default {
               dataPerMonthSSAVI[monthIndex] = value > 0 ? value : null;
             }
           }
+          if (ndmiSat)
+          {
+            const value = parseFloat(Object.values(ndmiSat)[0].replace(',', '.'));
+            console.log("Hola"+value);
+            const mesObj = item.data.find(subItem => Object.keys(subItem)[0] === 'Mes');
+            const mes = mesObj ? Object.values(mesObj)[0] : null;
+            const monthIndex = allMonths.indexOf(mes);
+            if (monthIndex !== -1)
+            {
+              dataPerMonthSNDMI[monthIndex] = value > -1 ? value : null;
+            }
+          }
         }
       });
 
       const indicesSeries = [
-        {
+       /* {
           name: "Sentinel-2: ",
           data: this.reflectanciaDataS.map(item =>
           {
@@ -249,7 +264,7 @@ export default {
                   },
                 }
               }
-        }
+        }*/
       ];
 
       const NDVISeries = [
@@ -319,6 +334,22 @@ export default {
       SAVISeries.push({
         name: "Dron: ",
         data: dataPerMonthDSAVI,
+      });
+
+      indicesSeries.push({
+        name: "Sentinel-2: ",
+        data: dataPerMonthSNDMI,
+        options:
+            {
+              ...this.chartOptions,
+              title: {
+                text: 'Índice de Humedad de Diferencia Normalizada (NDMI)',
+                align: 'center',
+                style: {
+                  fontSize: '24px',
+                },
+              }
+            }
       });
 /*
       const categories = this.reflectanciaDataS.map(item =>
