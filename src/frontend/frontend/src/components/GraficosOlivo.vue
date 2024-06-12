@@ -241,57 +241,10 @@ export default {
         }
       });
 
-      const indicesSeries = [
-       /* {
-          name: "Sentinel-2: ",
-          data: this.reflectanciaDataS.map(item =>
-          {
-            if (item && item.data)
-            {
-              const ndmiObj = item.data.find(subItem => Object.keys(subItem)[0] === 'NDMI');
-              return ndmiObj ? parseFloat(Object.values(ndmiObj)[0].replace(',', '.')) : null;
-            }
-            return null;
-          }),
-          options:
-              {
-                ...this.chartOptions,
-                title: {
-                  text: 'Índice de Humedad de Diferencia Normalizada (NDMI)',
-                  align: 'center',
-                  style: {
-                    fontSize: '24px',
-                  },
-                }
-              }
-        }*/
-      ];
+      const indicesSeries = [];
+      const NDVISeries = [];
+      const SAVISeries= [];
 
-      const NDVISeries = [
-          /*{
-          name: "Sentinel-2",
-          data: this.reflectanciaDataS.map(item => {
-            if (item && item.data) {
-              const ndviObj = item.data.find(subItem => Object.keys(subItem)[0] === 'NDVI');
-              return ndviObj ? parseFloat(Object.values(ndviObj)[0].replace(',', '.')) : null;
-            }
-            return null;
-          }),
-        },*/];
-
-      const SAVISeries= [
-      /*  {
-          name: "Sentinel-2",
-          data: this.reflectanciaDataS.map(item =>
-          {
-            if (item && item.data)
-            {
-              const saviObj = item.data.find(subItem => Object.keys(subItem)[0] === 'SAVI');
-              return saviObj ? parseFloat(Object.values(saviObj)[0].replace(',', '.')) : null;
-            }
-            return null;
-          })
-        }*/];
       //Si se le han mandado datos de refectancia de dron
       if (Array.isArray(this.reflectanciaDataD) && this.reflectanciaDataD.length > 0 && this.reflectanciaDataD.some(item => item && item.data)) {
         this.reflectanciaDataD.forEach(item => {
@@ -351,14 +304,6 @@ export default {
               }
             }
       });
-/*
-      const categories = this.reflectanciaDataS.map(item =>
-      {
-        const mesObj = item.data.find(subItem => Object.keys(subItem)[0] === 'Mes');
-        console.log(Object.values(mesObj)[0]);
-        return mesObj ? Object.values(mesObj)[0] : null;
-      });
-      */
 
       this.chartOptions.xaxis.categories = allMonths;
       this.SAVIOptions.xaxis.categories = allMonths;
